@@ -30,6 +30,11 @@ const Menu = () => {
                             return isActive ? "nav-link active text-light" : "nav-link"
                         }}>Backoffice</NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink to="/settings" className={({isActive}) => {
+                            return isActive ? "nav-link active text-light" : "nav-link"
+                        }}>AccountSettings</NavLink>
+                    </li>
                 </ul>
                 <ul className="navbar-nav ms-auto">
                     <li className="nav-item">

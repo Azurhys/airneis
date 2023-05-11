@@ -16,6 +16,7 @@ import Lit from './composants/front/Categorie/Lit'
 
 import Produit from './composants/front/Produit';
 import Panier from './composants/front/Panier';
+import AccountSettings from './composants/front/AccountSettings';
 
 import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='CGU' element={<Cgu />} />
         <Route path='Mentions-Legales' element={<MentionsLegales />} />
         <Route path='Contact' element={<Contact />} />
+        <Route path='settings' element={<AccountSettings />} />
         <Route path='recherche' element={<Recherche />} />
         <Route path="panier" element={<Panier />} />
         <Route path="Menu" element={<Menu />} />
