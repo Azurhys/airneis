@@ -12,7 +12,9 @@
     font-style: normal;
   }
 
-  
+*{
+  font-family: 'Inter', sans-serif ;
+}
 
 .filtre{
     z-index: 3;
