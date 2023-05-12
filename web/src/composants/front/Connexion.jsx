@@ -23,8 +23,9 @@ const ConnexionPage = () => {
     event.preventDefault();
     if (!isLoginValid) {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrect.");
+      console.log(formData.email)
     } else {
-      login();
+      login(formData.email);
       window.location.href = '/';
     }
   };

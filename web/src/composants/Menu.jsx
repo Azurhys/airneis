@@ -6,7 +6,7 @@ import { AuthContext } from '../context/Authcontext';
 import { NavLink } from "react-router-dom";
 
 const Menu = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, userEmail, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
@@ -34,8 +34,6 @@ const Menu = () => {
               return isActive ? "nav-link active text-light" : "nav-link"
             }}>Backoffice</NavLink>
           </li>
-
-            
           {isAuthenticated ? (
             <li className="nav-item">
               <button onClick={handleLogout} className="nav-link">Déconnexion</button>
@@ -47,11 +45,7 @@ const Menu = () => {
               </NavLink>
             </li>
           )}
-          
-
-
         </ul>
-
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
             <NavLink to="/" className={({isActive}) => {
@@ -73,6 +67,11 @@ const Menu = () => {
               <img src="/list.svg" alt="list" width="28" height="28" />
             </NavLink>
           </li>
+          {isAuthenticated ? (
+            <li className="nav-item">
+            <span className="nav-link text-light">{userEmail}</span>
+            </li>
+            ) : null}
         </ul>
       </nav>
     </div>
