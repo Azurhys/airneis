@@ -6,7 +6,7 @@ import { AuthContext } from '../context/Authcontext';
 import { NavLink } from "react-router-dom";
 
 const Menu = () => {
-  const { isAuthenticated, userEmail, logout } = useContext(AuthContext);
+  const { isAuthenticated, userName, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
@@ -69,7 +69,7 @@ const Menu = () => {
           </li>
           {isAuthenticated ? (
             <li className="nav-item">
-            <span className="nav-link text-light">{userEmail}</span>
+            <span className="nav-link text-light">{userName}</span>
             </li>
             ) : null}
         </ul>
