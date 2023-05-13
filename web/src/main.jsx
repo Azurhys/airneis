@@ -23,7 +23,11 @@ import Connexion from './composants/front/Connexion';
 import Recherche from './composants/front/Recherche';
 import './app.css'
 import Backoffice from './composants/front/backoffice';
+
+import {AuthContextProvider} from './context/Authcontext'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <AuthContextProvider>
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<App />}> 
@@ -47,5 +51,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Route>    
     </Routes>
   </BrowserRouter>
+  </AuthContextProvider>
     
 )

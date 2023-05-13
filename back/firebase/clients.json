@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Nom",
+        "description": "Nom complet",
+        "category_id":0
+
+    },
+    {
+        "name": "Email",
+        "description": "Email",
+        "category_id":1
+
+    },
+    {
+        "name": "Mot de Passe",
+        "description": "Mot de passe",
+        "category_id":2
+
+    }
+]       

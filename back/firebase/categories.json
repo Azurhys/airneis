@@ -16,5 +16,23 @@
         "description": "Venez découvrir nos lits de rêve",
         "category_id":2
 
+    },
+    {
+        "name": "Chaises",
+        "description": "Venez découvrir nos chaises de rêve",
+        "category_id":3
+
+    },
+    {
+        "name": "Armoires",
+        "description": "Venez découvrir nos armoires de rêve",
+        "category_id":4
+
+    },
+    {
+        "name": "Buffets",
+        "description": "Venez découvrir nos buffets de rêve",
+        "category_id":5
+
     }
 ]       

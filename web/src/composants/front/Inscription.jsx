@@ -22,6 +22,11 @@ const RegistrationPage = () => {
     if (!isEmailValid) {
       setErrorMessage("L'adresse e-mail est déjà utilisée.");
       return;
+    } else {
+      setErrorMessage("Inscription réussie !");
+      setTimeout(() => {
+        window.location.href = "/";// A revoir car pas opti
+      }, 1400); // Temps d'attente de 1.4 secondes avant la redirection
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}clients.json`, formData);
