@@ -23,7 +23,7 @@ import Connexion from './composants/front/Connexion';
 import Recherche from './composants/front/Recherche';
 import './app.css'
 import Backoffice from './composants/front/backoffice';
-
+import MesCommandes from './composants/front/MesCommandes';
 import {AuthContextProvider} from './context/Authcontext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -44,6 +44,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='Mentions-Legales' element={<MentionsLegales />} />
         <Route path='Contact' element={<Contact />} />
         <Route path='settings' element={<AccountSettings />} />
+        <Route path='mescommandes' element={<MesCommandes />} />
         <Route path='recherche' element={<Recherche />} />
         <Route path="panier" element={<Panier />} />
         <Route path="Menu" element={<Menu />} />
