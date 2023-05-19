@@ -2,37 +2,42 @@
     {
         "name": "Tables",
         "description": "Découvrez nos tables d'intérieur, robustes et ésthétiques",
-        "category_id":0
-
+        "category_id":0,
+        "image":"https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80"
     },
     {
         "name": "Étagères",
         "description": "Nos étagères sont adaptés à tout type de décorations",
-        "category_id":1
+        "category_id":1,
+        "image":"https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
 
     },
     {
         "name": "Lits",
         "description": "Venez découvrir nos lits de rêve",
-        "category_id":2
+        "category_id":2,
+        "image":"https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
 
     },
     {
         "name": "Chaises",
         "description": "Venez découvrir nos chaises de rêve",
-        "category_id":3
+        "category_id":3,
+        "image":"https://images.unsplash.com/photo-1438012940875-4bf705025a8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
 
     },
     {
         "name": "Armoires",
         "description": "Venez découvrir nos armoires de rêve",
-        "category_id":4
+        "category_id":4,
+        "image":"https://images.unsplash.com/photo-1614870985547-d8ce52f74463?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=876&q=80"
 
     },
     {
         "name": "Buffets",
         "description": "Venez découvrir nos buffets de rêve",
-        "category_id":5
+        "category_id":5,
+        "image":"https://plus.unsplash.com/premium_photo-1679948728281-5ea3cd02b1f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y29tbW9kZSUyMG1ldWJsZXxlbnwwfDB8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
 
     }
 ]       
