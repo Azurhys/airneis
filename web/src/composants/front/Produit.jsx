@@ -1,12 +1,24 @@
 import Caroussel from "../back/Caroussel";
+import { useEffect } from "react";
 import { useProduit } from "../../hook/useProduit";
 
 const Produit = () => {
     const [produits] = useProduit();
+    useEffect(() => {
+        // Vous pouvez effectuer ici d'autres opérations liées aux produits si nécessaire
+    }, [produits]);
+    
+    if (produits.length === 0) {
+        // Gérez le cas où les produits sont en cours de chargement ou s'ils n'existent pas encore
+        return <p>Chargement en cours...</p>;
+    }
+    
+    const produit = produits[2]; // Supposons que vous souhaitez afficher les détails du premier produit
+
     const images = [
-        'https://picsum.photos/1200/300?random=1',
-        'https://picsum.photos/1200/300?random=2',
-        'https://picsum.photos/1200/300?random=3'
+        'https://storage.googleapis.com/airneis-bfec3.appspot.com/OK.jpeg',
+        'https://storage.googleapis.com/airneis-bfec3.appspot.com/OK.jpeg',
+        'https://storage.googleapis.com/airneis-bfec3.appspot.com/OK.jpeg'
       ];
 
     return (
@@ -21,8 +33,9 @@ const Produit = () => {
                 </div>
                 <div className="col-6">
                 <div className="d-flex justify-content-between">
-                    <h3>1200 ${/** Prix du Produit*/}</h3>
-                    <h3>NOM DU PRODUIT {/** Nom du Produit*/}</h3>
+                    <h3>{produit.price}</h3>
+                    <h3>{produit.name}</h3>
+                    {/* <img src={produit.image} alt="Image du produit" /> */}
                 </div>
                 <div className="d-flex justify-content-end">
                     <h5 className="text-secondary">En Stock {/** Booléen Produit en Stock*/}</h5>

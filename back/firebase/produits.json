@@ -26,7 +26,7 @@
             "name": "Table Jaune",
             "description": "Magnifique table Jaune 40x50x90cm",
             "price":"59,99",
-            "image":"lien image",
+            "image":"https://storage.googleapis.com/airneis-bfec3.appspot.com/OK.jpeg",
             "quantity": 10,
             "category_id":0
           
@@ -232,7 +232,7 @@
                 {
     
                 "product_id": 5,
-                "name": "Buffet KERIA rose",
+                "name": "Buffet KERIA bois",
                 "description": "Avec son style épuré et moderne le buffet KERIA trouvera sa place dans toutes les pièces",
                 "price":"229,75",
                 "image":"lien image",
@@ -243,7 +243,7 @@
                 {
     
                 "product_id": 5,
-                "name": "Buffet GUMAYUSI jaune",
+                "name": "Buffet GUMAYUSI noir",
                 "description": "Avec son style épuré et moderne le buffet GUMAYUSI trouvera sa place dans toutes les pièces",
                 "price":"189,75",
                 "image":"lien image",
