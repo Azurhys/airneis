@@ -10,35 +10,48 @@ const Produit = () => {
         'https://picsum.photos/1200/300?random=2',
         'https://picsum.photos/1200/300?random=3'
       ];
-
+      const number = 1;
     return (
     <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
         <div className="text-center p-0">
         {
              produits && produits[0] && // vérif de delai pour pas que l'URL soit vide 
-            <img src={produits[0].image[1]} className="img-banner w-100" alt="image produit" />
+            <img src={produits[number].image[1]} className="img-banner w-100" alt="image produit" />
         }
         </div>
-        <div className="mt-5 container-fluid  w-100 px-5">
+        <div className="mt-5 container-fluid  w-100 px-5 ">
             <div className="row">
-                <div className="text-center mx-0 col-6 ">
+                <div className="text-center mx-0 col-6 caroussel-h">
                     {
-                        produits && produits[0] && // vérif de delai pour pas que l'URL soit vide 
-                    <Caroussel images={produits[0].image} />
+                        produits && produits[number] && // vérif de delai pour pas que l'URL soit vide 
+                    <Caroussel images={produits[number].image} style={400} />
                     }
                 </div>
                 <div className="col-6">
                 <div className="d-flex justify-content-between">
-                    <h3>1200 ${/** Prix du Produit*/}</h3>
-                    <h3>NOM DU PRODUIT {/** Nom du Produit*/}</h3>
+                    <h3>{ 
+                    produits && produits[number] &&
+                    new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produits[0].price)
+                    }
+                    </h3>
+                    {
+                        produits && produits[number] && <h3>{produits[number].name} {/** Nom du Produit*/}</h3>
+                    }
                 </div>
                 <div className="d-flex justify-content-end">
-                    <h5 className="text-secondary">En Stock {/** Booléen Produit en Stock*/}</h5>
+                    {produits && produits[number] &&
+                    <h5 className="text-secondary">
+                        
+                            
+                        {produits[number].quantity > 0 ? 'En Stock' : 'Stock Épuisé'}</h5>
+                    }
                 </div>
                 <div>
+                    { produits && produits[number] &&
                     <p className="my-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {produits[number].description}
                     </p>
+                    }
                 </div>
             </div>
         </div>

@@ -66,6 +66,7 @@
 }
 
 .caroussel-h{
-  max-height: 25vh;
-  
+  max-height: 25%;
+  overflow: hidden;
+  height: 24%;
 }
