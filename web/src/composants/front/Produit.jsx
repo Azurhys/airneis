@@ -1,6 +1,6 @@
 import Caroussel from "../back/Caroussel";
 import { useProduit } from "../../hook/useProduit";
-
+import { RecommandationsProduits } from "../back/RecommandationsProduits";
 
 
 const Produit = () => {
@@ -10,7 +10,11 @@ const Produit = () => {
         'https://picsum.photos/1200/300?random=2',
         'https://picsum.photos/1200/300?random=3'
       ];
-      const number = 1;
+      const number = 0;
+      if (produits && produits.length > 0) {
+        const produitId = produits[0].produit_id;
+        const produit = produits.find((p) => p.produit_id === produitId);
+        }
     return (
     <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
         <div className="text-center p-0">
@@ -59,12 +63,11 @@ const Produit = () => {
             <div className="row">
                 <h2 className="text-center">Produits Similaires</h2>  
             </div>
-            <div className="row d-flex my-5">
-                {images.map((image, index) => (
-                <div className="col-4">
-                    <img key={index} src={image} className='w-100' alt='Caroussel Slide'/>
-                </div>
-                ))}
+            <div>
+            { 
+                    produits && produits[number] &&
+            <RecommandationsProduits produits={produits} produit={produits[number]} />
+            }
             </div>
         </div>
         </div>
