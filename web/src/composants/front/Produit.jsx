@@ -1,16 +1,17 @@
 import Caroussel from "../back/Caroussel";
 import { useProduit } from "../../hook/useProduit";
 import { RecommandationsProduits } from "../back/RecommandationsProduits";
-
+import { useParams } from 'react-router-dom';
 
 const Produit = () => {
     const [produits] = useProduit();
-    const images = [
-        'https://picsum.photos/1200/300?random=1',
-        'https://picsum.photos/1200/300?random=2',
-        'https://picsum.photos/1200/300?random=3'
-      ];
-      const number = 0;
+    const { id } = useParams();
+
+    let produit;
+    if (produits && produits.length > 0) {
+        produit = produits.find((p) => p.produit_id === id);
+    }
+        const number = 0;
       if (produits && produits.length > 0) {
         const produitId = produits[0].produit_id;
         const produit = produits.find((p) => p.produit_id === produitId);
