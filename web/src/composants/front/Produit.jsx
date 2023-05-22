@@ -7,54 +7,60 @@ const Produit = () => {
     const [produits] = useProduit();
     const { id } = useParams();
 
+    const produitId = Number(id);
+
     let produit;
     if (produits && produits.length > 0) {
-        produit = produits.find((p) => p.produit_id === id);
+        produit = produits.find((p) => p.product_id === produitId);
+    }
+
+    if (!produit) {
+        return <div>Produit non trouvé</div>;
     }
         const number = 0;
       if (produits && produits.length > 0) {
-        const produitId = produits[0].produit_id;
-        const produit = produits.find((p) => p.produit_id === produitId);
+        const produitId = produits[0].product_id;
+        const produit = produits.find((p) => p.product_id === produitId);
         }
     return (
     <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
         <div className="text-center p-0">
         {
              produits && produits[0] && // vérif de delai pour pas que l'URL soit vide 
-            <img src={produits[number].image[1]} className="img-banner w-100" alt="image produit" />
+            <img src={produits[produitId].image[1]} className="img-banner w-100" alt="image produit" />
         }
         </div>
         <div className="mt-5 container-fluid  w-100 px-5 ">
             <div className="row">
                 <div className="text-center mx-0 col-6 caroussel-h">
                     {
-                        produits && produits[number] && // vérif de delai pour pas que l'URL soit vide 
-                    <Caroussel images={produits[number].image} style={400} />
+                        produits && produits[produitId] && // vérif de delai pour pas que l'URL soit vide 
+                    <Caroussel images={produits[produitId].image} style={400} />
                     }
                 </div>
                 <div className="col-6">
                 <div className="d-flex justify-content-between">
                     <h3>{ 
-                    produits && produits[number] &&
+                    produits && produits[produitId] &&
                     new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produits[0].price)
                     }
                     </h3>
                     {
-                        produits && produits[number] && <h3>{produits[number].name} {/** Nom du Produit*/}</h3>
+                        produits && produits[produitId] && <h3>{produits[produitId].name} {/** Nom du Produit*/}</h3>
                     }
                 </div>
                 <div className="d-flex justify-content-end">
-                    {produits && produits[number] &&
+                    {produits && produits[produitId] &&
                     <h5 className="text-secondary">
                         
                             
-                        {produits[number].quantity > 0 ? 'En Stock' : 'Stock Épuisé'}</h5>
+                        {produits[produitId].quantity > 0 ? 'En Stock' : 'Stock Épuisé'}</h5>
                     }
                 </div>
                 <div>
-                    { produits && produits[number] &&
+                    { produits && produits[produitId] &&
                     <p className="my-4">
-                    {produits[number].description}
+                    {produits[produitId].description}
                     </p>
                     }
                 </div>
@@ -66,8 +72,8 @@ const Produit = () => {
             </div>
             <div>
             { 
-                    produits && produits[number] &&
-            <RecommandationsProduits produits={produits} produit={produits[number]} />
+                    produits && produits[produitId] &&
+            <RecommandationsProduits produits={produits} produit={produits[produitId]} />
             }
             </div>
         </div>
