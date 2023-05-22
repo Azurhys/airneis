@@ -6,8 +6,9 @@ import Camembert from "../back/Camembert";
 import { useProduit } from "../../hook/useProduit";
 
 
+
 const Backoffice = () => {
-    const [produits] = useProduit()
+    const [produits, mettreEnAvantProduit] = useProduit()
     const [granularity, setGranularity] = useState("daily");
     const [categoryGranularity, setCategoryGranularity] = useState("daily");
     const [sortBy, setSortBy] = useState(null);
@@ -36,6 +37,13 @@ const Backoffice = () => {
     const dbRef = firebase.database().ref(`produits/${produitToDelete.product_id}`);
     dbRef.remove();
   };
+
+  // mettre le produit en avant sur la page acceuil
+  const handleMettreEnAvant = (produit) => {
+    mettreEnAvantProduit(produit);
+    console.log("rentre ici")
+  };
+  
 
     const dailySalesData = [
         { name: "Jour 1", sales: 4000 },
@@ -122,6 +130,7 @@ const Backoffice = () => {
                 <button className="btn btn-danger mx-2" onClick={() => onProduitDelete(produit)}>Supprimer</button>
                 <button className="mx-2 btn btn-brown" onClick={() => onProduitDetails(produit)}>Détails</button>
                 <button className="mx-2 btn btn-warning" onClick={() => onProduitEdit(produit)}>Modifier</button>
+                <button onClick={() => handleMettreEnAvant(produit)}>Mettre en avant</button>
               </td>
             </tr>
           ))}
