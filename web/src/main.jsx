@@ -48,7 +48,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='recherche' element={<Recherche />} />
         <Route path="panier" element={<Panier />} />
         <Route path="Menu" element={<Menu />} />
-        <Route path='produit' element={<Produit />} />
+        <Route path="/produit/:id" element={<Produit />} />
       </Route>    
     </Routes>
   </BrowserRouter>

@@ -86,6 +86,7 @@ const Backoffice = () => {
         <table  className="table table-striped">
       <thead>
         <tr>
+          <th></th>
           <th onClick={() => handleSort('product_id')}>ID {sortBy === 'product_id' && <span>{sortOrder === 'asc' ? '▲' : '▼'}</span>}</th>
           <th onClick={() => handleSort('name')}>Nom {sortBy === 'name' && <span>{sortOrder === 'asc' ? '▲' : '▼'}</span>}</th>
           <th>Description</th>

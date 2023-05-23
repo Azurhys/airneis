@@ -60,3 +60,13 @@
   background-color: #BDA18A ;
 }
 
+.img-banner{
+  max-height: 35vh;
+  
+}
+
+.caroussel-h{
+  max-height: 25%;
+  overflow: hidden;
+  height: 24%;
+}

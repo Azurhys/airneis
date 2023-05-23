@@ -2,10 +2,10 @@
             {
             
               "product_id": 0,
-              "name": "Table Rouge",
+              "name": "Table Blanche",
               "description": "Magnifique table rouge 40x50x90cm",
-              "price":"59,99",
-              "image":"lien image",
+              "price":"59.99",
+              "image":["https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0750651_pe746801_s5.jpg?f=xl", "https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0702214_pe724347_s5.jpg?f=xl", "https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0664928_pe712923_s5.jpg?f=xl" ],
               "quantity": 10,
               "category_id":0
 
@@ -15,8 +15,8 @@
               "product_id": 1,
               "name": "Table Bleue",
               "description": "Magnifique table Bleue 40x50x90cm",
-              "price":"59,99",
-              "image":"lien image",
+              "price":"59.99",
+              "image":["https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1165699_pe890917_s5.jpg?f=s", "https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1170458_pe892814_s5.jpg?f=s", "https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1170461_pe892817_s5.jpg?f=xl"],
               "quantity": 10,
               "category_id":0
             },
@@ -26,7 +26,7 @@
             "name": "Table Jaune",
             "description": "Magnifique table Jaune 40x50x90cm",
             "price":"59,99",
-            "image":"https://storage.googleapis.com/airneis-bfec3.appspot.com/OK.jpeg",
+            "image":"lien image",
             "quantity": 10,
             "category_id":0
           
@@ -36,8 +36,8 @@
               "product_id": 3,
               "name": "Étagères MILA rose",
               "description": "Cette magnifique Étagères MILA rose. A la vertical ou à l'horizontal, l'étagères MILA s'adapte à vos envies.",
-              "price":"79,99",
-              "image":"lien image",
+              "price":"79.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":1
             
@@ -47,8 +47,8 @@
               "product_id": 4,
               "name": "Étagères TFOU vert",
               "description": "Cette magnifique Étagères TFOU vert. A la vertical ou à l'horizontal, l'étagères TFOU s'adapte à vos envies.",
-              "price":"65,99",
-              "image":"lien image",
+              "price":"65.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":1
             
@@ -58,8 +58,8 @@
                 "product_id": 5,
                 "name": "Étagères YUTO blanc/naturel",
                 "description": "Cette magnifique Étagères YUTO blanc. A la vertical et seulement à la vertical, l'étagères YUTO s'adapte à vos envies.",
-                "price":"119,75",
-                "image":"lien image",
+                "price":"119.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":1
               
@@ -69,8 +69,8 @@
                 "product_id": 5,
                 "name": "Étagères POKI bois gris",
                 "description": "Cette magnifique Étagères POKI blanc. A la vertical et seulement à la vertical, l'étagères POKI s'adapte à vos envies.",
-                "price":"139,75",
-                "image":"lien image",
+                "price":"139.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":1
               
@@ -80,8 +80,8 @@
               "product_id": 5,
               "name": "Étagères FYTU rouge",
               "description": "Cette magnifique Étagères FYTU blanc. A la vertical et seulement à la vertical, l'étagères FYTU s'adapte à vos envies.",
-              "price":"65,99",
-              "image":"lien image",
+              "price":"65.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":1
             
@@ -91,8 +91,8 @@
             "product_id": 6,
             "name": "Chaise SAMIRA grise",
             "description": "Cette magnifique chaise SAMIRA grise garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 53x88x45 cm",
-            "price":"79,99",
-            "image":"lien image",
+            "price":"79.99",
+            "image":["", "", ""],
             "quantity": 10,
             "category_id":3
           
@@ -102,8 +102,8 @@
             "product_id": 7,
             "name": "Chaise JYNETTE vert kaki",
             "description": "Cette magnifique chaise JYNETTE vert kaki garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 48x90x48 cm",
-            "price":"65,99",
-            "image":"lien image",
+            "price":"65.99",
+            "image":["", "", ""],
             "quantity": 10,
             "category_id":3
           
@@ -113,8 +113,8 @@
             "product_id": 5,
             "name": "Chaise DIANE blanc/naturel",
             "description": "Cette magnifique chaise DIANE blanche garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 52x98x48 cm",
-            "price":"119,75",
-            "image":"lien image",
+            "price":"119.75",
+            "image":["", "", ""],
             "quantity": 10,
             "category_id":3
           
@@ -124,8 +124,8 @@
               "product_id": 6,
               "name": "Chaise JUNJIA rouge",
               "description": "Cette magnifique chaise JUNJIA rouge garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 55x90x45 cm",
-              "price":"79,99",
-              "image":"lien image",
+              "price":"79.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":3
             
@@ -135,8 +135,8 @@
                 "product_id": 6,
                 "name": "Chaise CAPS noir",
                 "description": "Cette magnifique chaise CAPS noir garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 70x80x45 cm",
-                "price":"79,99",
-                "image":"lien image",
+                "price":"79.99",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":3
               
@@ -144,10 +144,10 @@
             {
 
               "product_id": 3,
-              "name": "Armoir RULIAN bois noir",
+              "name": "Armoire RULIAN bois noir",
               "description": "Cette incroyable armoir RULIAN noir offre un design simple et moderne à votre pièce.",
-              "price":"279,99",
-              "image":"lien image",
+              "price":"279.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":4
             
@@ -155,10 +155,10 @@
               {
   
               "product_id": 4,
-              "name": "Armoir GYBY bleu",
+              "name": "Armoire GYBY bleu",
               "description": "Cette incroyable armoir GYBY bleu offre un design agréable et moderne à votre pièce.",
-              "price":"122,99",
-              "image":"lien image",
+              "price":"122.99",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":4
             
@@ -166,10 +166,10 @@
               {
   
               "product_id": 5,
-              "name": "Armoir VOKA blanc/naturel",
+              "name": "Armoire VOKA blanc/naturel",
               "description": "Cette incroyable armoir RULIAN blancle offre un design pure et moderne à votre pièce.",
-              "price":"185,75",
-              "image":"lien image",
+              "price":"185.75",
+              "image":["", "", ""],
               "quantity": 10,
               "category_id":4
             
@@ -177,10 +177,10 @@
               {
   
                 "product_id": 5,
-                "name": "Armoir FAKER blanc et bleu",
+                "name": "Armoire FAKER blanc et bleu",
                 "description": "Cette incroyable armoir FAKER blancle et bleu offre un design pure et moderne à votre pièce.",
-                "price":"555,75",
-                "image":"lien image",
+                "price":"555.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":4
               
@@ -188,10 +188,10 @@
               {
   
                   "product_id": 5,
-                  "name": "Armoir ZEUS bleu tempete",
+                  "name": "Armoire ZEUS bleu tempete",
                   "description": "Cette incroyable armoir ZEUS bleu tempete offre un design pure et moderne à votre pièce.",
-                  "price":"155,75",
-                  "image":"lien image",
+                  "price":"155.75",
+                  "image":["", "", ""],
                   "quantity": 10,
                   "category_id":4
                 
@@ -201,8 +201,8 @@
                 "product_id": 3,
                 "name": "Buffet TABI bois gris",
                 "description": "Avec son style épuré et moderne le buffet TABI trouvera sa place dans toutes les pièces",
-                "price":"225,99",
-                "image":"lien image",
+                "price":"225.99",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":5
               
@@ -212,8 +212,8 @@
                 "product_id": 4,
                 "name": "Buffet OAKE bois ocre",
                 "description": "Avec son style épuré et moderne le buffet OAKE trouvera sa place dans toutes les pièces",
-                "price":"169,99",
-                "image":"lien image",
+                "price":"169.99",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":5
               
@@ -223,8 +223,8 @@
                 "product_id": 5,
                 "name": "Buffet HUNI blanc/naturel",
                 "description": "Avec son style épuré et moderne le buffet HUNI trouvera sa place dans toutes les pièces",
-                "price":"179,75",
-                "image":"lien image",
+                "price":"179.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":5
               
@@ -234,8 +234,8 @@
                 "product_id": 5,
                 "name": "Buffet KERIA bois",
                 "description": "Avec son style épuré et moderne le buffet KERIA trouvera sa place dans toutes les pièces",
-                "price":"229,75",
-                "image":"lien image",
+                "price":"229.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":5
               
@@ -245,8 +245,8 @@
                 "product_id": 5,
                 "name": "Buffet GUMAYUSI noir",
                 "description": "Avec son style épuré et moderne le buffet GUMAYUSI trouvera sa place dans toutes les pièces",
-                "price":"189,75",
-                "image":"lien image",
+                "price":"189.75",
+                "image":["", "", ""],
                 "quantity": 10,
                 "category_id":5
               
