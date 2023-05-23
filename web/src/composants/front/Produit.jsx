@@ -1,18 +1,20 @@
 import Caroussel from "../back/Caroussel";
-import { useEffect } from "react";
 import { useProduit } from "../../hook/useProduit";
 import { RecommandationsProduits } from "../back/RecommandationsProduits";
 import { useParams } from 'react-router-dom';
 
 const Produit = () => {
     const [produits] = useProduit();
-    const images = [
-        'https://picsum.photos/1200/300?random=1',
-        'https://picsum.photos/1200/300?random=2',
-        'https://picsum.photos/1200/300?random=3'
-      ];
+    const { id } = useParams();
 
-    if (!produits) {
+    const produitId = Number(id);
+
+    let produit;
+    if (produits && produits.length > 0) {
+        produit = produits.find((p) => p.product_id === produitId);
+    }
+
+    if (!produit) {
         return <div>Produit non trouvé</div>;
     }
         const number = 0;
@@ -38,8 +40,14 @@ const Produit = () => {
                 </div>
                 <div className="col-6">
                 <div className="d-flex justify-content-between">
-                    <h3>1200 ${/** Prix du Produit*/}</h3>
-                    <h3>NOM DU PRODUIT {/** Nom du Produit*/}</h3>
+                    <h3>{ 
+                    produits && produits[produitId] &&
+                    new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produits[0].price)
+                    }
+                    </h3>
+                    {
+                        produits && produits[produitId] && <h3>{produits[produitId].name} {/** Nom du Produit*/}</h3>
+                    }
                 </div>
                 <div className="d-flex justify-content-end">
                     {produits && produits[produitId] &&
