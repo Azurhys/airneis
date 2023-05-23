@@ -7,7 +7,8 @@
               "price":"59.99",
               "image":["https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0750651_pe746801_s5.jpg?f=xl", "https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0702214_pe724347_s5.jpg?f=xl", "https://www.ikea.com/fr/fr/images/products/lack-table-basse-blanc__0664928_pe712923_s5.jpg?f=xl" ],
               "quantity": 10,
-              "category_id":0
+              "category_id":0,
+              "enAvant": 1
 
             },
             {
@@ -18,18 +19,19 @@
               "price":"59.99",
               "image":["https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1165699_pe890917_s5.jpg?f=s", "https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1170458_pe892814_s5.jpg?f=s", "https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1170461_pe892817_s5.jpg?f=xl"],
               "quantity": 10,
-              "category_id":0
+              "category_id":0,
+              "enAvant": 0
             },
             {
 
             "product_id": 2,
             "name": "Table Jaune",
             "description": "Magnifique table Jaune 40x50x90cm",
-            "price":"59,99",
+            "price":"59.99",
             "image":"lien image",
             "quantity": 10,
-            "category_id":0
-          
+            "category_id":0,
+            "enAvant": 0
             },
             {
 
@@ -37,10 +39,10 @@
               "name": "Étagères MILA rose",
               "description": "Cette magnifique Étagères MILA rose. A la vertical ou à l'horizontal, l'étagères MILA s'adapte à vos envies.",
               "price":"79.99",
-              "image":["", "", ""],
+              "image":["https://www.ikea.com/fr/fr/images/products/ljungsbro-table-basse-reglable-noir-motif-chene__1165699_pe890917_s5.jpg?f=s", "", ""],
               "quantity": 10,
-              "category_id":1
-            
+              "category_id":1,
+              "enAvant": 0
               },
               {
   

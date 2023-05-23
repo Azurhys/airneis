@@ -24,11 +24,11 @@ import Recherche from './composants/front/Recherche';
 import './app.css'
 import Backoffice from './composants/front/backoffice';
 import MesCommandes from './composants/front/MesCommandes';
-import {AuthContextProvider} from './context/Authcontext'
+import {AuthContextProvider} from './context/Authcontext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <AuthContextProvider>
-  <BrowserRouter>
+<AuthContextProvider>
+<BrowserRouter>
     <Routes>
       <Route path='/' element={<App />}> 
         <Route index element={<Accueil />} />
@@ -51,7 +51,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/produit/:id" element={<Produit />} />
       </Route>    
     </Routes>
-  </BrowserRouter>
-  </AuthContextProvider>
+</BrowserRouter>
+</AuthContextProvider>
     
 )
