@@ -25,7 +25,7 @@ const Menu = () => {
         </ul>
         <ul className='navbar-nav'>
           <li className="nav-item">
-            <NavLink to="/produit" className="nav-link text-light">
+            <NavLink to="/produit/0" className="nav-link text-light">
               Produit
             </NavLink>
           </li>
