@@ -12,7 +12,7 @@ const Produit = () => {
         'https://picsum.photos/1200/300?random=3'
       ];
 
-    if (!produit) {
+    if (!produits) {
         return <div>Produit non trouvé</div>;
     }
         const number = 0;
