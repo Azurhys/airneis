@@ -25,6 +25,7 @@ import './app.css'
 import Backoffice from './composants/front/backoffice';
 import MesCommandes from './composants/front/MesCommandes';
 import {AuthContextProvider} from './context/Authcontext';
+import Categorie from './composants/front/Categorie';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
@@ -36,7 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='Categorie/Table' element={<Table />} />
         <Route path='Categorie/Meuble' element={<Meuble />} />
         <Route path='Categorie/Lit' element={<Lit />} />
-
+        <Route path="/categorie/:category_id" element={<Categorie  />} />
         <Route path='Inscription' element={<Inscription />} />
         <Route path='Connexion' element={<Connexion />} />
         <Route path='Backoffice' element={<Backoffice />} />

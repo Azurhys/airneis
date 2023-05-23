@@ -25,14 +25,19 @@ const Menu = () => {
         </ul>
         <ul className='navbar-nav'>
           <li className="nav-item">
-            <NavLink to="/produit/0" className="nav-link text-light">
-              Produit
-            </NavLink>
+          <NavLink to="/produit/0" className={({isActive}) => {
+              return isActive ? "nav-link active text-light" : "nav-link"
+            }}>Produit</NavLink>
           </li>
           <li className="nav-item">
             <NavLink to="/Backoffice" className={({isActive}) => {
               return isActive ? "nav-link active text-light" : "nav-link"
             }}>Backoffice</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/categorie" className={({isActive}) => {
+              return isActive ? "nav-link active text-light" : "nav-link"
+            }}>Categorie</NavLink>
           </li>
           {isAuthenticated ? (
             <li className="nav-item">
