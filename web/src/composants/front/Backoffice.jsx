@@ -41,7 +41,6 @@ const Backoffice = () => {
   // mettre le produit en avant sur la page acceuil
   const handleMettreEnAvant = (produit) => {
     mettreEnAvantProduit(produit);
-    console.log("rentre ici")
   };
   
 
@@ -130,7 +129,7 @@ const Backoffice = () => {
                 <button className="btn btn-danger mx-2" onClick={() => onProduitDelete(produit)}>Supprimer</button>
                 <button className="mx-2 btn btn-brown" onClick={() => onProduitDetails(produit)}>Détails</button>
                 <button className="mx-2 btn btn-warning" onClick={() => onProduitEdit(produit)}>Modifier</button>
-                <button onClick={() => handleMettreEnAvant(produit)}>Mettre en avant</button>
+                <button onClick={() => handleMettreEnAvant(produit)} className={produit.enAvant ? "mx-2 btn btn-danger" : "mx-2 btn btn-success"}>{produit.enAvant ? "- vedette" : "+ vedette"}</button>
               </td>
             </tr>
           ))}
