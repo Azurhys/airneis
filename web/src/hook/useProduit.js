@@ -35,5 +35,11 @@ export function useProduit() {
     setProduits(updatedProduits);
   };
 
-  return [produits, mettreEnAvantProduit];
+  const changeProductPriority = (product_id, newPriority) => {
+    const productRef = database.ref(`produits/${product_id}`);
+    productRef.update({ priority: newPriority });
+  };
+
+
+  return [produits, mettreEnAvantProduit, changeProductPriority];
 }

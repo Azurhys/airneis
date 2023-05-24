@@ -4,16 +4,17 @@ import Histogramme from '../back/Histogramme';
 import HistogrammeAvg from '../back/Histogrammeavg';
 import Camembert from "../back/Camembert";
 import { useProduit } from "../../hook/useProduit";
-
+import { useCategories } from "../../hook/useCategorie";
 
 
 const Backoffice = () => {
-    const [produits, mettreEnAvantProduit] = useProduit()
+    const [produits, mettreEnAvantProduit, changeProductPriority] = useProduit()
     const [granularity, setGranularity] = useState("daily");
     const [categoryGranularity, setCategoryGranularity] = useState("daily");
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [selectedProduits, setSelectedProduits] = useState([]);
+    const [categories] = useCategories();
 
     const handleSort = (colName) => {
         if (sortBy === colName) {
@@ -43,6 +44,15 @@ const Backoffice = () => {
     mettreEnAvantProduit(produit);
   };
   
+  const handleCategoryClick = (categoryId) => {
+    setCurrentCategory(null); // Réinitialise la catégorie actuelle
+    setTimeout(() => setCurrentCategory(categoryId), 0); // Puis définis la nouvelle catégorie après une pause
+  };
+  
+ 
+
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const filteredProduits = produits.filter((produit) => produit.category_id === currentCategory);
 
     const dailySalesData = [
         { name: "Jour 1", sales: 4000 },
@@ -154,8 +164,55 @@ const Backoffice = () => {
             </tr>
         </tfoot>
     </table>
+    </div>
+    <div className="w-100">
+                <h2 className="my-3 text-center">Gestion de la priorité des produits par catégorie</h2>
+                <br />
+                <div className="text-center">
+                    {categories.map((category) => (
+                      <button
+                        key={category.category_id}
+                        className="btn btn-brown mx-2"
+                        onClick={() => handleCategoryClick(category.category_id)}
+                      >
+                        {category.name}
+                      </button>
+                    ))}
+                </div>
+                <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Catégorie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {produits
+                        .filter(produit => produit.category_id === currentCategory)
+                        .sort((a, b) => {
+                            if (sortBy === null) return 0;
+                            if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
+                            if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
+                            return 0;
+                        })
+                        .map((produit) => (
+                            <tr key={produit.product_id}>
+                                <td>{produit.product_id}</td>
+                                <td>{produit.name}</td>
+                                <td>{produit.description}</td>
+                                <td>{produit.price}</td>
+                                <td>{produit.quantity}</td>
+                                <td>{produit.category_id}</td>
+                            </tr>
+                    ))}
+                </tbody>
+            </table>
 
-        </div>
+    </div>
         <h1>Tableau de bord</h1>
         <div>
             <h2 className="my-3">Ventes totales</h2>    
@@ -169,6 +226,7 @@ const Backoffice = () => {
             <h2 className="my-3"> Volume de vente par catégorie</h2>
                 <Camembert data={pieChartData} />
     </div>
+    
     </div>
     );
 }
