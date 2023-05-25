@@ -64,14 +64,15 @@ export function useProduit() {
   const ajouterProduit = (nouveauProduit) => {
     const produit = {...nouveauProduit,product_id: parseInt(nouveauProduit.product_id, 10),};
     axios.post(`${import.meta.env.VITE_API}produits.json`, produit).then((response) => {
-        const nouveauProduitAvecId = {...produit,id: response.data.name,};
+        const nouveauProduitAvecId = {...produit,id: nouveauProduit.product_id,};
         setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
-        console.log("Produit ajouté avec succès !");
+        console.log("Produit ajouté");
       })
       .catch((error) => {
         console.error("Erreur lors de l'ajout du produit :", error);
       });
   };
+  
 
   // Detail produit
   const afficherDetailProduit = (produitId) => {
@@ -88,15 +89,10 @@ export function useProduit() {
 
   // Modifier un produit
 const modifierProduit = (produitModifie) => {
-  const produit = {
-    ...produitModifie,
-    product_id: parseInt(produitModifie.product_id, 10),
-  };
+  const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10),};
 
-  axios.put(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit)
-    .then(() => {
-      setProduits((prevProduits) => {
-        const index = prevProduits.findIndex((p) => p.id === produit.id);
+  axios.put(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit).then(() => {setProduits((prevProduits) => {
+  const index = prevProduits.findIndex((p) => p.id === produit.id);
         if (index !== -1) {
           const produitsCopies = [...prevProduits];
           produitsCopies[index] = produit;
@@ -104,10 +100,10 @@ const modifierProduit = (produitModifie) => {
         }
         return prevProduits;
       });
-      console.log("Produit modifié avec succès !");
+      console.log("Produit modifié");
     })
     .catch((error) => {
-      console.error("Erreur lors de la modification du produit :", error);
+      console.error("Erreur", error);
     });
 };
 
@@ -115,5 +111,5 @@ const modifierProduit = (produitModifie) => {
   
 
 
-  return [produits, mettreEnAvantProduit, changeProductPriority, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit];
+  return [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority];
 }

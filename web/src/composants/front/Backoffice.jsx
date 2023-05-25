@@ -102,11 +102,6 @@ useEffect(() => {
       mettreEnAvantProduit(produit);
     };
 
-    // mettre le produit en avant sur la page acceuil
-    const handleMettreEnAvant = (produit) => {
-      mettreEnAvantProduit(produit);
-    };
-
     //detail
     const onProduitDetails = (produitId) => {
       afficherDetailProduit(produitId);
@@ -352,11 +347,6 @@ useEffect(() => {
       <div>
         <label htmlFor="description">Description :</label>
         <input type="text" value={nouveauProduit.description} id="description" name="description" onChange={(e) => setNouveauProduit({...nouveauProduit, description: e.target.value})} />
-      </div>
-
-      <div>
-        <label htmlFor="enAvant">Mettre en avant :</label>
-        <input type="checkbox" checked={nouveauProduit.enAvant} id="enAvant" name="enAvant" onChange={(e) => setNouveauProduit({...nouveauProduit, enAvant: e.target.checked})} />
       </div>
 
       <div>
