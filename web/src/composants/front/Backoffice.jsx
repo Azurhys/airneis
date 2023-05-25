@@ -5,7 +5,7 @@ import HistogrammeAvg from '../back/Histogrammeavg';
 import Camembert from "../back/Camembert";
 import { useProduit } from "../../hook/useProduit";
 import { useCategories } from "../../hook/useCategorie";
-
+import axios from "axios";
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, changeProductPriority] = useProduit()
@@ -49,7 +49,21 @@ const Backoffice = () => {
     setTimeout(() => setCurrentCategory(categoryId), 0); // Puis définis la nouvelle catégorie après une pause
   };
   
- 
+  const handleProductPriorityChange = (produitId, newPriority) => {
+    changeProductPriority(produitId, newPriority);
+}   ;
+  
+    async function changePriority(productID, newPriority) {
+      try {
+          const response = await axios.patch(`${import.meta.env.VITE_API}produits/${productID}.json`, {
+              priority: newPriority
+          });
+
+          console.log("Priorité mise à jour avec succès", response.data);
+      } catch (error) {
+          console.error("Erreur lors de la mise à jour de la priorité : ", error);
+      }
+    }
 
   const [currentCategory, setCurrentCategory] = useState(null);
   const filteredProduits = produits.filter((produit) => produit.category_id === currentCategory);
@@ -180,37 +194,46 @@ const Backoffice = () => {
                     ))}
                 </div>
                 <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Catégorie</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {produits
-                        .filter(produit => produit.category_id === currentCategory)
-                        .sort((a, b) => {
-                            if (sortBy === null) return 0;
-                            if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
-                            if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
-                            return 0;
-                        })
-                        .map((produit) => (
-                            <tr key={produit.product_id}>
-                                <td>{produit.product_id}</td>
-                                <td>{produit.name}</td>
-                                <td>{produit.description}</td>
-                                <td>{produit.price}</td>
-                                <td>{produit.quantity}</td>
-                                <td>{produit.category_id}</td>
-                            </tr>
-                    ))}
-                </tbody>
-            </table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Catégorie</th>
+            <th>Priorité</th>
+        </tr>
+    </thead>
+    <tbody>
+        {produits
+        .filter(produit => produit.category_id === currentCategory)
+        .sort((a, b) => {
+            if (sortBy === null) return 0;
+            if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
+            if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
+            return 0;
+        })
+        .map((produit) => (
+            <tr key={produit.product_id}>
+                <td>{produit.product_id}</td>
+                <td>{produit.name}</td>
+                <td>{produit.description}</td>
+                <td>{produit.price}</td>
+                <td>{produit.quantity}</td>
+                <td>{produit.category_id}</td>
+                <td>
+                    <p>Priorité actuelle : <span id={`priorityValue${produit.product_id}`}>{produit.priority}</span></p>
+                    <div className="d-flex flex-nowrap">
+                    <input className="form-control mx-3 w-25" type="number" id={`newPriority${produit.product_id}`} min="1" />
+                    <button className="btn btn-brown w-50" onClick={() => changePriority(produit.product_id, document.getElementById(`newPriority${produit.product_id}`).value)}>Changer la priorité</button>
+                    </div>
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
 
     </div>
         <h1>Tableau de bord</h1>
