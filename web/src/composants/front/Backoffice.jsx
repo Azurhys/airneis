@@ -118,7 +118,14 @@ const Backoffice = () => {
       <thead>
         <tr>
           <th></th>
-          <th onClick={() => handleSort('product_id')}>ID {sortBy === 'product_id' && <span>{sortOrder === 'asc' ? '▲' : '▼'}</span>}</th>
+          <th onClick={() => handleSort('product_id')}>
+              ID 
+              {sortBy === 'product_id' ? (
+                  sortOrder === 'asc' ? '▲' : '▼'
+              ) : (
+                  '▲' // flèche par défaut indiquant un tri ascendant
+              )}
+          </th>
           <th onClick={() => handleSort('name')}>Nom {sortBy === 'name' && <span>{sortOrder === 'asc' ? '▲' : '▼'}</span>}</th>
           <th>Description</th>
           <th onClick={() => handleSort('price')}>Prix {sortBy === 'price' && <span>{sortOrder === 'asc' ? '▲' : '▼'}</span>}</th>
@@ -130,7 +137,10 @@ const Backoffice = () => {
       <tbody>
         {produits
           .sort((a, b) => {
-            if (sortBy === null) return 0;
+            if (sortBy === null) {
+              // Tri par défaut sur l'ID du produit en ordre ascendant
+              return a.product_id - b.product_id;
+            }
             if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
             if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
             return 0;
@@ -202,14 +212,24 @@ const Backoffice = () => {
             <th>Prix</th>
             <th>Quantité</th>
             <th>Catégorie</th>
-            <th>Priorité</th>
+            <th onClick={() => handleSort('priority')}>
+                Priorité 
+                {sortBy === 'priority' ? (
+                    sortOrder === 'asc' ? '▲' : '▼'
+                ) : (
+                    '▲' // flèche par défaut indiquant un tri ascendant
+                )}
+            </th>
         </tr>
     </thead>
     <tbody>
         {produits
         .filter(produit => produit.category_id === currentCategory)
         .sort((a, b) => {
-            if (sortBy === null) return 0;
+          if (sortBy === null) {
+            // Tri par défaut sur l'ID du produit en ordre ascendant
+            return a.product_id - b.product_id;
+        }
             if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
             if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
             return 0;
