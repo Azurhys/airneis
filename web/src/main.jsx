@@ -22,7 +22,7 @@ import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
 import Recherche from './composants/front/Recherche';
 import './app.css'
-import Backoffice from './composants/front/backoffice';
+import Backoffice from './composants/front/Backoffice';
 import MesCommandes from './composants/front/MesCommandes';
 import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
