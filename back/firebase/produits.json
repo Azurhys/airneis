@@ -73,7 +73,7 @@
               },
               {
   
-                "product_id": 5,
+                "product_id": 6,
                 "name": "Étagères POKI bois gris",
                 "description": "Cette magnifique Étagères POKI blanc. A la vertical et seulement à la vertical, l'étagères POKI s'adapte à vos envies.",
                 "price":"139.75",
@@ -85,7 +85,7 @@
                 },
               {
   
-              "product_id": 5,
+              "product_id": 7,
               "name": "Étagères FYTU rouge",
               "description": "Cette magnifique Étagères FYTU blanc. A la vertical et seulement à la vertical, l'étagères FYTU s'adapte à vos envies.",
               "price":"65.99",
@@ -97,7 +97,7 @@
               },
             {
 
-            "product_id": 6,
+            "product_id": 8,
             "name": "Chaise SAMIRA grise",
             "description": "Cette magnifique chaise SAMIRA grise garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 53x88x45 cm",
             "price":"79.99",
@@ -109,7 +109,7 @@
             },
             {
 
-            "product_id": 7,
+            "product_id":9,
             "name": "Chaise JYNETTE vert kaki",
             "description": "Cette magnifique chaise JYNETTE vert kaki garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 48x90x48 cm",
             "price":"65.99",
@@ -121,7 +121,7 @@
             },
             {
 
-            "product_id": 5,
+            "product_id": 10,
             "name": "Chaise DIANE blanc/naturel",
             "description": "Cette magnifique chaise DIANE blanche garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 52x98x48 cm",
             "price":"119.75",
@@ -133,7 +133,7 @@
             },
             {
 
-              "product_id": 6,
+              "product_id": 11,
               "name": "Chaise JUNJIA rouge",
               "description": "Cette magnifique chaise JUNJIA rouge garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 55x90x45 cm",
               "price":"79.99",
@@ -145,7 +145,7 @@
             },
             {
 
-                "product_id": 6,
+                "product_id": 12,
                 "name": "Chaise CAPS noir",
                 "description": "Cette magnifique chaise CAPS noir garantie de confort. Vous pouvez compter sur la longétivité de cette chaise de dimensions 70x80x45 cm",
                 "price":"79.99",
@@ -157,7 +157,7 @@
             },
             {
 
-              "product_id": 3,
+              "product_id":13,
               "name": "Armoire RULIAN bois noir",
               "description": "Cette incroyable armoir RULIAN noir offre un design simple et moderne à votre pièce.",
               "price":"279.99",
@@ -169,7 +169,7 @@
               },
               {
   
-              "product_id": 4,
+              "product_id": 14,
               "name": "Armoire GYBY bleu",
               "description": "Cette incroyable armoir GYBY bleu offre un design agréable et moderne à votre pièce.",
               "price":"122.99",
@@ -181,7 +181,7 @@
               },
               {
   
-              "product_id": 5,
+              "product_id": 15,
               "name": "Armoire VOKA blanc/naturel",
               "description": "Cette incroyable armoir RULIAN blancle offre un design pure et moderne à votre pièce.",
               "price":"185.75",
@@ -193,7 +193,7 @@
               },
               {
   
-                "product_id": 5,
+                "product_id":16,
                 "name": "Armoire FAKER blanc et bleu",
                 "description": "Cette incroyable armoir FAKER blancle et bleu offre un design pure et moderne à votre pièce.",
                 "price":"555.75",
@@ -205,7 +205,7 @@
               },
               {
   
-                  "product_id": 5,
+                  "product_id": 17,
                   "name": "Armoire ZEUS bleu tempete",
                   "description": "Cette incroyable armoir ZEUS bleu tempete offre un design pure et moderne à votre pièce.",
                   "price":"155.75",
@@ -217,7 +217,7 @@
               },
               {
   
-                "product_id": 3,
+                "product_id": 18,
                 "name": "Buffet TABI bois gris",
                 "description": "Avec son style épuré et moderne le buffet TABI trouvera sa place dans toutes les pièces",
                 "price":"225.99",
@@ -229,7 +229,7 @@
                 },
                 {
     
-                "product_id": 4,
+                "product_id": 19,
                 "name": "Buffet OAKE bois ocre",
                 "description": "Avec son style épuré et moderne le buffet OAKE trouvera sa place dans toutes les pièces",
                 "price":"169.99",
@@ -241,7 +241,7 @@
                 },
                 {
     
-                "product_id": 5,
+                "product_id": 20,
                 "name": "Buffet HUNI blanc/naturel",
                 "description": "Avec son style épuré et moderne le buffet HUNI trouvera sa place dans toutes les pièces",
                 "price":"179.75",
@@ -253,7 +253,7 @@
                 },
                 {
     
-                "product_id": 5,
+                "product_id": 21,
                 "name": "Buffet KERIA bois",
                 "description": "Avec son style épuré et moderne le buffet KERIA trouvera sa place dans toutes les pièces",
                 "price":"229.75",
@@ -265,7 +265,7 @@
                 },
                 {
     
-                "product_id": 5,
+                "product_id": 22,
                 "name": "Buffet GUMAYUSI noir",
                 "description": "Avec son style épuré et moderne le buffet GUMAYUSI trouvera sa place dans toutes les pièces",
                 "price":"189.75",

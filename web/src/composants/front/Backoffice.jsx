@@ -15,6 +15,20 @@ const Backoffice = () => {
     const [sortOrder, setSortOrder] = useState(null);
     const [selectedProduits, setSelectedProduits] = useState([]);
     const [categories] = useCategories();
+    const [sortedProduits, setSortedProduits] = useState([...produits]);
+
+useEffect(() => {
+    const newSortedProduits = [...produits].sort((a, b) => {
+        if (sortBy === null) {
+            // Tri par défaut sur l'ID du produit en ordre ascendant
+            return a.product_id - b.product_id;
+        }
+        if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
+        if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
+        return 0;
+    });
+    setSortedProduits(newSortedProduits);
+}, [sortBy, sortOrder, produits]);
 
     const handleSort = (colName) => {
         if (sortBy === colName) {
@@ -45,7 +59,7 @@ const Backoffice = () => {
   };
   
   const handleCategoryClick = (categoryId) => {
-    setCurrentCategory(null); // Réinitialise la catégorie actuelle
+    // setCurrentCategory(null); // Réinitialise la catégorie actuelle
     setTimeout(() => setCurrentCategory(categoryId), 0); // Puis définis la nouvelle catégorie après une pause
   };
   
@@ -135,17 +149,7 @@ const Backoffice = () => {
         </tr>
       </thead>
       <tbody>
-        {produits
-          .sort((a, b) => {
-            if (sortBy === null) {
-              // Tri par défaut sur l'ID du produit en ordre ascendant
-              return a.product_id - b.product_id;
-            }
-            if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
-            if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
-            return 0;
-          })
-          .map((produit) => (
+      {sortedProduits.map((produit) => (
             <tr key={produit.product_id}>
                 <td>
                 <input
