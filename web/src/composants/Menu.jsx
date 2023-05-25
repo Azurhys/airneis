@@ -35,7 +35,7 @@ const Menu = () => {
             }}>Backoffice</NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/categorie" className={({isActive}) => {
+            <NavLink to="/categorie/0" className={({isActive}) => {
               return isActive ? "nav-link active text-light" : "nav-link"
             }}>Categorie</NavLink>
           </li>
