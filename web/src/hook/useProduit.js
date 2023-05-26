@@ -3,6 +3,7 @@ import axios from "axios";
 
 export function useProduit() {
   const [produits, setProduits] = useState([]);
+  const [produitDetail, setProduitDetail] = useState(null);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API}produits.json`).then((reponse) => {
@@ -14,6 +15,7 @@ export function useProduit() {
     });
   }, []);
 
+  //mettre en avant
   const mettreEnAvantProduit = (produit) => {
     const produitsEnAvant = produits.filter((p) => p.enAvant === 1);
 
@@ -46,5 +48,68 @@ export function useProduit() {
     });
 };
 
-  return [produits, mettreEnAvantProduit, changeProductPriority];
+  //supprimer
+  const supprimerProduit = (produitId) => {
+    console.log(typeof produitId);
+    axios.delete(`${import.meta.env.VITE_API}produits/${produitId}.json`).then(() => {
+        setProduits((prevProduits) => prevProduits.filter((produit) => produit.id !== produitId));
+        console.log(`Produit avec ID ${produitId} supprimé avec succès.`);
+      })
+      .catch((error) => {
+        console.error(`Erreur lors de la suppression du produit avec ID ${produitId}:`, error);
+      });
+  };
+
+  // Ajouter un produit
+  const ajouterProduit = (nouveauProduit) => {
+    const produit = {...nouveauProduit,product_id: parseInt(nouveauProduit.product_id, 10),};
+    axios.post(`${import.meta.env.VITE_API}produits.json`, produit).then((response) => {
+        const nouveauProduitAvecId = {...produit,id: nouveauProduit.product_id,};
+        setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
+        console.log("Produit ajouté");
+      })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout du produit :", error);
+      });
+  };
+  
+
+  // Detail produit
+  const afficherDetailProduit = (produitId) => {
+    axios.get(`${import.meta.env.VITE_API}produits/${produitId}.json`)
+      .then(response => {
+        const produit = response.data;
+        console.log(produit)
+        setProduitDetail(produit);
+      })
+      .catch(error => {
+        console.error(`Erreur lors de la récupération des détails du produit avec ID ${produitId}:`, error);
+      });
+  };
+
+  // Modifier un produit
+const modifierProduit = (produitModifie) => {
+  const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10),};
+
+  axios.put(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit).then(() => {setProduits((prevProduits) => {
+  const index = prevProduits.findIndex((p) => p.id === produit.id);
+        if (index !== -1) {
+          const produitsCopies = [...prevProduits];
+          produitsCopies[index] = produit;
+          return produitsCopies;
+        }
+        return prevProduits;
+      });
+      console.log("Produit modifié");
+    })
+    .catch((error) => {
+      console.error("Erreur", error);
+    });
+};
+
+  
+  
+
+
+  return [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority];
 }

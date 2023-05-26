@@ -6,8 +6,8 @@ import { AuthContext } from '../context/Authcontext';
 import { NavLink } from "react-router-dom";
 
 const Menu = () => {
-  const { isAuthenticated, userName, logout } = useContext(AuthContext);
-
+  const { isAuthenticated, userName, logout, categoryId } = useContext(AuthContext);
+  console.log(categoryId)
   const handleLogout = () => {
     logout();
   };
@@ -29,16 +29,33 @@ const Menu = () => {
               return isActive ? "nav-link active text-light" : "nav-link"
             }}>Produit</NavLink>
           </li>
+
+
+          {isAuthenticated && (
           <li className="nav-item">
-            <NavLink to="/Backoffice" className={({isActive}) => {
-              return isActive ? "nav-link active text-light" : "nav-link"
-            }}>Backoffice</NavLink>
+            <NavLink to="/Backoffice" className={({ isActive }) => {
+              return isActive ? "nav-link active text-light" : "nav-link";}}>Backoffice
+            </NavLink>
           </li>
+          )}
+
+          {categoryId === 1 && isAuthenticated ? (
+            <li className="nav-item">
+            <NavLink to="/Backoffice" className={({isActive}) => {
+              return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
+            </NavLink>
+            </li>
+          ) : null}
+
+
+          
+
           <li className="nav-item">
             <NavLink to="/categorie/0" className={({isActive}) => {
               return isActive ? "nav-link active text-light" : "nav-link"
             }}>Categorie</NavLink>
           </li>
+
           {isAuthenticated ? (
             <li className="nav-item">
               <button onClick={handleLogout} className="nav-link">Déconnexion</button>
@@ -50,11 +67,12 @@ const Menu = () => {
               </NavLink>
             </li>
           )}
-                    <li className="nav-item">
-                        <NavLink to="/settings" className={({isActive}) => {
-                            return isActive ? "nav-link active text-light" : "nav-link"
-                        }}>AccountSettings</NavLink>
-                    </li>
+
+                <li className="nav-item">
+                    <NavLink to="/settings" className={({isActive}) => {
+                        return isActive ? "nav-link active text-light" : "nav-link"
+                    }}>AccountSettings</NavLink>
+                </li>
         </ul>
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">

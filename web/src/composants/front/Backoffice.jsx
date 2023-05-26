@@ -1,19 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid,Tooltip,Legend,PieChart,Pie,Cell} from "recharts";
 import Histogramme from '../back/Histogramme';
 import HistogrammeAvg from '../back/Histogrammeavg';
 import Camembert from "../back/Camembert";
 import { useProduit } from "../../hook/useProduit";
+import './css/StyleBackoffice.css';
 import { useCategories } from "../../hook/useCategorie";
 import axios from "axios";
 
 const Backoffice = () => {
-    const [produits, mettreEnAvantProduit, changeProductPriority] = useProduit()
+    const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
     const [granularity, setGranularity] = useState("daily");
     const [categoryGranularity, setCategoryGranularity] = useState("daily");
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [selectedProduits, setSelectedProduits] = useState([]);
+    const [showProductDetails, setShowProductDetails] = useState(false);
+    const [editedProduitDetail, setEditedProduitDetail] = useState(null);
+
+    const popupRef = useRef(null);
+    const popupRefDetail = useRef(null);
+    const popupRefModif = useRef(null);
+
+    const [nouveauProduit, setNouveauProduit] = useState({
+      category_id: "",
+      description: "",
+      enAvant: 0,
+      images: [""],
+      name: "",
+      price: 0,
+      product_id: "",
+      quantity: 0,
+    });
+    
     const [categories] = useCategories();
     const [sortedProduits, setSortedProduits] = useState([...produits]);
 
@@ -47,17 +66,60 @@ useEffect(() => {
         }
     };
 
-    // Supprime un produit
-  const onProduitDelete = (produitToDelete) => {
-    const dbRef = firebase.database().ref(`produits/${produitToDelete.product_id}`);
-    dbRef.remove();
-  };
+    const onClosePopup = () => {
+      if (popupRef.current) {
+        popupRef.current.style.display = 'none';
+      }
+    };
+    const onClosePopupDetail = () => {
+      if (popupRefDetail.current) {
+        popupRefDetail.current.style.display = 'none';
+      }
+      setShowProductDetails(false);
+    };
+    const onClosePopupModif = () => {
+      if (popupRefModif.current) {
+        popupRefModif.current.style.display = 'none';
+      }
+      setEditedProduitDetail(false);
+    };
 
-  // mettre le produit en avant sur la page acceuil
-  const handleMettreEnAvant = (produit) => {
-    mettreEnAvantProduit(produit);
-  };
-  
+    // ajout produit
+    const onProduitCreate = (e) => {
+      //e.preventDefault();
+      if (popupRef.current) {
+        popupRef.current.style.display = 'block';
+      }
+    };
+
+    // Supprime un produit
+    const onProduitDelete = (produitId) => {
+      supprimerProduit(produitId);
+    };
+
+    // mettre le produit en avant sur la page acceuil
+    const handleMettreEnAvant = (produit) => {
+      mettreEnAvantProduit(produit);
+    };
+
+    //detail
+    const onProduitDetails = (produitId) => {
+      afficherDetailProduit(produitId);
+      if (popupRefDetail.current) {
+        popupRefDetail.current.style.display = 'block';
+      }
+      setShowProductDetails(true);
+    }
+
+    //modif produit
+    const onProduitEdit = (produitId) => {
+      afficherDetailProduit(produitId);
+      if (popupRefModif.current) {
+        popupRefModif.current.style.display = 'block';
+      }
+      setEditedProduitDetail(true)
+    }
+
   const handleCategoryClick = (categoryId) => {
     // setCurrentCategory(null); // Réinitialise la catégorie actuelle
     setTimeout(() => setCurrentCategory(categoryId), 0); // Puis définis la nouvelle catégorie après une pause
@@ -165,9 +227,9 @@ useEffect(() => {
               <td>{produit.quantity}</td>
               <td>{produit.category_id}</td>
               <td>
-                <button className="btn btn-danger mx-2" onClick={() => onProduitDelete(produit)}>Supprimer</button>
-                <button className="mx-2 btn btn-brown" onClick={() => onProduitDetails(produit)}>Détails</button>
-                <button className="mx-2 btn btn-warning" onClick={() => onProduitEdit(produit)}>Modifier</button>
+                <button className="btn btn-danger mx-2" onClick={() => onProduitDelete(produit.product_id)}>Supprimer</button>
+                <button className="mx-2 btn btn-brown" onClick={() => onProduitDetails(produit.product_id)}>Détails</button>
+                <button className="mx-2 btn btn-warning" onClick={() => onProduitEdit(produit.product_id)}>Modifier</button>
                 <button onClick={() => handleMettreEnAvant(produit)} className={produit.enAvant ? "mx-2 btn btn-danger" : "mx-2 btn btn-success"}>{produit.enAvant ? "- vedette" : "+ vedette"}</button>
               </td>
             </tr>
@@ -176,7 +238,7 @@ useEffect(() => {
       <tfoot>
         <tr>
                 <td colSpan={7}>
-                    <button className="btn btn-success mx-2" onClick={() => onProduitCreate()}>Nouveau produit</button>
+                    <button className="mx-2 btn btn-success" onClick={(e) => onProduitCreate(e)}>Créer un produit</button>
                     {selectedProduits.length > 0 && (
                     <button className="btn btn-danger mx-2" onClick={() => {
                         selectedProduits.forEach((produitId) => {
@@ -273,6 +335,86 @@ useEffect(() => {
             <h2 className="my-3"> Volume de vente par catégorie</h2>
                 <Camembert data={pieChartData} />
     </div>
+
+  <div ref={popupRef} className="popup">
+    <h2>Nouveau produit</h2>
+    <form>
+      <div>
+        <label htmlFor="category_id">Catégorie :</label>
+        <input type="number" value={nouveauProduit.category_id} id="category_id" name="category_id" onChange={(e) => setNouveauProduit({...nouveauProduit, category_id: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="description">Description :</label>
+        <input type="text" value={nouveauProduit.description} id="description" name="description" onChange={(e) => setNouveauProduit({...nouveauProduit, description: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="images">Images :</label>
+        <input type="text" value={nouveauProduit.images} id="images" name="images" onChange={(e) => setNouveauProduit({...nouveauProduit, images: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="name">Nom :</label>
+        <input type="text" value={nouveauProduit.name} id="name" name="name" onChange={(e) => setNouveauProduit({...nouveauProduit, name: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="price">Prix :</label>
+        <input type="text" value={nouveauProduit.price} id="price" name="price" onChange={(e) => setNouveauProduit({...nouveauProduit, price: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="product_id">ID :</label>
+        <input type="number" value={nouveauProduit.product_id} id="product_id" name="product_id" onChange={(e) => setNouveauProduit({...nouveauProduit, product_id: e.target.value})} />
+      </div>
+
+      <div>
+        <label htmlFor="quantity">Quantité :</label>
+        <input type="text" value={nouveauProduit.quantity} id="quantity" name="quantity" onChange={(e) => setNouveauProduit({...nouveauProduit, quantity: e.target.value})} />
+      </div>
+        <button className="btnpopup" onClick={(e) => {e.preventDefault(); ajouterProduit(nouveauProduit);}}>Créer</button>
+    </form>
+  <button className="btnpopup" onClick={onClosePopup}>Fermer</button>
+</div>
+
+<div ref={popupRefDetail} className="popup_detail">
+  {produitDetail ? (
+    <>
+      <h2>Détails du produit</h2>
+      <p>ID: {produitDetail.product_id}</p>
+      <p>Category: {produitDetail.category_id}</p>
+      <p>Nom: {produitDetail.name}</p>
+      <p>Prix: {produitDetail.price}</p>
+      <p>Quantité: {produitDetail.quantity}</p>
+    </>
+  ) : (
+    <p>Chargement des détails du produit...</p>
+  )}
+  <button onClick={onClosePopupDetail}>Fermer</button>
+</div>
+
+<div ref={popupRefModif} className="popupModif">
+  {produitDetail ? (
+    <>
+      <h2>Modifier le produit</h2>
+      <label>ID category: <input type="number" value={produitDetail.category_id} onChange={(e) => setNouveauProduit({ ...produitDetail, category_id: e.target.value })} /></label>
+      <label>Description: <input type="text" value={produitDetail.description} onChange={(e) => setNouveauProduit({ ...produitDetail, description: e.target.value })} /></label>
+      <label>Mettre en avant: <input type="checkbox" checked={produitDetail.enAvant} onChange={(e) => setNouveauProduit({ ...produitDetail, enAvant: e.target.checked })} /></label>
+      <label>Images: <input type="text" value={produitDetail.images} onChange={(e) => setNouveauProduit({ ...produitDetail, images: e.target.value })} /></label>
+      <label>Nom: <input type="text" value={produitDetail.name} onChange={(e) => setNouveauProduit({ ...produitDetail, name: e.target.value })} /></label>
+      <label>Prix: <input type="text" value={produitDetail.price} onChange={(e) => setNouveauProduit({ ...produitDetail, price: e.target.value })} /></label>
+      <label>ID produit: <input type="number" value={produitDetail.product_id} onChange={(e) => setNouveauProduit({ ...produitDetail, product_id: e.target.value })} /></label>
+      <label>Quantité: <input type="number" value={produitDetail.quantity} onChange={(e) => setNouveauProduit({ ...produitDetail, quantity: e.target.value })} /></label>
+      <button className="mt-3" onClick={() => modifierProduit(produitDetail)}>Enregistrer</button>
+    </>
+  ) : (
+    <p>Chargement des détails du produit...</p>
+  )}
+  <button className="close-button" onClick={onClosePopupModif}>Fermer</button>
+</div>
+
+
     
     </div>
     );

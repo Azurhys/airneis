@@ -1,0 +1,55 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 500px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+  z-index: 50;
+}
+
+.btnpopup {
+  border-radius: 6px;
+}
+
+.popup_detail {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+  z-index: 50;
+}
+
+.popupModif {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+  z-index: 50;
+}
+
+.close-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+

@@ -19,7 +19,6 @@ const Accueil = () => {
         return url + "/Meuble";
       case 2:
         return url + "/Lit";
-      // Ajoutez d'autres correspondances selon vos besoins
       default:
         return "/";
     }
