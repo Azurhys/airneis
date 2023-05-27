@@ -23,13 +23,22 @@ const Backoffice = () => {
     const popupRefModif = useRef(null);
 
     const [nouveauProduit, setNouveauProduit] = useState({
-      category_id: "",
+      category_id: 0,
       description: "",
       enAvant: 0,
-      images: [""],
+      image: [""],
       name: "",
-      price: 0,
+      price: "",
       product_id: "",
+      quantity: 0,
+    });
+
+    const [ModifProduit, setModifProduit] = useState({
+      category_id: 0,
+      description: "",
+      image: [""],
+      name: "",
+      price: "",
       quantity: 0,
     });
     
@@ -113,6 +122,8 @@ useEffect(() => {
 
     //modif produit
     const onProduitEdit = (produitId) => {
+      const produit = produits.find((p) => p.id === produitId);
+      setModifProduit({ ...produit});
       afficherDetailProduit(produitId);
       if (popupRefModif.current) {
         popupRefModif.current.style.display = 'block';
@@ -334,49 +345,49 @@ useEffect(() => {
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Volume de vente par catégorie</h2>
                 <Camembert data={pieChartData} />
-    </div>
+  </div>
 
   <div ref={popupRef} className="popup">
     <h2>Nouveau produit</h2>
-    <form>
-      <div>
-        <label htmlFor="category_id">Catégorie :</label>
-        <input type="number" value={nouveauProduit.category_id} id="category_id" name="category_id" onChange={(e) => setNouveauProduit({...nouveauProduit, category_id: e.target.value})} />
-      </div>
+      <form>
+        <div>
+          <label htmlFor="category_id">Catégorie :</label>
+          <select id="category_id" name="category_id" value={nouveauProduit.category_id} onChange={(e) => setNouveauProduit({ ...nouveauProduit, category_id: e.target.value })}>
+            <option value="0">Table</option>
+            <option value="1">Chaise</option>
+            <option value="2">Canapé</option>
+          </select>
+        </div>
 
-      <div>
-        <label htmlFor="description">Description :</label>
-        <input type="text" value={nouveauProduit.description} id="description" name="description" onChange={(e) => setNouveauProduit({...nouveauProduit, description: e.target.value})} />
-      </div>
+        <div>
+          <label htmlFor="description">Description :</label>
+          <input type="text" value={nouveauProduit.description} id="description" name="description" onChange={(e) => setNouveauProduit({...nouveauProduit, description: e.target.value})} />
+        </div>
 
-      <div>
-        <label htmlFor="images">Images :</label>
-        <input type="text" value={nouveauProduit.images} id="images" name="images" onChange={(e) => setNouveauProduit({...nouveauProduit, images: e.target.value})} />
-      </div>
+        <div>
+          <label htmlFor="images">Images :</label>
+          <input type="file" value={nouveauProduit.image} id="images" name="images" onChange={(e) => setNouveauProduit({...nouveauProduit, images: e.target.value})} />
+        </div>
 
-      <div>
-        <label htmlFor="name">Nom :</label>
-        <input type="text" value={nouveauProduit.name} id="name" name="name" onChange={(e) => setNouveauProduit({...nouveauProduit, name: e.target.value})} />
-      </div>
+        <div>
+          <label htmlFor="name">Nom :</label>
+          <input type="text" value={nouveauProduit.name} id="name" name="name" onChange={(e) => setNouveauProduit({...nouveauProduit, name: e.target.value})} />
+        </div>
 
-      <div>
-        <label htmlFor="price">Prix :</label>
-        <input type="text" value={nouveauProduit.price} id="price" name="price" onChange={(e) => setNouveauProduit({...nouveauProduit, price: e.target.value})} />
-      </div>
+        <div>
+          <label htmlFor="price">Prix :</label>
+          <input type="text" value={nouveauProduit.price} id="price" name="price" onChange={(e) => setNouveauProduit({...nouveauProduit, price: e.target.value})} />
+        </div>
 
-      <div>
-        <label htmlFor="product_id">ID :</label>
-        <input type="number" value={nouveauProduit.product_id} id="product_id" name="product_id" onChange={(e) => setNouveauProduit({...nouveauProduit, product_id: e.target.value})} />
-      </div>
+        <div>
+          <label htmlFor="quantity">Quantité :</label>
+          <input type="number" value={nouveauProduit.quantity} id="quantity" name="quantity" onChange={(e) => setNouveauProduit({...nouveauProduit, quantity: e.target.value})} />
+        </div>
 
-      <div>
-        <label htmlFor="quantity">Quantité :</label>
-        <input type="text" value={nouveauProduit.quantity} id="quantity" name="quantity" onChange={(e) => setNouveauProduit({...nouveauProduit, quantity: e.target.value})} />
-      </div>
         <button className="btnpopup" onClick={(e) => {e.preventDefault(); ajouterProduit(nouveauProduit);}}>Créer</button>
-    </form>
-  <button className="btnpopup" onClick={onClosePopup}>Fermer</button>
-</div>
+      </form>
+      <button className="btnpopup" onClick={onClosePopup}>Fermer</button>
+  </div>
 
 <div ref={popupRefDetail} className="popup_detail">
   {produitDetail ? (
@@ -398,15 +409,17 @@ useEffect(() => {
   {produitDetail ? (
     <>
       <h2>Modifier le produit</h2>
-      <label>ID category: <input type="number" value={produitDetail.category_id} onChange={(e) => setNouveauProduit({ ...produitDetail, category_id: e.target.value })} /></label>
-      <label>Description: <input type="text" value={produitDetail.description} onChange={(e) => setNouveauProduit({ ...produitDetail, description: e.target.value })} /></label>
-      <label>Mettre en avant: <input type="checkbox" checked={produitDetail.enAvant} onChange={(e) => setNouveauProduit({ ...produitDetail, enAvant: e.target.checked })} /></label>
-      <label>Images: <input type="text" value={produitDetail.images} onChange={(e) => setNouveauProduit({ ...produitDetail, images: e.target.value })} /></label>
-      <label>Nom: <input type="text" value={produitDetail.name} onChange={(e) => setNouveauProduit({ ...produitDetail, name: e.target.value })} /></label>
-      <label>Prix: <input type="text" value={produitDetail.price} onChange={(e) => setNouveauProduit({ ...produitDetail, price: e.target.value })} /></label>
-      <label>ID produit: <input type="number" value={produitDetail.product_id} onChange={(e) => setNouveauProduit({ ...produitDetail, product_id: e.target.value })} /></label>
-      <label>Quantité: <input type="number" value={produitDetail.quantity} onChange={(e) => setNouveauProduit({ ...produitDetail, quantity: e.target.value })} /></label>
-      <button className="mt-3" onClick={() => modifierProduit(produitDetail)}>Enregistrer</button>
+      <input type="number" value={produitDetail.category_id} onChange={(e) => setModifProduit({ ...produitDetail, category_id: e.target.value })} />
+      <label>Description: <input type="text" value={produitDetail.description} onChange={(e) => setModifProduit({ ...produitDetail, description: e.target.value })} /></label>
+      <label>Images: <input type="text" value={produitDetail.images} onChange={(e) => setModifProduit({ ...produitDetail, images: e.target.value })} /></label>
+      <label>Nom: <input type="text" value={produitDetail.name} onChange={(e) => setModifProduit({ ...produitDetail, name: e.target.value })} /></label>
+      <label>Prix: <input type="text" value={produitDetail.price} onChange={(e) => setModifProduit({ ...produitDetail, price: e.target.value })} /></label>
+      <label>Quantité: <input type="number" value={produitDetail.quantity} id="quantity" name="quantity" onChange={(e) => setModifProduit({ ...produitDetail, quantity: e.target.value })} /></label>
+
+
+
+
+      <button className="mt-3" onClick={() => modifierProduit(produitDetail.product_id)}>Enregistrer</button>
     </>
   ) : (
     <p>Chargement des détails du produit...</p>

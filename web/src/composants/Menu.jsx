@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 
 const Menu = () => {
   const { isAuthenticated, userName, logout, categoryId } = useContext(AuthContext);
-  console.log(categoryId)
   const handleLogout = () => {
     logout();
   };
