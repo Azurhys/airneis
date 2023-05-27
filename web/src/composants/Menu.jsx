@@ -38,15 +38,17 @@ const Menu = () => {
             </NavLink>
           </li>
           )}
-
-          {categoryId === 1 && isAuthenticated ? (
+          <NavLink to="/Backoffice" className={({isActive}) => {
+              return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
+            </NavLink>
+          {/* {categoryId === 1 && isAuthenticated ? (
                     
             <li className="nav-item">
             <NavLink to="/Backoffice" className={({isActive}) => {
               return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
             </NavLink>
             </li>
-          ) : null}
+          ) : null} */}
             <li className="nav-item">
                         <NavLink to="/livraison" className="nav-link text-light">
                         Livraison
