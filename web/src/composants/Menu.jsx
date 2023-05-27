@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 
 const Menu = () => {
   const { isAuthenticated, userName, logout, categoryId } = useContext(AuthContext);
-  console.log(categoryId)
   const handleLogout = () => {
     logout();
   };
@@ -46,9 +45,6 @@ const Menu = () => {
             </NavLink>
             </li>
           ) : null}
-
-
-          
 
           <li className="nav-item">
             <NavLink to="/categorie/0" className={({isActive}) => {

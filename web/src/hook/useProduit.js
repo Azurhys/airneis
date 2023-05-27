@@ -60,24 +60,30 @@ export function useProduit() {
       });
   };
 
-  // Ajouter un produit
-  const ajouterProduit = (nouveauProduit) => {
-    const produit = {...nouveauProduit,product_id: parseInt(nouveauProduit.product_id, 10),};
-    axios.post(`${import.meta.env.VITE_API}produits.json`, produit).then((response) => {
-        const nouveauProduitAvecId = {...produit,id: nouveauProduit.product_id,};
-        setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
-        console.log("Produit ajouté");
-      })
-      .catch((error) => {
-        console.error("Erreur lors de l'ajout du produit :", error);
-      });
-  };
+// Ajouter un produit
+const ajouterProduit = (nouveauProduit) => {
+  const nombreProduits = produits.length;
+  const nouveauProductID = nombreProduits + 1;
+
+  const produit = { ...nouveauProduit, product_id: nouveauProductID };
+  const firebaseKey = nouveauProductID.toString(); // Utilisez nouveauProductID comme clé
+
+  axios.post(`${import.meta.env.VITE_API}produits/${firebaseKey}.json`, produit).then((response) => {
+    const nouveauProduitAvecId = { ...produit, id: firebaseKey };
+    setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
+    console.log("Produit ajouté");
+  })
+  .catch((error) => {
+    console.error("Erreur lors de l'ajout du produit :", error);
+  });
+};
+
+
   
 
   // Detail produit
   const afficherDetailProduit = (produitId) => {
-    axios.get(`${import.meta.env.VITE_API}produits/${produitId}.json`)
-      .then(response => {
+    axios.get(`${import.meta.env.VITE_API}produits/${produitId}.json`).then(response => {
         const produit = response.data;
         console.log(produit)
         setProduitDetail(produit);
@@ -90,16 +96,17 @@ export function useProduit() {
   // Modifier un produit
 const modifierProduit = (produitModifie) => {
   const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10),};
-
-  axios.put(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit).then(() => {setProduits((prevProduits) => {
-  const index = prevProduits.findIndex((p) => p.id === produit.id);
-        if (index !== -1) {
-          const produitsCopies = [...prevProduits];
-          produitsCopies[index] = produit;
-          return produitsCopies;
-        }
-        return prevProduits;
-      });
+  //await axios.patch(`${import.meta.env.VITE_API}produits/${productID}.json`
+  axios.patch(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit).then(() => {
+    setProduits((prevProduits) => {
+      const index = prevProduits.findIndex((p) => p.id === produit.id);
+      if (index !== -1) {
+        const produitsCopies = [...prevProduits];
+        produitsCopies[index] = produit;
+        return produitsCopies;
+      }
+      return prevProduits;
+    });
       console.log("Produit modifié");
     })
     .catch((error) => {

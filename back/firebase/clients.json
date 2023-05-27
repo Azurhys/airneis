@@ -1,20 +1,44 @@
 [
-    {
-        "name": "Nom",
-        "description": "Nom complet",
-        "category_id":0
-
-    },
-    {
-        "name": "Email",
-        "description": "Email",
-        "category_id":1
-
-    },
-    {
-        "name": "Mot de Passe",
-        "description": "Mot de passe",
-        "category_id":2
-
-    }
-]       
+  {
+    "category_id": 1,
+    "email": "antoine@antoine.fr",
+    "firstName": "Antoine",
+    "password": "antoine"
+  },
+  {
+    "category_id": 1,
+    "email": "romain@romain.fr",
+    "firstName": "Romain",
+    "password": "romain"
+  },
+  {
+    "category_id": 1,
+    "email": "victor@victor.fr",
+    "firstName": "Victor",
+    "password": "victor"
+  },
+  {
+    "category_id": 1,
+    "email": "rayan@rayan.fr",
+    "firstName": "Rayan",
+    "password": "rayan"
+  },
+  {
+    "category_id": 0,
+    "email": "random@random.fr",
+    "firstName": "random",
+    "password": "random"
+  },
+  {
+    "category_id": 0,
+    "email": "test@test.fr",
+    "firstName": "test",
+    "password": "test"
+  },
+  {
+    "category_id": 0,
+    "email": "jean@jean.fr",
+    "firstName": "Jean",
+    "password": "jean"
+  }
+]

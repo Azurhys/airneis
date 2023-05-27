@@ -14,9 +14,6 @@ const Produit = () => {
         produit = produits.find((p) => p.product_id === produitId);
     }
 
-    if (!produit) {
-        return <div>Produit non trouvé</div>;
-    }
         const number = 0;
       if (produits && produits.length > 0) {
         const produitId = produits[0].product_id;
