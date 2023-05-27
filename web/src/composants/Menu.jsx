@@ -40,7 +40,14 @@ const Menu = () => {
           )}
 
           {categoryId === 1 && isAuthenticated ? (
-                    <li className="nav-item">
+                    
+            <li className="nav-item">
+            <NavLink to="/Backoffice" className={({isActive}) => {
+              return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
+            </NavLink>
+            </li>
+          ) : null}
+            <li className="nav-item">
                         <NavLink to="/livraison" className="nav-link text-light">
                         Livraison
                         </NavLink>
@@ -55,13 +62,6 @@ const Menu = () => {
                             Paiment
                         </NavLink>
                     </li>
-            <li className="nav-item">
-            <NavLink to="/Backoffice" className={({isActive}) => {
-              return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
-            </NavLink>
-            </li>
-          ) : null}
-
 
           
 
