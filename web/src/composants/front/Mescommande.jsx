@@ -4,109 +4,111 @@ import Commande from "./Commande";
 const Mescommande = () => {
 
 
-    return <div className="d-flex flex-column gap-3 mb-3 w-75 ">
+    return <div className="mb-3 d-block">
     <div className="mb-5">
-     <h1 className="text-center">Mes commandes</h1>
+    <br/>
+    <br/>   
+    <h1 className="text-center">Mes commandes</h1>
     </div>
+    <h2>2022</h2>
+    <br/>
 
-     <h2 className="">2022</h2>
-
-     <br/>
-
-    <div className="d-flex gap-3">
-
-        <div className="w-50">
+<div className="">
+    <div className="d-flex">
+        <div className="w-25">
             <Commande />
         </div>
 
-        <div className="w-50">
-            <h3 className="d-flex justify-content-between">
+        <div className="">
+            <h3 className="">
                 EN COURS
             </h3>
-            <h3 class="fs-6 d-flex justify-content-between">1200€
+            <h3 class="fs-6 d-flex">1200€
             </h3>
         </div>    
     </div>
 
 
-    <div className="d-flex gap-3">
+    <div className="d-flex ">
 
 
-        <div className="w-50">
+        <div className="w-25">
             <Commande />
         </div>
-        <div className="w-50">
-            <h2 className="d-flex justify-content-between">
+        <div className="">
+            <h3 className="">
                 LIVREE
-            </h2>
-            <h2 class="fs-6 d-flex justify-content-between">1200€
+            </h3>
+            <h2 class="fs-6 d-flex">1200€
             </h2>
         </div> 
     </div>
     
-    <div className="d-flex gap-3">
+    <div className="d-flex ">
 
-    <div className="w-50">
+    <div className="w-25">
         <Commande />
     </div>
 
-    <div className="w-50">
-        <h2 className="d-flex justify-content-between">
+    <div className="">
+        <h3 className="">
             ANNULER
-        </h2>
-        <h2 class="fs-6 d-flex justify-content-between">1200€
+        </h3>
+        <h2 class="fs-6 d-flex ">1200€
         </h2>
     </div>    
     </div>
 
 
-    <div className="d-flex gap-3">
+    <div className="d-flex ">
 
-        <div className="w-50">
+        <div className="w-25">
             <Commande />
         </div>
 
-        <div className="w-50">
-            <h2 className="d-flex justify-content-between">
+        <div className="">
+            <h3 className="">
                 LIVREE
-            </h2>
-            <h2 class="fs-6 d-flex justify-content-between">1200€
+            </h3>
+            <h2 class="fs-6 d-flex ">1200€
             </h2>
         </div>    
     </div>
+
+</div>
 
     <br/>
     <h2 className="">2021</h2>
 
      <br/>
 
-    <div className="d-flex gap-3">
+    <div className="d-flex ">
 
-        <div className="w-50">
+        <div className="w-25">
             <Commande />
         </div>
 
-        <div className="w-50">
-            <h3 className="d-flex justify-content-between">
+        <div className="">
+            <h3 className="">
                 LIVREE
             </h3>
-            <h3 class="fs-6 d-flex justify-content-between">1200€
+            <h3 class="fs-6 d-flex ">1200€
             </h3>
         </div>    
     </div>
 
 
-    <div className="d-flex gap-3">
+    <div className="d-flex ">
 
 
-        <div className="w-50">
+        <div className="w-25">
             <Commande />
         </div>
-        <div className="w-50">
-            <h2 className="d-flex justify-content-between">
+        <div className="">
+            <h3 className="">
                 LIVREE
-            </h2>
-            <h2 class="fs-6 d-flex justify-content-between">1200€
+            </h3>
+            <h2 class="fs-6 d-flex ">1200€
             </h2>
         </div> 
     </div>

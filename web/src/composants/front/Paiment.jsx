@@ -3,9 +3,11 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 const Paiment = () => {
 
-return <div className="d-flex flex-column gap-3 mb-3 w-75 ">
+return <div className="flex-column gap-3 mb-3 ">
 
     <div className="mb-5">
+    <br/>
+    <br/>
         <h1 className="text-center">Paiment</h1>
     </div>
 
@@ -23,7 +25,7 @@ return <div className="d-flex flex-column gap-3 mb-3 w-75 ">
 
     <div className="">
             <form classname="">
-            <label htmlFor="cardNumber"className="fw-bold">Numéro de carte de crédit </label>
+            <label htmlFor="cardNumber"className="fw-bold">Numéro de carte</label>
             <br />
             <input type="text"></input>
 

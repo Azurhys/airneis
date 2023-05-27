@@ -4,8 +4,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 const Livraison = () => {
 
-    return <div className="d-flex flex-column gap-3 mb-3 w-75 ">
+    return <div className="mb-3">
         <div className="mb-5">
+        <br/>
+        <br/>
          <h1 className="text-center">Livraison</h1>
         </div>
 
@@ -20,44 +22,55 @@ const Livraison = () => {
             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
         </Dropdown.Menu>
         </Dropdown>
-
-        <div className=" d-flex gap-3">
+        <br/>
+        <div className="">
 
             <form className="">
             <label for="fname"className="fw-bold">Prénom</label>
+            <br/>
                 <input type="text"
                     name="prenom" 
-                    className="form-control mb-3 w-30" 
-                    />
+                    className="mb-3" 
+                />
+            <br/>
                 <label for="fname"className="fw-bold">Nom</label>
+                <br/>
                 <input type="text" 
                     name="nom" 
-                    className="form-control mb-3" 
-                    />
+                    className="mb-3" 
+                />
+            <br/>
                 <label for="fname"className="fw-bold">Adresse 1</label>
+                <br/>
                 <input type="text" 
                 name="adresse"
-                className="form-control mb-3" 
+                className="mb-3" 
                 />
+                <br/>
                 <label for="fname"className="fw-bold">Adresse 2</label>
+                <br/>
                 <input type="text" 
                 name="adresse"
-                className="form-control mb-3" 
+                className="mb-3" 
                 />
+                <br/>
                 <label for="fname"className="fw-bold">Ville</label>
+                <br/>
                 <input type="text" 
                 name="ville" 
-                className="form-control mb-3" 
+                className="mb-3" 
                 />
+                <br/>
                 <label for="fname"className="fw-bold">Code Postal</label>
+                <br/>
                 <input type="text" 
                 name="ville"
-                className="form-control mb-3" 
+                className="mb-3" 
                 />
             </form>
     
 
-            <div className="w-50">
+            <div className="">
             <a href="/Paiment" class="btn btn-primary">PASSER AU PAIMENT</a>
             </div>
 
