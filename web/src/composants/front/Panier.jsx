@@ -5,6 +5,7 @@ const Panier = () => {
 
     return <div className="d-flex flex-column gap-3 mb-3 w-75 mx-5">
         <div className="mb-5">
+        <br/>
          <h1 className="text-center">Panier</h1>
         </div>
 

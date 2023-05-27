@@ -17,7 +17,11 @@ import Lit from './composants/front/Categorie/Lit'
 import Produit from './composants/front/Produit';
 import Panier from './composants/front/Panier';
 import AccountSettings from './composants/front/AccountSettings';
-
+import Livraison from './composants/front/Livraison';
+import Paiment from './composants/front/Paiment';
+import ConfirmationPaiment from './composants/front/ConfirmationPaiment';
+import CommandeEffectuer from './composants/front/CommandeEffectuer';
+import Mescommande from './composants/front/Mescommande';
 import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
 import Recherche from './composants/front/Recherche';
@@ -48,6 +52,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='mescommandes' element={<MesCommandes />} />
         <Route path='recherche' element={<Recherche />} />
         <Route path="panier" element={<Panier />} />
+        <Route path="Livraison" element={<Livraison />} />
+        <Route path="Paiment" element={<Paiment />} />
+        <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
+        <Route path="CommandeEffectuer" element={<CommandeEffectuer />} />
+        <Route path="Mescommande" element={<Mescommande />} />
         <Route path="Menu" element={<Menu />} />
         <Route path="/produit/:id" element={<Produit />} />
       </Route>    
