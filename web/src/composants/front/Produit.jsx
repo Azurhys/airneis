@@ -12,9 +12,9 @@ const Produit = () => {
        
     if (produits && produits.length > 0) {
         if (produits[produitId].quantity > 0){
-            PanierAchat = "btn btn-success"
+            PanierAchat = "btn btn-brown"
         } else {
-            PanierAchat = "btn btn-danger"
+            PanierAchat = "btn btn-brown-reverse"
         }
     }
     
