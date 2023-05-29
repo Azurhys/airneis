@@ -8,7 +8,16 @@ const Produit = () => {
     const { id } = useParams();
 
     const produitId = Number(id);
-
+    let PanierAchat = "";
+       
+    if (produits && produits.length > 0) {
+        if (produits[produitId].quantity > 0){
+            PanierAchat = "btn btn-success"
+        } else {
+            PanierAchat = "btn btn-danger"
+        }
+    }
+    
     let produit;
     if (produits && produits.length > 0) {
         produit = produits.find((p) => p.product_id === produitId);
@@ -19,6 +28,7 @@ const Produit = () => {
       if (produits && produits.length > 0) {
         const produitId = produits[0].product_id;
         const produit = produits.find((p) => p.product_id === produitId);
+        
         }
     return (
     <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
@@ -60,6 +70,13 @@ const Produit = () => {
                     <p className="my-4">
                     {produits[produitId].description}
                     </p>
+                    }
+                </div>
+                <div>
+                    { produits && produits[produitId] &&
+                    <button className={PanierAchat}>
+                        {produits[produitId].quantity > 0 ? "Ajouter au panier" : "Rupture de stock"}
+                    </button>
                     }
                 </div>
             </div>
