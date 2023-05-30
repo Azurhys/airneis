@@ -2,11 +2,13 @@ import Caroussel from "../back/Caroussel";
 import { useProduit } from "../../hook/useProduit";
 import { RecommandationsProduits } from "../back/RecommandationsProduits";
 import { useParams } from 'react-router-dom';
+import { cartContext } from "../../context/CartContext";
+import { useContext } from "react";
 
 const Produit = () => {
     const [produits] = useProduit();
     const { id } = useParams();
-
+    const { addToCart } = useContext(cartContext);
     const produitId = Number(id);
     let PanierAchat = "";
        
@@ -74,7 +76,7 @@ const Produit = () => {
                 </div>
                 <div>
                     { produits && produits[produitId] &&
-                    <button className={PanierAchat}>
+                    <button className={PanierAchat} onClick={() => addToCart(produits[produitId])}>
                         {produits[produitId].quantity > 0 ? "Ajouter au panier" : "Rupture de stock"}
                     </button>
                     }

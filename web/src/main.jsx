@@ -18,7 +18,7 @@ import Produit from './composants/front/Produit';
 import Panier from './composants/front/Panier';
 import AccountSettings from './composants/front/AccountSettings';
 import Livraison from './composants/front/Livraison';
-import Paiment from './composants/front/Paiment';
+import Paiement from './composants/front/Paiement';
 import ConfirmationPaiment from './composants/front/ConfirmationPaiment';
 import CommandeEffectuer from './composants/front/CommandeEffectuer';
 import Mescommande from './composants/front/Mescommande';
@@ -30,38 +30,41 @@ import Backoffice from './composants/front/Backoffice';
 import MesCommandes from './composants/front/MesCommandes';
 import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
+import {CartContextProvider} from './context/CartContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
-<BrowserRouter>
-    <Routes>
-      <Route path='/' element={<App />}> 
-        <Route index element={<Accueil />} />
+  <CartContextProvider>
+    <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<App />}> 
+            <Route index element={<Accueil />} />
 
-        <Route path='Categorie/Table' element={<Table />} />
-        <Route path='Categorie/Meuble' element={<Meuble />} />
-        <Route path='Categorie/Lit' element={<Lit />} />
-        <Route path="/categorie/:category_id" element={<Categorie  />} />
-        <Route path='Inscription' element={<Inscription />} />
-        <Route path='Connexion' element={<Connexion />} />
-        <Route path='Backoffice' element={<Backoffice />} />
-        <Route path='CGU' element={<Cgu />} />
-        <Route path='Mentions-Legales' element={<MentionsLegales />} />
-        <Route path='Contact' element={<Contact />} />
-        <Route path='settings' element={<AccountSettings />} />
-        <Route path='mescommandes' element={<MesCommandes />} />
-        <Route path='recherche' element={<Recherche />} />
-        <Route path="panier" element={<Panier />} />
-        <Route path="Livraison" element={<Livraison />} />
-        <Route path="Paiment" element={<Paiment />} />
-        <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
-        <Route path="CommandeEffectuer" element={<CommandeEffectuer />} />
-        <Route path="Mescommande" element={<Mescommande />} />
-        <Route path="Menu" element={<Menu />} />
-        <Route path="/produit/:id" element={<Produit />} />
-      </Route>    
-    </Routes>
-</BrowserRouter>
+            <Route path='Categorie/Table' element={<Table />} />
+            <Route path='Categorie/Meuble' element={<Meuble />} />
+            <Route path='Categorie/Lit' element={<Lit />} />
+            <Route path="/categorie/:category_id" element={<Categorie  />} />
+            <Route path='Inscription' element={<Inscription />} />
+            <Route path='Connexion' element={<Connexion />} />
+            <Route path='Backoffice' element={<Backoffice />} />
+            <Route path='CGU' element={<Cgu />} />
+            <Route path='Mentions-Legales' element={<MentionsLegales />} />
+            <Route path='Contact' element={<Contact />} />
+            <Route path='settings' element={<AccountSettings />} />
+            <Route path='mescommandes' element={<MesCommandes />} />
+            <Route path='recherche' element={<Recherche />} />
+            <Route path="panier" element={<Panier />} />
+            <Route path="Livraison" element={<Livraison />} />
+            <Route path="Paiement" element={<Paiement />} />
+            <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
+            <Route path="CommandeEffectuer" element={<CommandeEffectuer />} />
+            <Route path="Mescommande" element={<Mescommande />} />
+            <Route path="Menu" element={<Menu />} />
+            <Route path="/produit/:id" element={<Produit />} />
+          </Route>    
+        </Routes>
+    </BrowserRouter>
+  </CartContextProvider>
 </AuthContextProvider>
     
 )
