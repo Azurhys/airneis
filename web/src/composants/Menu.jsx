@@ -59,8 +59,8 @@ const Menu = () => {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/paiment" className="nav-link text-light">
-                            Paiment
+                        <NavLink to="/paiement" className="nav-link text-light">
+                            Paiement
                         </NavLink>
                     </li>
 

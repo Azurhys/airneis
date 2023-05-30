@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContext } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
+import { AuthContext } from '../../context/Authcontext';
+import { useNavigate } from 'react-router-dom';
 
 const Livraison = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, userName, logout, categoryId } = useContext(AuthContext);
 
-    return <div className="mb-3">
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion"); // or the path of your login page
+        }
+    }, [isAuthenticated, navigate]);
+
+    return (
+        
+    <div className="mb-3">
         <div className="mb-5">
         <br/>
         <br/>
@@ -12,7 +24,7 @@ const Livraison = () => {
         </div>
 
         <Dropdown>
-        <Dropdown.Toggle classname ="btn btn-primary " id="dropdown-basic">
+        <Dropdown.Toggle classname ="btn btn-brown " id="dropdown-basic">
             Maison
         </Dropdown.Toggle>
 
@@ -47,14 +59,14 @@ const Livraison = () => {
                 className="mb-3" 
                 />
                 <br/>
-                <label for="fname"className="fw-bold">Adresse 2</label>
+                <label for="fname" className="fw-bold">Adresse 2</label>
                 <br/>
                 <input type="text" 
                 name="adresse"
                 className="mb-3" 
                 />
                 <br/>
-                <label for="fname"className="fw-bold">Ville</label>
+                <label for="fname" className="fw-bold">Ville</label>
                 <br/>
                 <input type="text" 
                 name="ville" 
@@ -71,11 +83,11 @@ const Livraison = () => {
     
 
             <div className="">
-            <a href="/Paiment" class="btn btn-primary">PASSER AU PAIMENT</a>
+            <a href="/Paiment" class="btn btn-brown">PASSER AU PAIMENT</a>
             </div>
 
         </div>
-    </div>;
+    </div>);
 }
  
 export default Livraison;
