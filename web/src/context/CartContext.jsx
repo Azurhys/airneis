@@ -28,14 +28,19 @@ export function CartContextProvider({children}) {
 
     };
 
-    function updateQuantity(productId, quantity){
-        setCart(cart.map(item => 
-            item.id === productId 
-                ? {...item, quantityInCart: Number(quantity)} 
-                : item
-        ));
-        localStorage.setItem('cart', JSON.stringify(cart));
-    };
+    const updateQuantity = (productId, quantity) => {
+      setCart(prevCart => {
+          return prevCart.map((product) => {
+              if (product.id === productId) {
+                  return {
+                      ...product,
+                      quantityInCart: Math.min(quantity, product.quantity),
+                  }
+              }
+              return product;
+          });
+      });
+  };
 
 
     const removeFromCart = (productId) => {
