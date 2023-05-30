@@ -60,7 +60,7 @@ const Menu = () => {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/paiment" className="nav-link text-light">
+                        <NavLink to="/paiement" className="nav-link text-light">
                             Paiement
                         </NavLink>
                     </li>
