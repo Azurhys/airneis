@@ -1,9 +1,9 @@
 import PanierProduit from "./PanierProduit";
-import { cartContext } from "../../context/CartContext";
+import { cartContext} from "../../context/CartContext";
 import { useContext } from "react";
 
 const Panier = () => {
-    const { cart } = useContext(cartContext);
+    const { cart, updateQuantity, removeFromCart } = useContext(cartContext);
     const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
     const tva = total * 0.2;
     
@@ -27,8 +27,11 @@ const Panier = () => {
                 </div>
                 <div className="w-25">
                     <p>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}</p>
-                    <input type= "text" class="w-25 gap-3 mb-3" value={product.quantityInCart}/>
+                    <input type="number" class="w-90 gap-3 mb-3" min="1" 
+                        value={product.quantityInCart} 
+                        onChange={e => updateQuantity(product.id, e.target.value)} />
                     <i class="bi bi-trash d-flex flex-column "></i>
+                    <button className="btn btn-danger" onClick={() => removeFromCart(product.id)}>Supprimer</button>
                 </div>
             
             
@@ -44,7 +47,7 @@ const Panier = () => {
                     <h2 class="text-muted fs-6 d-flex justify-content-between">TVA
                     <span>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}</span>
                     </h2>
-                    <a href="" class="btn btn-primary">PASSER LA COMMANDE</a>
+                    
                 </div>
         </div>      
         </div>

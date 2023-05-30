@@ -4,8 +4,10 @@ import React from "react";
 export const cartContext = React.createContext();
 
 export function CartContextProvider({children}) {
-  const [cart, setCart] = useState([]);
-
+    const [cart, setCart] = useState(() => {
+        const localCart = localStorage.getItem('cart');
+        return localCart ? JSON.parse(localCart) : [];
+    });
   function addToCart(product){
     // Vérifie si le produit est déjà dans le panier
     const existingProduct = cart.find(item => item.id === product.id);
@@ -17,23 +19,40 @@ export function CartContextProvider({children}) {
                 ? {...item, quantityInCart: item.quantityInCart + 1} 
                 : item
         ));
+        localStorage.setItem('cart', JSON.stringify(cart));
     } else {
         // Si le produit n'est pas encore dans le panier, ajoute-le avec quantityInCart égale à 1
         setCart([...cart, {...product, quantityInCart: 1}]);
+        localStorage.setItem('cart', JSON.stringify(cart));
     }
+
+    };
+
+    function updateQuantity(productId, quantity){
+        setCart(cart.map(item => 
+            item.id === productId 
+                ? {...item, quantityInCart: Number(quantity)} 
+                : item
+        ));
+        localStorage.setItem('cart', JSON.stringify(cart));
     };
 
 
-  function removeFromCart(item) {
-    setCart(cart.filter(i => i !== item));
-  }
-
+    const removeFromCart = (productId) => {
+        console.log("Removing product with id:", productId);
+        const newCart = cart.filter(item => item.id !== productId);
+        console.log("New cart:", newCart);
+        setCart(newCart);
+        localStorage.setItem('cart', JSON.stringify(newCart));
+    };
+    
+    
   function clearCart() {
     setCart([]);
   }
 
   return (
-    <cartContext.Provider value={{cart, addToCart, removeFromCart, clearCart}}>
+    <cartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart }}>
       {children}
     </cartContext.Provider>
   );
