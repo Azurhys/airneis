@@ -5,7 +5,7 @@ export const AuthContext = createContext({});
 export function AuthContextProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState(null);
-  const [categoryId, setCategoryId] = useState(null);
+  const [categorie_user_Id, setCategoryId] = useState(null);
   const [user_Id, setuser_Id]=useState(null);
 
   useEffect(() => {
@@ -16,16 +16,15 @@ export function AuthContextProvider({ children }) {
     }
   }, []);
 
-  const login = (firstName, categoryId, user_Id) => {
+  const login = (firstName, categorie_user_Id, user_Id) => {
     localStorage.setItem('token', '123456789');
     localStorage.setItem('userName', firstName);
-    localStorage.setItem('categoryID', categoryId);
+    localStorage.setItem('categoryID', categorie_user_Id);
     localStorage.setItem('userID', user_Id);
     setIsAuthenticated(true);
     setUserName(firstName);
-    setCategoryId(categoryId);
+    setCategoryId(categorie_user_Id);
     setuser_Id(user_Id);
-    console.log(user_Id)
   };
 
 
@@ -39,7 +38,7 @@ export function AuthContextProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userName, login, logout, categoryId, user_Id }}>
+    <AuthContext.Provider value={{ isAuthenticated, userName, login, logout, categorie_user_Id, user_Id }}>
       {children}
     </AuthContext.Provider>
   );

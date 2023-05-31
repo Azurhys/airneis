@@ -4,7 +4,7 @@ import axios from 'axios';
 const useLoginValidation = (email, password) => {
   const [isValid, setIsValid] = useState(false);
   const [firstName, setFirstName] = useState('');
-  const [categoryId, setCategoryId] = useState('');
+  const [categorie_user_Id, setCategoryId] = useState('');
   const [user_Id, setuser_Id]=useState('');
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const useLoginValidation = (email, password) => {
         if (matchedClient) {
           setIsValid(true);
           setFirstName(matchedClient.firstName);
-          setCategoryId(matchedClient.category_id);
+          setCategoryId(matchedClient.categorie_user_Id);
           setuser_Id(matchedClient.user_Id);
         } else {
           setIsValid(false);
@@ -32,7 +32,7 @@ const useLoginValidation = (email, password) => {
     fetchData();
   }, [email, password]);
   console.log(user_Id)
-  return { isValid, firstName, categoryId, user_Id };
+  return { isValid, firstName, categorie_user_Id, user_Id };
 };
 
 export default useLoginValidation;
