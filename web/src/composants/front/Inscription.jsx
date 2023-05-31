@@ -24,9 +24,7 @@ const RegistrationPage = () => {
       return;
     } else {
       setErrorMessage("Inscription réussie !");
-      setTimeout(() => {
-        window.location.href = "/";// A revoir car pas opti
-      }, 1400); // Temps d'attente de 1.4 secondes avant la redirection
+        window.location.href = "/";// A revoir car pas opti 
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}clients.json`, formData);

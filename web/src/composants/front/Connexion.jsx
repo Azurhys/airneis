@@ -11,7 +11,7 @@ const ConnexionPage = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const isLoginValid = useLoginValidation(formData.email, formData.password);
-  const { isValid, firstName, categoryId} = isLoginValid;
+  const { isValid, firstName, categorie_user_Id} = isLoginValid;
 
 
   const { isAuthenticated, login} = useContext(AuthContext);
@@ -27,7 +27,7 @@ const ConnexionPage = () => {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrect.");
       console.log(firstName)
     } else {
-      login(firstName, categoryId);
+      login(firstName, categorie_user_Id);
       window.location.href = '/';
     }
   };
