@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import useLoginValidation from '../../verif/useLoginValidation';
 import { AuthContext } from '../../context/Authcontext';
 import { cartContext } from '../../context/CartContext';
-import { useNavigate } from 'react-router-dom';
 
 const ConnexionPage = () => {
-  const { checkoutInProgress, startCheckout, completeCheckout }= useContext(cartContext)
+  const navigate = useNavigate();
+  const { checkoutInProgress, startCheckout, completeCheckout }= useContext(cartContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -31,13 +31,16 @@ const ConnexionPage = () => {
       console.log(firstName)
     } else {
       login(firstName, categoryId);
-      if (checkoutInProgress) {
-        navigate('/livraison');
-      } else {
-        window.location.href = '/';
-      }
     }
   };
+
+  useEffect(() => {
+    if (checkoutInProgress && isAuthenticated) {
+        navigate('/livraison');
+    } else if (!checkoutInProgress && isAuthenticated) {
+        navigate('/');
+    }
+}, [checkoutInProgress, isAuthenticated, navigate]);
 
   return (
     <>
