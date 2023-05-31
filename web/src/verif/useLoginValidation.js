@@ -5,6 +5,7 @@ const useLoginValidation = (email, password) => {
   const [isValid, setIsValid] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [user_Id, setuser_Id]=useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,10 +17,12 @@ const useLoginValidation = (email, password) => {
           setIsValid(true);
           setFirstName(matchedClient.firstName);
           setCategoryId(matchedClient.category_id);
+          setuser_Id(matchedClient.user_Id);
         } else {
           setIsValid(false);
           setFirstName('');
           setCategoryId('');
+          setuser_Id('');
         }
       } catch (error) {
         console.error(error);
@@ -28,8 +31,8 @@ const useLoginValidation = (email, password) => {
 
     fetchData();
   }, [email, password]);
-
-  return { isValid, firstName, categoryId };
+  console.log(user_Id)
+  return { isValid, firstName, categoryId, user_Id };
 };
 
 export default useLoginValidation;

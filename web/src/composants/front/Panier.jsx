@@ -1,16 +1,15 @@
-import PanierProduit from "./PanierProduit";
 import { cartContext} from "../../context/CartContext";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-
+import useLoginValidation from '../../verif/useLoginValidation';
 
 const Panier = () => {
     const { cart, updateQuantity, removeFromCart, startCheckout,checkoutInProgress,clearCart } = useContext(cartContext);
     const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
     const tva = total * 0.2;
-
+    
     useEffect(() => {
         console.log(checkoutInProgress);
     }, [checkoutInProgress]);
