@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 const Panier = () => {
-    const { cart, updateQuantity, removeFromCart } = useContext(cartContext);
+    const { cart, updateQuantity, removeFromCart, startCheckout } = useContext(cartContext);
     const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
     const tva = total * 0.2;
     const handleCheckout = async () => {
@@ -48,7 +48,7 @@ const Panier = () => {
         localStorage.setItem('cart', JSON.stringify(updatedProducts))
         setCart([]);
         localStorage.removeItem('cart');
-        
+        startCheckout();
         }catch (error) {
             console.error("Error processing checkout: ", error);
         }

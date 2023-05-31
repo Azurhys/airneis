@@ -8,6 +8,18 @@ export function CartContextProvider({children}) {
         const localCart = localStorage.getItem('cart');
         return localCart ? JSON.parse(localCart) : [];
     });
+    const [checkoutInProgress, setCheckoutInProgress] = useState(false);
+
+    
+
+    const startCheckout = () => {
+        setCheckoutInProgress(true);
+    };
+
+    const completeCheckout = () => {
+        setCheckoutInProgress(false);
+    };
+
   function addToCart(product){
     // Vérifie si le produit est déjà dans le panier
     const existingProduct = cart.find(item => item.id === product.id);
@@ -57,7 +69,8 @@ export function CartContextProvider({children}) {
   }
 
   return (
-    <cartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart }}>
+    <cartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, checkoutInProgress, startCheckout, 
+      completeCheckout }}>
       {children}
     </cartContext.Provider>
   );
@@ -67,5 +80,3 @@ export function CartContextProvider({children}) {
 
 export default CartContextProvider ;
 
-// value={{a: 1, b : 2}}
-// const value = {a: 1, b : 2}
