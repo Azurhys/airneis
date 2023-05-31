@@ -1,42 +1,49 @@
 [
   {
-    "category_id": 1,
+    "user_Id": 0,
+    "categorie_user_Id": 1,
     "email": "antoine@antoine.fr",
     "firstName": "Antoine",
     "password": "antoine"
   },
   {
-    "category_id": 1,
+    "user_Id": 1,
+    "categorie_user_Id": 1,
     "email": "romain@romain.fr",
     "firstName": "Romain",
     "password": "romain"
   },
   {
-    "category_id": 1,
+    "user_Id": 2,
+    "categorie_user_Id": 1,
     "email": "victor@victor.fr",
     "firstName": "Victor",
     "password": "victor"
   },
   {
-    "category_id": 1,
+    "user_Id": 3,
+    "categorie_user_Id": 1,
     "email": "rayan@rayan.fr",
     "firstName": "Rayan",
     "password": "rayan"
   },
   {
-    "category_id": 0,
+    "user_Id": 4,
+    "categorie_user_Id": 0,
     "email": "random@random.fr",
     "firstName": "random",
     "password": "random"
   },
   {
-    "category_id": 0,
+    "user_Id": 5,
+    "categorie_user_Id": 0,
     "email": "test@test.fr",
     "firstName": "test",
     "password": "test"
   },
   {
-    "category_id": 0,
+    "user_Id": 6,
+    "categorie_user_Id": 0,
     "email": "jean@jean.fr",
     "firstName": "Jean",
     "password": "jean"
