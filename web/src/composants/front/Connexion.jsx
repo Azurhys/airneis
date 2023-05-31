@@ -2,8 +2,11 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import useLoginValidation from '../../verif/useLoginValidation';
 import { AuthContext } from '../../context/Authcontext';
+import { cartContext } from '../../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const ConnexionPage = () => {
+  const { checkoutInProgress, startCheckout, completeCheckout }= useContext(cartContext)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,7 +31,11 @@ const ConnexionPage = () => {
       console.log(firstName)
     } else {
       login(firstName, categoryId);
-      window.location.href = '/';
+      if (checkoutInProgress) {
+        navigate('/livraison');
+      } else {
+        window.location.href = '/';
+      }
     }
   };
 

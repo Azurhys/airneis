@@ -70,7 +70,7 @@ export function CartContextProvider({children}) {
 
   return (
     <cartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, checkoutInProgress, startCheckout, 
-      completeCheckout }}>
+      completeCheckout, clearCart }}>
       {children}
     </cartContext.Provider>
   );

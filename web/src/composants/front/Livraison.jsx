@@ -38,42 +38,42 @@ const Livraison = () => {
         <div className="">
 
             <form className="">
-            <label for="fname"className="fw-bold">Prénom</label>
+            <label htmlhtmlFor="fname"className="fw-bold">Prénom</label>
             <br/>
                 <input type="text"
                     name="prenom" 
                     className="mb-3" 
                 />
             <br/>
-                <label for="fname"className="fw-bold">Nom</label>
+                <label htmlFor="fname"className="fw-bold">Nom</label>
                 <br/>
                 <input type="text" 
                     name="nom" 
                     className="mb-3" 
                 />
             <br/>
-                <label for="fname"className="fw-bold">Adresse 1</label>
+                <label htmlFor="fname"className="fw-bold">Adresse 1</label>
                 <br/>
                 <input type="text" 
                 name="adresse"
                 className="mb-3" 
                 />
                 <br/>
-                <label for="fname" className="fw-bold">Adresse 2</label>
+                <label htmlFor="fname" className="fw-bold">Adresse 2</label>
                 <br/>
                 <input type="text" 
                 name="adresse"
                 className="mb-3" 
                 />
                 <br/>
-                <label for="fname" className="fw-bold">Ville</label>
+                <label htmlFor="fname" className="fw-bold">Ville</label>
                 <br/>
                 <input type="text" 
                 name="ville" 
                 className="mb-3" 
                 />
                 <br/>
-                <label for="fname"className="fw-bold">Code Postal</label>
+                <label htmlFor="fname"className="fw-bold">Code Postal</label>
                 <br/>
                 <input type="text" 
                 name="ville"

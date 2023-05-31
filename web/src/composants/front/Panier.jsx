@@ -3,16 +3,23 @@ import { cartContext} from "../../context/CartContext";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
+
 
 const Panier = () => {
-    const { cart, updateQuantity, removeFromCart, startCheckout } = useContext(cartContext);
+    const { cart, updateQuantity, removeFromCart, startCheckout,checkoutInProgress,clearCart } = useContext(cartContext);
     const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
     const tva = total * 0.2;
+
+    useEffect(() => {
+        console.log(checkoutInProgress);
+    }, [checkoutInProgress]);
+
     const handleCheckout = async () => {
         // Get user_id
         // In this case, I will use a dummy user_id
         const user_id = "user123";
-    
+        startCheckout();
         // Prepare the data to be sent
         const panierData = {
             user_id: user_id,
@@ -44,11 +51,10 @@ const Panier = () => {
         ));
 
         // If all product updates succeed, update the cart state and clear the local storage
-        setCart(updatedProducts); // update cart with new quantities
         localStorage.setItem('cart', JSON.stringify(updatedProducts))
-        setCart([]);
+        clearCart();
         localStorage.removeItem('cart');
-        startCheckout();
+        
         }catch (error) {
             console.error("Error processing checkout: ", error);
         }
