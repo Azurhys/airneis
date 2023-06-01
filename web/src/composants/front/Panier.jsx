@@ -20,6 +20,7 @@ const Panier = () => {
 
         // Stocker le numéro de commande dans le localStorage
         localStorage.setItem('orderNumber', orderNumber);
+
         startCheckout();
         // Prepare the data to be sent
         const panierData = {
@@ -30,6 +31,9 @@ const Panier = () => {
             orderNumber: orderNumber,
             timestamp: Date.now()   // Set the current timestamp
         };
+
+        localStorage.setItem('cart', JSON.stringify(panierData));
+        
         const updatedProducts = cart.map(product => {
             return {
                 ...product,
