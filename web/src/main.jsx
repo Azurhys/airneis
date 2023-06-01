@@ -20,17 +20,16 @@ import AccountSettings from './composants/front/AccountSettings';
 import Livraison from './composants/front/Livraison';
 import Paiement from './composants/front/Paiement';
 import ConfirmationPaiment from './composants/front/ConfirmationPaiment';
-import CommandeEffectuer from './composants/front/CommandeEffectuer';
 import Mescommande from './composants/front/Mescommande';
 import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
 import Recherche from './composants/front/Recherche';
 import './app.css'
 import Backoffice from './composants/front/Backoffice';
-import MesCommandes from './composants/front/MesCommandes';
 import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
 import {CartContextProvider} from './context/CartContext';
+import MaCommande from './composants/front/MaCommande';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
@@ -51,13 +50,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='Mentions-Legales' element={<MentionsLegales />} />
             <Route path='Contact' element={<Contact />} />
             <Route path='settings' element={<AccountSettings />} />
-            <Route path='mescommandes' element={<MesCommandes />} />
+            <Route path='macommande' element={<MaCommande />} />
             <Route path='recherche' element={<Recherche />} />
             <Route path="panier" element={<Panier />} />
             <Route path="Livraison" element={<Livraison />} />
             <Route path="Paiement" element={<Paiement />} />
             <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
-            <Route path="CommandeEffectuer" element={<CommandeEffectuer />} />
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
             <Route path="/produit/:id" element={<Produit />} />

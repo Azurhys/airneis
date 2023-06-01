@@ -9,12 +9,43 @@ const Livraison = () => {
     const navigate = useNavigate();
     const { isAuthenticated, userName, logout, user_Id } = useContext(AuthContext);
     const userIdFromStorage = localStorage.getItem('userID');
+    const [adresses, setAdresses] = useState([]);
+    const [selectedAdresse, setSelectedAdresse] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/connexion"); // or the path of your login page
         }
+        // Appeler l'API pour obtenir les adresses
+        fetchAdresses();
     }, [isAuthenticated, navigate]);
+
+    useEffect(() => {
+        if (selectedAdresse) {
+            setPrenom(selectedAdresse.prenom);
+            setNom(selectedAdresse.nom);
+            setAdresse1(selectedAdresse.adresse1);
+            setAdresse2(selectedAdresse.adresse2);
+            setVille(selectedAdresse.ville);
+            setCodePostal(selectedAdresse.codePostal);
+        }
+    }, [selectedAdresse]);
+
+    const fetchAdresses = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API}adresses.json`);
+            const adressesData = response.data;
+            const userAdresses = Object.values(adressesData).filter((adresse) => adresse.user_Id === userIdFromStorage);
+            setAdresses(userAdresses);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleAdresseSelect = (id) => {
+        const selectedAdresse = adresses.find(adresse => adresse.id === id);
+        setSelectedAdresse(selectedAdresse);
+    }
 
     const [prenom, setPrenom] = useState('');
     const [nom, setNom] = useState('');
@@ -25,7 +56,6 @@ const Livraison = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(userIdFromStorage)
         // Données du formulaire à envoyer
         const data = {
             user_Id: userIdFromStorage,
@@ -36,11 +66,28 @@ const Livraison = () => {
             ville: ville,
             codePostal: codePostal,
         };
-        console.log(data)
+
+        // Stocker l'adresse de livraison dans le localStorage
+        localStorage.setItem('deliveryAddress', JSON.stringify(data));
+
+        // Vérifiez si l'adresse sélectionnée correspond aux données du formulaire
+        if (selectedAdresse &&
+            selectedAdresse.prenom === prenom &&
+            selectedAdresse.nom === nom &&
+            selectedAdresse.adresse1 === adresse1 &&
+            selectedAdresse.adresse2 === adresse2 &&
+            selectedAdresse.ville === ville &&
+            selectedAdresse.codePostal === codePostal) {
+            // Si c'est le cas, ne faites rien et naviguez directement vers la page de paiement
+            navigate("/paiement");
+            return;
+        }
+    
+        // Sinon, procédez comme d'habitude
         try {
             // Envoyer les données à l'API avec axios
             const response = await axios.post(`${import.meta.env.VITE_API}adresses.json`, data);
-        
+    
             // Si tout se passe bien, affiche un message dans la console
             if (response.status === 200) {
                 console.log("Adresse enregistrée");
@@ -51,6 +98,7 @@ const Livraison = () => {
             console.error(error);
         }
     };
+    
     return (
         
     <div className="mb-3 mx-5">
@@ -61,16 +109,18 @@ const Livraison = () => {
         </div>
 
         <Dropdown>
-        <Dropdown.Toggle classname ="btn btn-brown " id="dropdown-basic">
-            Maison
-        </Dropdown.Toggle>
+                <Dropdown.Toggle id="dropdown-basic">
+                    Sélectionnez une adresse
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    {adresses.map(adresse => (
+                        <Dropdown.Item onClick={() => handleAdresseSelect(adresse.id)} key={adresse.id}>
+                            {adresse.adresse1}, {adresse.ville}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
 
-        <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Appartement</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-        </Dropdown.Menu>
-        </Dropdown>
         <br/>
         <div className="">
 
