@@ -12,28 +12,47 @@ const MesCommandes = () => {
 
     // Triez les commandes par année
     const commandesByYear = userCommandes.reduce((acc, commande) => {
-        const year = new Date(commande.date).getFullYear();
-        if (!acc[year]) {
-            acc[year] = [];
+        const [day, month, year] = commande.orderDate.split("/").map(Number); // convertir en tableau de nombres
+        const date = new Date(year, month - 1, day); // créer un objet Date
+        const fullYear = date.getFullYear(); // obtenir l'année complète (4 chiffres)
+
+        if (!acc[fullYear]) {
+            acc[fullYear] = [];
         }
-        acc[year].push(commande);
+        acc[fullYear].push(commande);
         return acc;
     }, {});
 
+    const getTotalItems = (cartItems) => {
+        let total = 0;
+        for (const item of cartItems) {
+            total += item.quantityInCart;
+        }
+        return total;
+    };
+
     return (
         <div>
-            <h1>Mes Commandes</h1>
-            {Object.keys(commandesByYear).sort().reverse().map(year => (
-                <div key={year}>
-                    <h2>{year}</h2>
-                    {commandesByYear[year].map(commande => (
-                        <div key={commande.id}>
-                            <p>Commande n°: {commande.orderId}</p>
-                            {/* Ajoutez ici plus d'informations sur la commande si nécessaire */}
-                        </div>
-                    ))}
+            <h1 className='text-center my-5'>Mes Commandes</h1>
+            <div className='text-center'>
+                <div className='d-flex  flex-column'>
+                {Object.keys(commandesByYear).sort().reverse().map(year => (
+                    <div key={year}>
+                        <h1>{year}</h1>
+                        {commandesByYear[year].map(commande => (
+                            <div key={commande.id} className='d-flex flex-wrap my-3'>
+                                <h4 className='w-50'>{commande.orderDate} - {commande.orderId}</h4>
+                                <h4 className='w-50'>{commande.status}</h4>
+                                <br />
+                                <h5 className='w-50 text-secondary'>{getTotalItems(commande.cartItems.cart)} articles</h5>
+                                <h5 className='w-50'>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(commande.cartItems.total)}</h5>
+                                {/* Ajoutez ici plus d'informations sur la commande si nécessaire */}
+                            </div>
+                        ))}
+                    </div>
+                ))}
                 </div>
-            ))}
+            </div>
         </div>
     );
 }

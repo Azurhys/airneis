@@ -5,6 +5,11 @@ import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
 import { cartContext } from '../../context/CartContext';
 
+function getRandomStatus() {
+    const statuses = ['EN COURS', 'LIVRÉE'];
+    return statuses[Math.floor(Math.random() * statuses.length)];
+}
+
 const Paiment = () => {
     const navigate = useNavigate();
     const { isAuthenticated, userName, logout } = useContext(AuthContext);
@@ -86,7 +91,8 @@ const Paiment = () => {
                 cartItems: cartItems,
                 deliveryAddress: deliveryAddress,
                 paymentMethod: paymentDetails,
-                orderDate: formattedDate
+                orderDate: formattedDate,
+                status: getRandomStatus()
             };
 
             // Stocker la commande dans la base de données
