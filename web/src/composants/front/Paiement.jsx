@@ -1,60 +1,133 @@
-import React, { useState } from "react";
-import Dropdown from 'react-bootstrap/Dropdown';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../context/Authcontext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Dropdown } from 'react-bootstrap';
 
 const Paiment = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, userName, logout } = useContext(AuthContext);
+    const userIdFromStorage = localStorage.getItem('userID');
+    const [cardName, setCardName] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvv, setCvv] = useState('');
+    const [paymentOptions, setPaymentOptions] = useState([]);
+    const [selectedPayment, setSelectedPayment] = useState(null);
 
-return <div className="flex-column gap-3 mb-3 ">
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion");
+        }
+        fetchPaymentOptions();
+    }, [isAuthenticated, navigate]);
 
-    <div className="mb-5">
-    <br/>
-    <br/>
-        <h1 className="text-center">Paiment</h1>
-    </div>
+    const fetchPaymentOptions = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API}facturation.json`);
+            const paymentCards = Object.values(response.data).filter(card => card.user_Id === userIdFromStorage);
+            setPaymentOptions(paymentCards);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-    <Dropdown>
-        <Dropdown.Toggle classname ="btn btn-primary" id="dropdown-basic">
-            Master Card 7812
-        </Dropdown.Toggle>
+    const handlePaymentSelect = (payment) => {
+        setSelectedPayment(payment);
+        setCardName(payment.cardName);
+        setCardNumber(payment.cardNumber);
+        setExpiryDate(payment.expiryDate);
+        setCvv(payment.cvv);
+    };
 
-        <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Master Card 0492</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Master Card 9649</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Master Card 2456</Dropdown.Item>
-        </Dropdown.Menu>
-        </Dropdown>
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (!selectedPayment) {
+            const data = {
+                user_Id: userIdFromStorage,
+                cardName: cardName,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cvv: cvv
+            };
+            try {
+                const response = await axios.post(`${import.meta.env.VITE_API}facturation.json`, data);
+                if (response.status === 200) {
+                    console.log("Payment information registered");
+                    navigate("/confirmationpaiment");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            console.log("Payment information already exists");
+            navigate("/confirmationpaiment");
+        }
+    };
 
-    <div className="">
-            <form classname="">
-            <label htmlFor="cardNumber"className="fw-bold">Numéro de carte</label>
-            <br />
-            <input type="text"></input>
-
-            <br />
-            <label htmlFor="cardholderName"className="fw-bold">Nom complet </label>
-            <br />
-            <input type="text "></input>
-
-            <br />
-
-            <div className="w-80">
-            <label htmlFor="expirationDate"className="fw-bold">Date d'expiration </label>
-            <br />
-            <input type="text"></input>
-            <br />
-
-            <label htmlFor="cvv"className="fw-bold">Code de sécurité (CVV) </label>
-            <br />
-            <input type="text"></input>
-
+    return (
+        <div className="mb-3 mx-5">
+            <div className="mb-5">
+                <br/>
+                <br/>
+                <h1 className="text-center">Paiement</h1>
             </div>
 
-            <br />
-            <br />
-            <a href="/ConfirmationPaiment" class="btn btn-primary">PASSER LA COMMANDE</a>
+            <Dropdown>
+                <Dropdown.Toggle variant="info" id="dropdown-basic">
+                    Choisissez une option de paiement
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {paymentOptions.map(payment => 
+                        <Dropdown.Item 
+                            key={payment.cardNumber}
+                            onClick={() => handlePaymentSelect(payment)}>
+                            {payment.cardName} - {payment.cardNumber}
+                        </Dropdown.Item>
+                    )}
+                </Dropdown.Menu>
+            </Dropdown>
+            <br/>
+
+            <form>
+                <label className="fw-bold">Nom sur la carte</label>
+                <br/>
+                <input type="text"
+                    value={cardName}
+                    onChange={e => setCardName(e.target.value)}
+                />
+                <br/>
+                <label className="fw-bold">Numéro de carte</label>
+                <br/>
+                <input type="text"
+                    value={cardNumber}
+                    onChange={e => setCardNumber(e.target.value)}
+                />
+                <br/>
+                <label className="fw-bold">Date d'expiration</label>
+                <br/>
+                <input type="text"
+                    value={expiryDate}
+                    onChange={e => setExpiryDate(e.target.value)}
+                />
+                <br/>
+                <label className="fw-bold">CVV</label>
+                <br/>
+                <input type="text"
+                    value={cvv}
+                    onChange={e => setCvv(e.target.value)}
+                />
             </form>
-    </div>
 
-    </div>;
+            <div className="my-3">
+                <button onClick={handleSubmit} className="nav-link btn btn-brown">
+                    Procéder à la confirmation 
+                </button>
+            </div>
+
+        </div>
+    );
 }
-
+ 
 export default Paiment;
