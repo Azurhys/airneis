@@ -56,7 +56,8 @@ const Livraison = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+        let orderNumber;
+        localStorage.setItem('orderNumber', orderNumber);
         // Données du formulaire à envoyer
         const data = {
             user_Id: userIdFromStorage,
@@ -67,7 +68,10 @@ const Livraison = () => {
             ville: ville,
             codePostal: codePostal,
         };
-    
+
+        // Stocker l'adresse de livraison dans le localStorage
+        localStorage.setItem('deliveryAddress', JSON.stringify(data));
+        
         // Vérifiez si l'adresse sélectionnée correspond aux données du formulaire
         if (selectedAdresse &&
             selectedAdresse.prenom === prenom &&

@@ -51,11 +51,6 @@ const Panier = () => {
         await Promise.all(updatedProducts.map(product =>
             axios.put(`${import.meta.env.VITE_API}produits/${product.product_id}.json`, product)
         ));
-
-        // If all product updates succeed, update the cart state and clear the local storage
-        localStorage.setItem('cart', JSON.stringify(updatedProducts))
-        clearCart();
-        localStorage.removeItem('cart');
         
         }catch (error) {
             console.error("Error processing checkout: ", error);

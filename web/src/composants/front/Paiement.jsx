@@ -50,6 +50,8 @@ const Paiment = () => {
                 expiryDate: expiryDate,
                 cvv: cvv
             };
+            // Stocker les détails de paiement dans le localStorage
+            localStorage.setItem('paymentDetails', JSON.stringify(data));
             try {
                 const response = await axios.post(`${import.meta.env.VITE_API}facturation.json`, data);
                 if (response.status === 200) {
@@ -61,6 +63,7 @@ const Paiment = () => {
             }
         } else {
             console.log("Payment information already exists");
+            localStorage.setItem('paymentDetails', JSON.stringify(selectedPayment));
             navigate("/confirmationpaiment");
         }
     };
