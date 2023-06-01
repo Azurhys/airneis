@@ -101,6 +101,8 @@ const Paiment = () => {
                 <label className="fw-bold">Numéro de carte</label>
                 <br/>
                 <input type="text"
+                    pattern="\d*"
+                    maxLength="16"
                     value={cardNumber}
                     onChange={e => setCardNumber(e.target.value)}
                 />
@@ -108,6 +110,8 @@ const Paiment = () => {
                 <label className="fw-bold">Date d'expiration</label>
                 <br/>
                 <input type="text"
+                    pattern="(0[1-9]|1[0-2])\/\d{2}"
+                    maxLength="5"
                     value={expiryDate}
                     onChange={e => setExpiryDate(e.target.value)}
                 />
@@ -115,6 +119,8 @@ const Paiment = () => {
                 <label className="fw-bold">CVV</label>
                 <br/>
                 <input type="text"
+                    pattern="\d{3}"
+                    maxLength="3"
                     value={cvv}
                     onChange={e => setCvv(e.target.value)}
                 />
