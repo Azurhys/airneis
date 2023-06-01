@@ -6,7 +6,7 @@ import { Dropdown } from 'react-bootstrap';
 import { cartContext } from '../../context/CartContext';
 
 function getRandomStatus() {
-    const statuses = ['EN COURS', 'LIVRÉE'];
+    const statuses = ['EN COURS', 'LIVRÉE', 'EXPÉDIÉE'];
     return statuses[Math.floor(Math.random() * statuses.length)];
 }
 
