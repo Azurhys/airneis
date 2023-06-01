@@ -20,7 +20,6 @@ import AccountSettings from './composants/front/AccountSettings';
 import Livraison from './composants/front/Livraison';
 import Paiement from './composants/front/Paiement';
 import ConfirmationPaiment from './composants/front/ConfirmationPaiment';
-import CommandeEffectuer from './composants/front/CommandeEffectuer';
 import Mescommande from './composants/front/Mescommande';
 import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
@@ -57,7 +56,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="Livraison" element={<Livraison />} />
             <Route path="Paiement" element={<Paiement />} />
             <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
-            <Route path="CommandeEffectuer" element={<CommandeEffectuer />} />
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
             <Route path="/produit/:id" element={<Produit />} />

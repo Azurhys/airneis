@@ -9,22 +9,25 @@ const Panier = () => {
     const { cart, updateQuantity, removeFromCart, startCheckout,checkoutInProgress,clearCart } = useContext(cartContext);
     const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
     const tva = total * 0.2;
-    
+    const userIdFromStorage = localStorage.getItem('userID');
+
     useEffect(() => {
         console.log(checkoutInProgress);
     }, [checkoutInProgress]);
 
     const handleCheckout = async () => {
-        // Get user_id
-        // In this case, I will use a dummy user_id
-        const user_id = "user123";
+        let orderNumber = Math.floor(Math.random() * 1e9);
+
+        // Stocker le numéro de commande dans le localStorage
+        localStorage.setItem('orderNumber', orderNumber);
         startCheckout();
         // Prepare the data to be sent
         const panierData = {
-            user_id: user_id,
+            user_id: userIdFromStorage,
             cart: cart,
             total: total,
             tva: tva,
+            orderNumber: orderNumber,
             timestamp: Date.now()   // Set the current timestamp
         };
         const updatedProducts = cart.map(product => {
