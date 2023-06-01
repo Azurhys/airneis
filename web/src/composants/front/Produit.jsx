@@ -2,13 +2,24 @@ import Caroussel from "../back/Caroussel";
 import { useProduit } from "../../hook/useProduit";
 import { RecommandationsProduits } from "../back/RecommandationsProduits";
 import { useParams } from 'react-router-dom';
+import { cartContext } from "../../context/CartContext";
+import { useContext } from "react";
 
 const Produit = () => {
     const [produits] = useProduit();
     const { id } = useParams();
-
+    const { addToCart } = useContext(cartContext);
     const produitId = Number(id);
-
+    let PanierAchat = "";
+       
+    if (produits && produits.length > 0) {
+        if (produits[produitId].quantity > 0){
+            PanierAchat = "btn btn-brown"
+        } else {
+            PanierAchat = "btn btn-brown-reverse"
+        }
+    }
+    
     let produit;
     if (produits && produits.length > 0) {
         produit = produits.find((p) => p.product_id === produitId);
@@ -19,6 +30,7 @@ const Produit = () => {
       if (produits && produits.length > 0) {
         const produitId = produits[0].product_id;
         const produit = produits.find((p) => p.product_id === produitId);
+        
         }
     return (
     <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
@@ -60,6 +72,13 @@ const Produit = () => {
                     <p className="my-4">
                     {produits[produitId].description}
                     </p>
+                    }
+                </div>
+                <div>
+                    { produits && produits[produitId] &&
+                    <button className={PanierAchat} onClick={() => addToCart(produits[produitId])}>
+                        {produits[produitId].quantity > 0 ? "Ajouter au panier" : "Rupture de stock"}
+                    </button>
                     }
                 </div>
             </div>

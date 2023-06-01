@@ -1,9 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import useLoginValidation from '../../verif/useLoginValidation';
 import { AuthContext } from '../../context/Authcontext';
+import { cartContext } from '../../context/CartContext';
 
 const ConnexionPage = () => {
+  const navigate = useNavigate();
+  const { checkoutInProgress, startCheckout, completeCheckout }= useContext(cartContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -11,7 +14,7 @@ const ConnexionPage = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const isLoginValid = useLoginValidation(formData.email, formData.password);
-  const { isValid, firstName, categoryId} = isLoginValid;
+  const { isValid, firstName, categorie_user_Id, user_Id} = isLoginValid;
 
 
   const { isAuthenticated, login} = useContext(AuthContext);
@@ -25,12 +28,18 @@ const ConnexionPage = () => {
     event.preventDefault();
     if (!isValid) {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrect.");
-      console.log(firstName)
     } else {
-      login(firstName, categoryId);
-      window.location.href = '/';
+      login(firstName, categorie_user_Id, user_Id);
     }
   };
+
+  useEffect(() => {
+    if (checkoutInProgress && isAuthenticated) {
+        navigate('/livraison');
+    } else if (!checkoutInProgress && isAuthenticated) {
+        navigate('/');
+    }
+}, [checkoutInProgress, isAuthenticated, navigate]);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import PanierProduit from "./PanierProduit";
 
-const MesCommandes = () => {
+const MaCommande = () => {
 
     return ( <>
     <div className="text-center my-5">
@@ -46,4 +46,4 @@ const MesCommandes = () => {
     </> );
 }
  
-export default MesCommandes;
+export default MaCommande;

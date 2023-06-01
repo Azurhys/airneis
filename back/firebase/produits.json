@@ -29,7 +29,7 @@
             "name": "Table Jaune",
             "description": "Magnifique table Jaune 40x50x90cm",
             "price":"59.99",
-            "image":"lien image",
+            "image":["", "", ""],
             "quantity": 10,
             "category_id":0,
             "enAvant": 0,

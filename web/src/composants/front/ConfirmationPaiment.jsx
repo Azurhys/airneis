@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+
 
 const ConfirmationPaiment = () => {
+
+    const orderNumberFromStorage = localStorage.getItem('orderNumber');
 
 
     return <div className="d-flex flex-column gap-3 mb-3 w-75 ">
@@ -8,19 +11,11 @@ const ConfirmationPaiment = () => {
          <h1 className="text-center">Commande effectuée</h1>
         </div>
 
-        <div className="d-flex gap-3">
-
-
-            <div className="">
-            <b>Votre commande à bien été enregistrée sous le numéro de XXXXXX.<br></br>Vous pouvez suivre son état depuis votre espace client.</b>
+        <div className="d-flex gap-3 text-center">
+            <div className="d-flex w-25">
+                <b>Votre commande à bien été enregistrée sous le numéro {orderNumberFromStorage}.<br></br>Vous pouvez suivre son état depuis votre espace client.</b>
             </div>
-
-            
         </div>
-        
-        
-
-
     </div>;
 }
  

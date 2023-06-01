@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Menu = () => {
-  const { isAuthenticated, userName, logout, categoryId } = useContext(AuthContext);
+  const { isAuthenticated, userName, logout, categorie_user_Id } = useContext(AuthContext);
   const handleLogout = () => {
     logout();
   };
@@ -42,7 +42,7 @@ const Menu = () => {
           <NavLink to="/Backoffice" className={({isActive}) => {
               return isActive ? "nav-link active text-light" : "nav-link"}}>Backoffice
             </NavLink>
-          {/* {categoryId === 1 && isAuthenticated ? (
+          {/* {categorie_user_Id === 1 && isAuthenticated ? (
                     
             <li className="nav-item">
             <NavLink to="/Backoffice" className={({isActive}) => {
@@ -61,8 +61,8 @@ const Menu = () => {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/paiment" className="nav-link text-light">
-                            Paiment
+                        <NavLink to="/paiement" className="nav-link text-light">
+                            Paiement
                         </NavLink>
                     </li>
 
@@ -76,7 +76,7 @@ const Menu = () => {
 
           {isAuthenticated ? (
             <li className="nav-item">
-              <button onClick={handleLogout} className="nav-link">Déconnexion</button>
+              <button onClick={handleLogout} className="nav-link btn btn-br">Déconnexion</button>
             </li>
           ) : (
             <li className="nav-item">
