@@ -1,120 +1,41 @@
-import React, { useState } from "react";
-import Commande from "./Commande";
+import React, { useContext } from 'react';
+import { useCommandes } from '../../hook/useCommandes';
+import { AuthContext } from '../../context/Authcontext';
 
-const Mescommande = () => {
-
-
-    return <div className="mb-3 d-block">
-    <div className="mb-5">
-    <br/>
-    <br/>   
-    <h1 className="text-center">Mes commandes</h1>
-    </div>
-    <h2>2022</h2>
-    <br/>
-
-<div className="">
-    <div className="d-flex">
-        <div className="w-25">
-            <Commande />
-        </div>
-
-        <div className="">
-            <h3 className="">
-                EN COURS
-            </h3>
-            <h3 class="fs-6 d-flex">1200€
-            </h3>
-        </div>    
-    </div>
-
-
-    <div className="d-flex ">
-
-
-        <div className="w-25">
-            <Commande />
-        </div>
-        <div className="">
-            <h3 className="">
-                LIVREE
-            </h3>
-            <h2 class="fs-6 d-flex">1200€
-            </h2>
-        </div> 
-    </div>
+const MesCommandes = () => {
+    const { isAuthenticated, user_Id } = useContext(AuthContext);
+    const [commandes] = useCommandes();
+    const userIdFromStorage = localStorage.getItem('userID');
     
-    <div className="d-flex ">
+    // Filtrer les commandes pour n'obtenir que celles de l'utilisateur connecté
+    const userCommandes = commandes.filter(commande => commande.userId === userIdFromStorage);
 
-    <div className="w-25">
-        <Commande />
-    </div>
+    // Triez les commandes par année
+    const commandesByYear = userCommandes.reduce((acc, commande) => {
+        const year = new Date(commande.date).getFullYear();
+        if (!acc[year]) {
+            acc[year] = [];
+        }
+        acc[year].push(commande);
+        return acc;
+    }, {});
 
-    <div className="">
-        <h3 className="">
-            ANNULER
-        </h3>
-        <h2 class="fs-6 d-flex ">1200€
-        </h2>
-    </div>    
-    </div>
-
-
-    <div className="d-flex ">
-
-        <div className="w-25">
-            <Commande />
+    return (
+        <div>
+            <h1>Mes Commandes</h1>
+            {Object.keys(commandesByYear).sort().reverse().map(year => (
+                <div key={year}>
+                    <h2>{year}</h2>
+                    {commandesByYear[year].map(commande => (
+                        <div key={commande.id}>
+                            <p>Commande n°: {commande.orderId}</p>
+                            {/* Ajoutez ici plus d'informations sur la commande si nécessaire */}
+                        </div>
+                    ))}
+                </div>
+            ))}
         </div>
-
-        <div className="">
-            <h3 className="">
-                LIVREE
-            </h3>
-            <h2 class="fs-6 d-flex ">1200€
-            </h2>
-        </div>    
-    </div>
-
-</div>
-
-    <br/>
-    <h2 className="">2021</h2>
-
-     <br/>
-
-    <div className="d-flex ">
-
-        <div className="w-25">
-            <Commande />
-        </div>
-
-        <div className="">
-            <h3 className="">
-                LIVREE
-            </h3>
-            <h3 class="fs-6 d-flex ">1200€
-            </h3>
-        </div>    
-    </div>
-
-
-    <div className="d-flex ">
-
-
-        <div className="w-25">
-            <Commande />
-        </div>
-        <div className="">
-            <h3 className="">
-                LIVREE
-            </h3>
-            <h2 class="fs-6 d-flex ">1200€
-            </h2>
-        </div> 
-    </div>
-
-
-</div>;
+    );
 }
- 
-export default Mescommande;
+
+export default MesCommandes;
