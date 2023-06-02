@@ -5,6 +5,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import { AuthContext } from '../context/Authcontext';
 import { NavLink } from "react-router-dom";
 
+import Dropdown from 'react-bootstrap/Dropdown';
+
 const Menu = () => {
   const { isAuthenticated, userName, logout, categorie_user_Id } = useContext(AuthContext);
   const handleLogout = () => {
@@ -110,6 +112,20 @@ const Menu = () => {
             <NavLink to="/" className="nav-link">
               <img src="/list.svg" alt="list" width="28" height="28" />
             </NavLink>
+          </li>
+          <li className="nav-item">
+            <Dropdown>
+              <Dropdown.Toggle variant="link" id="dropdown-menu">
+                <img src="/list.svg" alt="list" width="28" height="28" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item as={NavLink} to="/lien1">Lien 1</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/lien2">Lien 2</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/lien3">Lien 3</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/lien4">Lien 4</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/lien5">Lien 5</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </li>
           {isAuthenticated ? (
             <li className="nav-item">
