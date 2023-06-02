@@ -98,8 +98,8 @@ const Paiment = () => {
             // Stocker la commande dans la base de données
             try {
                 // Envoyer les données à l'API avec axios
-                const response = await axios.post(`${import.meta.env.VITE_API}commandes.json`, order);
-
+                const response = await axios.put(`${import.meta.env.VITE_API}commandes/${order.orderId}.json`, order);
+                
                 // Si tout se passe bien, affiche un message dans la console
                 if (response.status === 200) {
                     console.log("Commande enregistrée");
