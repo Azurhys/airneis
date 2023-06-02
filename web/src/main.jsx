@@ -50,7 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='Mentions-Legales' element={<MentionsLegales />} />
             <Route path='Contact' element={<Contact />} />
             <Route path='settings' element={<AccountSettings />} />
-            <Route path='macommande' element={<MaCommande />} />
+            <Route path="/macommande/:orderId" element={<MaCommande />} />
             <Route path='recherche' element={<Recherche />} />
             <Route path="panier" element={<Panier />} />
             <Route path="Livraison" element={<Livraison />} />

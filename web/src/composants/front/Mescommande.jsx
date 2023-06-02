@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useCommandes } from '../../hook/useCommandes';
 import { AuthContext } from '../../context/Authcontext';
+import { NavLink,Link } from 'react-router-dom';
 
 const MesCommandes = () => {
     const { isAuthenticated, user_Id } = useContext(AuthContext);
@@ -46,7 +47,7 @@ const MesCommandes = () => {
                                 <br />
                                 <h5 className='w-50 text-secondary'>{getTotalItems(commande.cartItems.cart)} articles</h5>
                                 <h5 className='w-50'>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(commande.cartItems.total)}</h5>
-                                {/* Ajoutez ici plus d'informations sur la commande si nécessaire */}
+                                <Link to={`/macommande/${commande.orderId}`}>Voir détails</Link>
                             </div>
                         ))}
                     </div>
