@@ -1,13 +1,26 @@
 import { useParams } from 'react-router-dom';
-import PanierProduit from "./PanierProduit";
 import { useCommandes } from '../../hook/useCommandes';
 import axios from 'axios';
+import { useState } from 'react';
 
 const MaCommande = () => {
     const { orderId } = useParams(); 
     const [commandes] = useCommandes();
     const commande = commandes.find(commande => commande.orderId === orderId);
-  
+    
+    // Créez un nouvel état pour la quantité temporaire
+    const [tempQuantities, setTempQuantities] = useState({});
+
+    // Lorsque la quantité dans le champ d'entrée est modifiée, mettez à jour l'état temporaire
+    const handleQuantityChange = (productId, newQuantity) => {
+        setTempQuantities({ ...tempQuantities, [productId]: newQuantity });
+    };
+
+    // Lorsque l'utilisateur clique sur 'Retourner le produit', utilisez la valeur de l'état temporaire pour mettre à jour la quantité dans le panier
+    const handleReturnProduct = (productId) => {
+        updateQuantityInOrder(productId, tempQuantities[productId]);
+    };
+
     if (!commande) {
         return null;
     }
@@ -62,6 +75,12 @@ const MaCommande = () => {
             }
         });
     
+        // Si l'élément n'est pas trouvé, arrêter l'exécution de la fonction
+        if (!itemInOrder) {
+            console.error(`Le produit avec l'id ${productId} n'a pas été trouvé dans la commande.`);
+            return;
+        }
+    
         // Calculer la différence entre la nouvelle et l'ancienne quantité
         const quantityDifference = itemInOrder.quantityInCart - newQuantity;
     
@@ -70,11 +89,17 @@ const MaCommande = () => {
         try {
             await axios.put(`${import.meta.env.VITE_API}commandes/${orderId}.json`, newCommande);
     
-            // Ensuite, mettre à jour le stock du produit dans produits.json
-            const productResponse = await axios.get(`${import.meta.env.VITE_API}produits/${productId}.json`);
-            const product = productResponse.data;
-            const updatedProduct = { ...product, stock: product.stock + quantityDifference };
-            await axios.put(`${import.meta.env.VITE_API}produits/${productId}.json`, updatedProduct);
+            // Ensuite, obtenir tous les produits et trouver celui qui a l'ID correspondant
+            const productsResponse = await axios.get(`${import.meta.env.VITE_API}produits.json`);
+            const products = productsResponse.data;
+            
+            for (const key in products) {
+                if (products[key].product_id === productId) {
+                    const updatedProduct = { ...products[key], quantity: products[key].quantity + quantityDifference };
+                    await axios.put(`${import.meta.env.VITE_API}produits/${key}.json`, updatedProduct);
+                    break;
+                }
+            }
     
             // Recharger la page pour refléter les nouvelles données
             window.location.reload();
@@ -82,7 +107,7 @@ const MaCommande = () => {
             console.error(error);
         }
     };
-
+    
     return (
         <>
         <div className="text-center my-5">
@@ -105,18 +130,16 @@ const MaCommande = () => {
                 <div className="w-25">
                     <p>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}</p>
                     {commande.status === 'EN COURS' && (
-                    <input type="number" class="w-90 gap-3 mb-3" min="1" 
-                        value={product.quantityInCart} 
-                        onChange={e => updateQuantityInOrder(product.id, Number(e.target.value))} />
+                    <input type="number" class="w-90 gap-3 mb-3" min="0" max={product.quantityInCart}
+                    value={tempQuantities[product.product_id] || product.quantityInCart} 
+                    onChange={e => handleQuantityChange(product.product_id, e.target.value)} />
                         )}
-                    {commande.status ==='ANNULÉE' || commande.status === 'LIVRÉE' || commande.status === 'EXPÉDIÉE' (
+                    {commande.status ==='ANNULÉE' || commande.status === 'LIVRÉE' || commande.status === 'EXPÉDIÉE' && (
                         <h4>{product.quantityInCart} exemplaires</h4>
                     )}
                     <i class="bi bi-trash d-flex flex-column "></i>
                     {commande.status === 'EN COURS' && (
-                    <button className="btn btn-danger" onClick={() => handleReturn(product.id, product.quantityInCart)}>
-                        Retourner le produit
-                    </button>
+                    <button className="btn btn-danger" onClick={() => handleReturnProduct(product.product_id)}>Faire un retour du produit</button>
                     )}
                 </div>
                 </div>
