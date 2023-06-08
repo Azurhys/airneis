@@ -28,6 +28,8 @@ const Livraison = () => {
             setAdresse2(selectedAdresse.adresse2);
             setVille(selectedAdresse.ville);
             setCodePostal(selectedAdresse.codePostal);
+            setPays(selectedAdresse.pays)
+            setTelephone(selectedAdresse.telephone)
         }
     }, [selectedAdresse]);
 
@@ -53,6 +55,8 @@ const Livraison = () => {
     const [adresse2, setAdresse2] = useState('');
     const [ville, setVille] = useState('');
     const [codePostal, setCodePostal] = useState('');
+    const [pays, setPays] = useState('');
+    const [telephone, setTelephone] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -65,6 +69,8 @@ const Livraison = () => {
             adresse2: adresse2,
             ville: ville,
             codePostal: codePostal,
+            pays: pays, 
+            telephone: telephone,
         };
 
         // Stocker l'adresse de livraison dans le localStorage
@@ -77,7 +83,9 @@ const Livraison = () => {
             selectedAdresse.adresse1 === adresse1 &&
             selectedAdresse.adresse2 === adresse2 &&
             selectedAdresse.ville === ville &&
-            selectedAdresse.codePostal === codePostal) {
+            selectedAdresse.codePostal === codePostal &&
+            selectedAdresse.pays === pays && 
+            selectedAdresse.telephone === telephone) {
             // Si c'est le cas, ne faites rien et naviguez directement vers la page de paiement
             navigate("/paiement");
             return;
@@ -178,6 +186,26 @@ const Livraison = () => {
                 value={codePostal}
                 onChange={e => setCodePostal(e.target.value)}
                 />
+                <br/>
+                <label htmlFor="pays" className="fw-bold">Pays</label>
+                <br/>
+                <input type="text" 
+                name="pays"
+                className="mb-3" 
+                value={pays}
+                onChange={e => setPays(e.target.value)}
+                />
+                <br/>
+                <label htmlFor="telephone" className="fw-bold">Numéro de téléphone</label>
+                <br/>
+                <input type="tel" 
+                    name="telephone"
+                    className="mb-3" 
+                    value={telephone}
+                    maxLength={10}
+                    onChange={e => setTelephone(e.target.value)}
+                />
+                <br/>
             </form>
     
 

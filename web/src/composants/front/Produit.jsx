@@ -16,7 +16,7 @@ const Produit = () => {
         if (produits[produitId].quantity > 0){
             PanierAchat = "btn btn-brown"
         } else {
-            PanierAchat = "btn btn-brown-reverse"
+            PanierAchat = "btn-brown-reverse "
         }
     }
     
@@ -77,7 +77,7 @@ const Produit = () => {
                 <div>
                     { produits && produits[produitId] &&
                     <button className={PanierAchat} onClick={() => addToCart(produits[produitId])}>
-                        {produits[produitId].quantity > 0 ? "Ajouter au panier" : "Rupture de stock"}
+                        {produits[produitId].quantity > 0 ? "Ajouter au panier" : "Stock Épuisé"}
                     </button>
                     }
                 </div>
