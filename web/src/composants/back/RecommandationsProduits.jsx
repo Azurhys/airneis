@@ -6,7 +6,6 @@ export const RecommandationsProduits = ({ produits, produit }) => {
     const produitsSimilaires = produits.filter(
         (p) => p.category_id === produit.category_id && p.product_id !== produit.product_id
       );
-        console.log(produits);
     const url = `/produit/`
     const produitsSimilairesAleatoires = produitsSimilaires.sort(() => Math.random() - 0.5);
     const sixProduitsSimilaires = produitsSimilairesAleatoires.slice(0, 6);

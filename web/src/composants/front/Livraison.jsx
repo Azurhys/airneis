@@ -28,6 +28,8 @@ const Livraison = () => {
             setAdresse2(selectedAdresse.adresse2);
             setVille(selectedAdresse.ville);
             setCodePostal(selectedAdresse.codePostal);
+            setPays(selectedAdresse.pays)
+            setTelephone(selectedAdresse.telephone)
         }
     }, [selectedAdresse]);
 

@@ -25,7 +25,7 @@ const MaCommande = () => {
         return null;
     }
   
-    const { orderDate, orderStatus, deliveryAddress, paymentMethod, cartItems } = commande;
+    const { orderDate, orderStatus, deliveryAddress, billingAddress, paymentMethod, cartItems } = commande;
     let total = commande.cartItems.total;
     
     const handleCancelOrder = async () => {
@@ -159,12 +159,16 @@ const MaCommande = () => {
                 {deliveryAddress.adresse1} <br />
                 {deliveryAddress.adresse2} <br />
                 {deliveryAddress.codePostal} {deliveryAddress.ville} <br />
+                {deliveryAddress.pays} <br />
+                {deliveryAddress.telephone} 
                 <h2 className="my-3">Adresse de facturation</h2>
                 {/* Ajouter l'adresse de facturation ici */}
-                {deliveryAddress.prenom} {deliveryAddress.nom} <br />
-                {deliveryAddress.adresse1} <br />
-                {deliveryAddress.adresse2} <br />
-                {deliveryAddress.codePostal} {deliveryAddress.ville} <br />
+                {billingAddress.prenom} {deliveryAddress.nom} <br />
+                {billingAddress.adresse1} <br />
+                {billingAddress.adresse2} <br />
+                {billingAddress.codePostal} {deliveryAddress.ville} <br />
+                {billingAddress.pays} <br />
+                {billingAddress.telephone} 
                 <h2 className="my-3">Méthode de paiement</h2>
                 Carte de crédit<br />
                 {'**** **** **** ' + paymentMethod.cardNumber.slice(-4)}

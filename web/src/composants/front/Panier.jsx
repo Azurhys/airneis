@@ -32,7 +32,7 @@ const Panier = () => {
             timestamp: Date.now()   // Set the current timestamp
         };
 
-        localStorage.setItem('cart', JSON.stringify(panierData));
+        localStorage.setItem('infocart', JSON.stringify(panierData));
         
         const updatedProducts = cart.map(product => {
             return {

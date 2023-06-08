@@ -101,7 +101,6 @@ const Paiment = () => {
                 cardNumber: cardNumber,
                 expiryDate: expiryDate,
                 cvv: cvv,
-                billingAddress: billingAddress,
             };
             // Stocker les détails de paiement dans le localStorage
             localStorage.setItem('paymentDetails', JSON.stringify(data));
@@ -120,7 +119,7 @@ const Paiment = () => {
             navigate("/confirmationpaiment");
         }
 
-        const cartItems = JSON.parse(localStorage.getItem('cart'));
+        const cartItems = JSON.parse(localStorage.getItem('infocart'));
             // const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
             const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
             const userId = localStorage.getItem('userID');
@@ -151,6 +150,7 @@ const Paiment = () => {
                     console.log("Commande enregistrée");
 
                     // Effacer le panier, l'adresse de livraison et les détails de paiement du localStorage
+                    localStorage.removeItem('infocart');
                     localStorage.removeItem('cart');
                     localStorage.removeItem('deliveryAddress');
                     localStorage.removeItem('paymentDetails');
