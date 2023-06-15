@@ -3,7 +3,7 @@ import {BarChart, Bar, XAxis, YAxis, CartesianGrid,Tooltip,Legend,PieChart,Pie,C
 const Histogramme = ({ data, granularity }) => {
     return (
       <BarChart
-        width={500}
+        width={1000}
         height={300}
         data={data}
         margin={{
@@ -18,7 +18,7 @@ const Histogramme = ({ data, granularity }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="sales" fill="#8884d8" />
+        <Bar dataKey="ventes" fill="#8884d8" />
       </BarChart>
     );
   };

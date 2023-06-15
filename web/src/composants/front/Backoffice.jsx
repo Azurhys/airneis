@@ -7,6 +7,9 @@ import { useProduit } from "../../hook/useProduit";
 import './css/StyleBackoffice.css';
 import { useCategories } from "../../hook/useCategorie";
 import axios from "axios";
+import { useCommandes } from "../../hook/useCommandes";
+import { startOfWeek, eachDayOfInterval, format } from 'date-fns';
+import moment from 'moment';
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -17,11 +20,28 @@ const Backoffice = () => {
     const [selectedProduits, setSelectedProduits] = useState([]);
     const [showProductDetails, setShowProductDetails] = useState(false);
     const [editedProduitDetail, setEditedProduitDetail] = useState(null);
-
+    const [commandes] = useCommandes();
     const popupRef = useRef(null);
     const popupRefDetail = useRef(null);
     const popupRefModif = useRef(null);
 
+    const startOfLastWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+    const daysOfLastWeek = eachDayOfInterval({ start: startOfLastWeek, end: new Date() });
+    const DAY_IN_MS = 24 * 60 * 60 * 1000; // 24 heures * 60 minutes * 60 secondes * 1000 millisecondes
+    function isSameWeek(date1, date2) {
+      // Clone les dates pour éviter les modifications involontaires
+      var d1 = new Date(date1);
+      var d2 = new Date(date2);
+  
+      // Définir le jour de la semaine comme dimanche (0) à samedi (6)
+      d1.setHours(0, 0, 0, 0);
+      d1.setDate(d1.getDate() - d1.getDay());
+      d2.setHours(0, 0, 0, 0);
+      d2.setDate(d2.getDate() - d2.getDay());
+  
+      return d1.getTime() === d2.getTime();
+  }
+  
     const [nouveauProduit, setNouveauProduit] = useState({
       category_id: 0,
       description: "",
@@ -44,6 +64,10 @@ const Backoffice = () => {
     
     const [categories] = useCategories();
     const [sortedProduits, setSortedProduits] = useState([...produits]);
+    function stringToDate(dateString) {
+      const [day, month, year] = dateString.split("/");
+      return new Date(year, month - 1, day);
+  }
 
 useEffect(() => {
     const newSortedProduits = [...produits].sort((a, b) => {
@@ -155,16 +179,20 @@ useEffect(() => {
   const [currentCategory, setCurrentCategory] = useState(null);
   const filteredProduits = produits.filter((produit) => produit.category_id === currentCategory);
 
-    const dailySalesData = [
-        { name: "Jour 1", sales: 4000 },
-        { name: "Jour 2", sales: 3000 },
-        { name: "Jour 3", sales: 2000 },
-        { name: "Jour 4", sales: 2780 },
-        { name: "Jour 5", sales: 1890 },
-        { name: "Jour 6", sales: 2390 },
-        { name: "Jour 7", sales: 3490 }
-    ];
-    
+
+  const today = moment();
+    const days = [6, 5, 4, 3, 2, 1, 0].map(n => moment(today).subtract(n, 'days'));  // Inverse order here
+
+    const dailySalesData = days.map((day, i) => {
+      // Calculate the total sales for each day
+      const totalSales = commandes.reduce((acc, commande) => {
+        const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+        return day.isSame(orderDate, 'day') ? acc + parseFloat(commande.cartItems.total) : acc;
+      }, 0);
+
+      return { name: day.format('DD/MM'), ventes: totalSales };  // Format the day as 'DD/MM'
+    });
+
     const weeklySalesData = [
         { name: "Semaine 1", sales: 24000 },
         { name: "Semaine 2", sales: 21000 },
