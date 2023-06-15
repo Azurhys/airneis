@@ -32,7 +32,7 @@ const Paiment = () => {
     const [codePostal, setCodePostal] = useState('');
     const [pays, setPays] = useState('');
     const [telephone, setTelephone] = useState('');
-    
+    const [billingAddresses, setBillingAddresses] = useState([]);
 
     const initialBillingAddress = {
         prenom: '',
@@ -50,13 +50,13 @@ const Paiment = () => {
     const handleBillingDetailsChange = e => {
         setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
     };
-
-    
+      
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/connexion");
         }
         fetchPaymentOptions();
+        fetchBillingAddresses();
     }, [isAuthenticated, navigate]);
 
     const handleUseDeliveryAddressChange = (event) => {
@@ -80,6 +80,16 @@ const Paiment = () => {
         }
     };
 
+    const fetchBillingAddresses = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API}billingAddress.json`);
+            const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
+            setBillingAddresses(addresses);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handlePaymentSelect = (payment) => {
         setSelectedPayment(payment);
         setCardName(payment.cardName);
@@ -93,6 +103,28 @@ const Paiment = () => {
         const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
         const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingDetails;
         setBillingAddress(billingAddressToUse);
+        
+        const addressExists = billingAddresses.some(address => 
+            address.prenom === billingAddressToUse.prenom &&
+            address.nom === billingAddressToUse.nom &&
+            address.adresse1 === billingAddressToUse.adresse1 &&
+            address.adresse2 === billingAddressToUse.adresse2 &&
+            address.ville === billingAddressToUse.ville &&
+            address.codePostal === billingAddressToUse.codePostal &&
+            address.pays === billingAddressToUse.pays &&
+            address.telephone === billingAddressToUse.telephone
+        );
+    
+        if (!addressExists) {
+            try {
+                const response = await axios.post(`${import.meta.env.VITE_API}billingAddress.json`, { ...billingAddressToUse, user_Id: userIdFromStorage });
+                if (response.status === 200) {
+                    console.log("Adresse de facturation enregistrée");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
         if (!selectedPayment) {
             const data = {
@@ -227,6 +259,22 @@ const Paiment = () => {
                     <div className="my-3">
                         <input type="checkbox" checked={useDeliveryAddress} onChange={handleUseDeliveryAddressChange} />
                         <label>Utilisez l'adresse de livraison comme adresse de facturation</label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="info" id="dropdown-basic">
+                                Choisissez une adresse de facturation
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                {billingAddresses.map((address, index) => 
+                                    <Dropdown.Item 
+                                        key={index}
+                                        onClick={() => setBillingDetails(address)}>
+                                        {address.prenom} {address.nom} - {address.adresse1}, {address.ville}
+                                    </Dropdown.Item>
+                                )}
+                            </Dropdown.Menu>
+                        </Dropdown>
+
                     </div>
 
                     {!useDeliveryAddress && (
