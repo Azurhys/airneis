@@ -1,84 +1,97 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
+import useConfigsetting from "../../hook/useConfigsetting";
 
 const AccountSettings = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [shippingAddress, setShippingAddress] = useState('');
-  const [billingAddress, setBillingAddress] = useState('');
-  const [paymentMethods, setPaymentMethods] = useState([]);
+  const fullNameRef = useRef('');
+  const emailRef = useRef('');
+  const passwordRef = useRef('');
+  const shippingAddressRef = useRef('');
+  const billingAddressRef = useRef('');
+  const paymentMethodsRef = useRef([]);
+
+  const userId = localStorage.getItem('userID');
+  const { isSuccess, error, handleSubmit } = useConfigsetting();
 
   // Fonction pour gérer la soumission du formulaire
-  const handleSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Effectuer des actions supplémentaires, telles que l'appel à une API pour mettre à jour les informations du compte
-    console.log('Informations du compte mises à jour :', {
-      fullName,
-      email,
-      password,
-      shippingAddress,
-      billingAddress,
-      paymentMethods,
-    });
+    handleSubmit(
+      fullNameRef.current.value,
+      emailRef.current.value,
+      passwordRef.current.value,
+      shippingAddressRef.current.value,
+      billingAddressRef.current.value,
+      paymentMethodsRef.current.value,
+      userId
+    );
+    // Réinitialiser les champs du formulaire
+    fullNameRef.current.value = '';
+    emailRef.current.value = '';
+    passwordRef.current.value = '';
+    shippingAddressRef.current.value = '';
+    billingAddressRef.current.value = '';
+    paymentMethodsRef.current.value = [];
   };
 
   return (
     <div className='m-5'>
       <h2>Paramètres du compte</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <div className='my-3'>
           <label>Nom complet :</label>
           <br />
-          <input className='form-control'
+          <input
+            className='form-control'
             type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            ref={fullNameRef}
           />
         </div>
         <div className='my-3'>
           <label>E-mail :</label>
           <br />
-          <input className='form-control'
+          <input
+            className='form-control'
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            ref={emailRef}
           />
         </div>
         <div className='my-3'>
           <label>Mot de passe :</label>
           <br />
-          <input className='form-control'
+          <input
+            className='form-control'
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            ref={passwordRef}
           />
         </div>
         <div className='my-3'>
           <label>Adresse de livraison :</label>
           <br />
-          <textarea className='form-control'
-            value={shippingAddress}
-            onChange={(e) => setShippingAddress(e.target.value)}
+          <textarea
+            className='form-control'
+            ref={shippingAddressRef}
           />
         </div>
         <div className='my-3'> 
           <label>Adresse de facturation :</label>
           <br />
-          <textarea className='form-control'
-            value={billingAddress}
-            onChange={(e) => setBillingAddress(e.target.value)}
+          <textarea
+            className='form-control'
+            ref={billingAddressRef}
           />
         </div>
         <div className='my-3 '>
           <label>Méthodes de paiement :</label>
           <br />
-          <input className='form-control'
+          <input
+            className='form-control'
             type="text"
-            value={paymentMethods}
-            onChange={(e) => setPaymentMethods(e.target.value)}
+            ref={paymentMethodsRef}
           />
         </div>
-        <div className="d-flex justify-content-center"><button className='btn btn-brown ' type="submit">Enregistrer les modifications</button></div>
+        <div className="d-flex justify-content-center">
+          <button className='btn btn-brown' type="submit">Enregistrer les modifications</button>
+        </div>
       </form>
     </div>
   );
