@@ -193,14 +193,27 @@ useEffect(() => {
       return { name: day.format('DD/MM'), ventes: totalSales };  // Format the day as 'DD/MM'
     });
 
-    const weeklySalesData = [
-        { name: "Semaine 1", sales: 24000 },
-        { name: "Semaine 2", sales: 21000 },
-        { name: "Semaine 3", sales: 20000 },
-        { name: "Semaine 4", sales: 27800 },
-        { name: "Semaine 5", sales: 23900 }
-    ];
+    const weeks = [4, 3, 2, 1, 0].map(n => {
+      const startOfWeek = moment().subtract(n, 'weeks').startOf('week');
+      return {
+        start: startOfWeek,
+        end: moment(startOfWeek).endOf('week')
+      };
+    });
     
+    const weeklySalesData = weeks.map((week, i) => {
+      // Calculate the total sales for each week
+      const totalSales = commandes.reduce((acc, commande) => {
+        const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+        if (orderDate.isSameOrAfter(week.start) && orderDate.isSameOrBefore(week.end)) {
+          return acc + parseFloat(commande.cartItems.total);
+        }
+        return acc;
+      }, 0);
+    
+      return { name: `Semaine ${i + 1}`, ventes: totalSales };
+    });
+
     const categoryData = [
         { name: "Jour 1", category1: 2400, category2: 1300, category3: 980 },
         { name: "Jour 2", category1: 1398, category2: 980, category3: 390 },
