@@ -236,7 +236,7 @@ useEffect(() => {
       // Go through all items in the cart
       for (const item of commande.cartItems.cart) {
         // Check if the item belongs to one of the categories
-        if (item.category_id >= 1 && item.category_id <= 6) {
+        if (item.category_id >= 0 && item.category_id <= 5) {
           // Find the corresponding day
           const dayIndex = days.findIndex(day => day.isSame(orderDate, 'day'));
     
@@ -254,16 +254,45 @@ useEffect(() => {
     }
     
 
-    console.log(dailyCategoryData)
     
     
-    const weeklyCategoryData = [
-        { name: "Semaine 1", category1: 13980, category2: 6980, category3: 4390 },
-        { name: "Semaine 2", category1: 12980, category2: 7780, category3: 4390 },
-        { name: "Semaine 3", category1: 9980, category2: 6390, category3: 3200 },
-        { name: "Semaine 4", category1: 13980, category2: 27800, category3: 9480 },
-        { name: "Semaine 5", category1: 11980, category2: 23900, category3: 8430 }
-    ];
+    const weeklyCategoryData = weeks.map((week, i) => {
+      const weekSales = { name: `Semaine ${i + 1}` };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        weekSales[categoryMap[j]] = 0;
+      }
+    
+      return weekSales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding week
+          const weekIndex = weeks.findIndex(week => orderDate.isSameOrAfter(week.start) && orderDate.isSameOrBefore(week.end));
+    
+          // If the order date is within the last 5 weeks
+          if (weekIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and week
+            // Use the category name from categoryMap
+            weeklyCategoryData[weekIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
       
     const pieChartData = [
         { name: "Catégorie 1", value: 400 },
