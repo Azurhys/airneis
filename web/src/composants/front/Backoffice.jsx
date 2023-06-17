@@ -64,10 +64,7 @@ const Backoffice = () => {
     
     const [categories] = useCategories();
     const [sortedProduits, setSortedProduits] = useState([...produits]);
-    function stringToDate(dateString) {
-      const [day, month, year] = dateString.split("/");
-      return new Date(year, month - 1, day);
-  }
+   
 
 useEffect(() => {
     const newSortedProduits = [...produits].sort((a, b) => {
@@ -214,15 +211,51 @@ useEffect(() => {
       return { name: `Semaine ${i + 1}`, ventes: totalSales };
     });
 
-    const categoryData = [
-        { name: "Jour 1", category1: 2400, category2: 1300, category3: 980 },
-        { name: "Jour 2", category1: 1398, category2: 980, category3: 390 },
-        { name: "Jour 3", category1: 980, category2: 390, category3: 200 },
-        { name: "Jour 4", category1: 390, category2: 200, category3: 480 },
-        { name: "Jour 5", category1: 480, category2: 290, category3: 380 },
-        { name: "Jour 6", category1: 290, category2: 480, category3: 430 },
-        { name: "Jour 7", category1: 480, category2: 380, category3: 430 }
-    ];
+    const categoryMap = categories.reduce((acc, category) => {
+      acc[category.category_id] = category.name;
+      return acc;
+    }, {});
+
+    const dailyCategoryData = days.map((day, i) => {
+      const daySales = { name: day.format('DD/MM') };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        daySales[categoryMap[j]] = 0;
+      }
+    
+      return daySales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 1 && item.category_id <= 6) {
+          // Find the corresponding day
+          const dayIndex = days.findIndex(day => day.isSame(orderDate, 'day'));
+    
+          // If the order date is within the last 7 days
+          if (dayIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and day
+            // Use the category name from categoryMap
+            dailyCategoryData[dayIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+
+    console.log(dailyCategoryData)
+    
     
     const weeklyCategoryData = [
         { name: "Semaine 1", category1: 13980, category2: 6980, category3: 4390 },
@@ -381,7 +414,7 @@ useEffect(() => {
                 <button className="btn btn-brown mx-2" onClick={() => setGranularity("daily")}>Journalier</button>
                 <button className="btn btn-brown mx-2" onClick={() => setGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Paniers moyens par catégorie</h2>
-                <HistogrammeAvg data={categoryGranularity === "daily" ? categoryData : weeklyCategoryData} granularity={categoryGranularity} />
+                <HistogrammeAvg data={categoryGranularity === "daily" ? dailyCategoryData : weeklyCategoryData} granularity={categoryGranularity} />
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("daily")}>Journalier</button>
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Volume de vente par catégorie</h2>
