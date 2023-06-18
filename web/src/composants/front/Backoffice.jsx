@@ -7,21 +7,42 @@ import { useProduit } from "../../hook/useProduit";
 import './css/StyleBackoffice.css';
 import { useCategories } from "../../hook/useCategorie";
 import axios from "axios";
+import { useCommandes } from "../../hook/useCommandes";
+import { startOfWeek, eachDayOfInterval, format } from 'date-fns';
+import moment from 'moment';
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
     const [granularity, setGranularity] = useState("daily");
     const [categoryGranularity, setCategoryGranularity] = useState("daily");
+    const [camGranularity, setCamGranularity] = useState("daily");
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [selectedProduits, setSelectedProduits] = useState([]);
     const [showProductDetails, setShowProductDetails] = useState(false);
     const [editedProduitDetail, setEditedProduitDetail] = useState(null);
-
+    const [commandes] = useCommandes();
     const popupRef = useRef(null);
     const popupRefDetail = useRef(null);
     const popupRefModif = useRef(null);
 
+    const startOfLastWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+    const daysOfLastWeek = eachDayOfInterval({ start: startOfLastWeek, end: new Date() });
+    const DAY_IN_MS = 24 * 60 * 60 * 1000; // 24 heures * 60 minutes * 60 secondes * 1000 millisecondes
+    function isSameWeek(date1, date2) {
+      // Clone les dates pour éviter les modifications involontaires
+      var d1 = new Date(date1);
+      var d2 = new Date(date2);
+  
+      // Définir le jour de la semaine comme dimanche (0) à samedi (6)
+      d1.setHours(0, 0, 0, 0);
+      d1.setDate(d1.getDate() - d1.getDay());
+      d2.setHours(0, 0, 0, 0);
+      d2.setDate(d2.getDate() - d2.getDay());
+  
+      return d1.getTime() === d2.getTime();
+  }
+  
     const [nouveauProduit, setNouveauProduit] = useState({
       category_id: 0,
       description: "",
@@ -44,6 +65,7 @@ const Backoffice = () => {
     
     const [categories] = useCategories();
     const [sortedProduits, setSortedProduits] = useState([...produits]);
+   
 
 useEffect(() => {
     const newSortedProduits = [...produits].sort((a, b) => {
@@ -155,48 +177,240 @@ useEffect(() => {
   const [currentCategory, setCurrentCategory] = useState(null);
   const filteredProduits = produits.filter((produit) => produit.category_id === currentCategory);
 
-    const dailySalesData = [
-        { name: "Jour 1", sales: 4000 },
-        { name: "Jour 2", sales: 3000 },
-        { name: "Jour 3", sales: 2000 },
-        { name: "Jour 4", sales: 2780 },
-        { name: "Jour 5", sales: 1890 },
-        { name: "Jour 6", sales: 2390 },
-        { name: "Jour 7", sales: 3490 }
-    ];
+
+  const today = moment();
+    const days = [6, 5, 4, 3, 2, 1, 0].map(n => moment(today).subtract(n, 'days'));  // Inverse order here
+
+    const dailySalesData = days.map((day, i) => {
+      // Calculate the total sales for each day
+      const totalSales = commandes.reduce((acc, commande) => {
+        const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+        return day.isSame(orderDate, 'day') ? acc + parseFloat(commande.cartItems.total) : acc;
+      }, 0);
+
+      return { name: day.format('DD/MM'), ventes: totalSales };  // Format the day as 'DD/MM'
+    });
+
+    const weeks = [4, 3, 2, 1, 0].map(n => {
+      const startOfWeek = moment().subtract(n, 'weeks').startOf('week');
+      return {
+        start: startOfWeek,
+        end: moment(startOfWeek).endOf('week')
+      };
+    });
     
-    const weeklySalesData = [
-        { name: "Semaine 1", sales: 24000 },
-        { name: "Semaine 2", sales: 21000 },
-        { name: "Semaine 3", sales: 20000 },
-        { name: "Semaine 4", sales: 27800 },
-        { name: "Semaine 5", sales: 23900 }
-    ];
+    const weeklySalesData = weeks.map((week, i) => {
+      // Calculate the total sales for each week
+      const totalSales = commandes.reduce((acc, commande) => {
+        const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+        if (orderDate.isSameOrAfter(week.start) && orderDate.isSameOrBefore(week.end)) {
+          return acc + parseFloat(commande.cartItems.total);
+        }
+        return acc;
+      }, 0);
     
-    const categoryData = [
-        { name: "Jour 1", category1: 2400, category2: 1300, category3: 980 },
-        { name: "Jour 2", category1: 1398, category2: 980, category3: 390 },
-        { name: "Jour 3", category1: 980, category2: 390, category3: 200 },
-        { name: "Jour 4", category1: 390, category2: 200, category3: 480 },
-        { name: "Jour 5", category1: 480, category2: 290, category3: 380 },
-        { name: "Jour 6", category1: 290, category2: 480, category3: 430 },
-        { name: "Jour 7", category1: 480, category2: 380, category3: 430 }
-    ];
+      return { name: `Semaine ${i + 1}`, ventes: totalSales };
+    });
+
+    const categoryMap = categories.reduce((acc, category) => {
+      acc[category.category_id] = category.name;
+      return acc;
+    }, {});
+
+    const dailyCategoryData = days.map((day, i) => {
+      const daySales = { name: day.format('DD/MM') };
     
-    const weeklyCategoryData = [
-        { name: "Semaine 1", category1: 13980, category2: 6980, category3: 4390 },
-        { name: "Semaine 2", category1: 12980, category2: 7780, category3: 4390 },
-        { name: "Semaine 3", category1: 9980, category2: 6390, category3: 3200 },
-        { name: "Semaine 4", category1: 13980, category2: 27800, category3: 9480 },
-        { name: "Semaine 5", category1: 11980, category2: 23900, category3: 8430 }
-    ];
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        daySales[categoryMap[j]] = 0;
+      }
+    
+      return daySales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding day
+          const dayIndex = days.findIndex(day => day.isSame(orderDate, 'day'));
+    
+          // If the order date is within the last 7 days
+          if (dayIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and day
+            // Use the category name from categoryMap
+            dailyCategoryData[dayIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+
+    
+    
+    const weeklyCategoryData = weeks.map((week, i) => {
+      const weekSales = { name: `Semaine ${i + 1}` };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        weekSales[categoryMap[j]] = 0;
+      }
+    
+      return weekSales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding week
+          const weekIndex = weeks.findIndex(week => orderDate.isSameOrAfter(week.start) && orderDate.isSameOrBefore(week.end));
+    
+          // If the order date is within the last 5 weeks
+          if (weekIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and week
+            // Use the category name from categoryMap
+            weeklyCategoryData[weekIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
       
-    const pieChartData = [
-        { name: "Catégorie 1", value: 400 },
-        { name: "Catégorie 2", value: 300 },
-        { name: "Catégorie 3", value: 200 },
-        { name: "Catégorie 4", value: 100 }
-    ];
+    const sevenDaySalesData = days.map((day, i) => {
+      const daySales = { name: day.format('DD/MM') };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        daySales[categoryMap[j]] = 0;
+      }
+    
+      return daySales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding day
+          const dayIndex = days.findIndex(day => day.isSame(orderDate, 'day'));
+    
+          // If the order date is within the last 7 days
+          if (dayIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and day
+            sevenDaySalesData[dayIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+    // Sum sales data over the last 7 days
+    const totalWeeklySalesData = sevenDaySalesData.reduce((acc, daySales) => {
+      // For each category in the day's sales
+      for (const category in daySales) {
+        // Skip the 'name' key
+        if (category !== 'name') {
+          // If this category has not been seen before, initialize its total sales to 0
+          if (!acc.hasOwnProperty(category)) {
+            acc[category] = 0;
+          }
+          // Add the day's sales to the total sales for this category
+          acc[category] += daySales[category];
+        }
+      }
+      return acc;
+    }, {});
+    
+    // Convert the totalWeeklySalesData object to an array of objects
+    const pieChartData = Object.keys(totalWeeklySalesData).map(category => ({
+      name: category,
+      value: totalWeeklySalesData[category]
+    }));
+    
+    const weeksCategoryData = weeks.map((week, i) => {
+      const weekSales = { name: `Week ${i + 1}` };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        weekSales[categoryMap[j]] = 0;
+      }
+    
+      return weekSales;
+    });
+
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding week
+          const weekIndex = weeks.findIndex(week => orderDate.isBetween(week.start, week.end, 'day', '[]'));
+    
+          // If the order date is within the last 5 weeks
+          if (weekIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and week
+            // Use the category name from categoryMap
+            weeksCategoryData[weekIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+    const totalFiveWeeksSalesData = weeksCategoryData.reduce((acc, weekSales) => {
+      // For each category in the week's sales
+      for (const category in weekSales) {
+        // Skip the 'name' key
+        if (category !== 'name') {
+          // If this category has not been seen before, initialize its total sales to 0
+          if (!acc.hasOwnProperty(category)) {
+            acc[category] = 0;
+          }
+          // Add the week's sales to the total sales for this category
+          acc[category] += weekSales[category];
+        }
+      }
+      return acc;
+    }, {});
+    
+    // Convert the totalFiveWeeksSalesData object to an array of objects
+    const pieChartFiveWeeksData = Object.keys(totalFiveWeeksSalesData).map(category => ({
+      name: category,
+      value: totalFiveWeeksSalesData[category]
+    }));
 
     return ( 
     <div className="m-5">
@@ -340,11 +554,13 @@ useEffect(() => {
                 <button className="btn btn-brown mx-2" onClick={() => setGranularity("daily")}>Journalier</button>
                 <button className="btn btn-brown mx-2" onClick={() => setGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Paniers moyens par catégorie</h2>
-                <HistogrammeAvg data={categoryGranularity === "daily" ? categoryData : weeklyCategoryData} granularity={categoryGranularity} />
+                <HistogrammeAvg data={categoryGranularity === "daily" ? dailyCategoryData : weeklyCategoryData} granularity={categoryGranularity} />
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("daily")}>Journalier</button>
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Volume de vente par catégorie</h2>
-                <Camembert data={pieChartData} />
+                <Camembert data={camGranularity === "daily" ? pieChartData : pieChartFiveWeeksData } granularity={camGranularity} />
+                <button className="btn btn-brown mx-2" onClick={() => setCamGranularity("daily")}>Journalier</button>
+                <button className="btn btn-brown mx-2" onClick={() => setCamGranularity("weekly")}>Hebdomadaire</button>
   </div>
 
   <div ref={popupRef} className="popup">
