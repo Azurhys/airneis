@@ -15,6 +15,7 @@ const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
     const [granularity, setGranularity] = useState("daily");
     const [categoryGranularity, setCategoryGranularity] = useState("daily");
+    const [camGranularity, setCamGranularity] = useState("daily");
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [selectedProduits, setSelectedProduits] = useState([]);
@@ -353,7 +354,64 @@ useEffect(() => {
       value: totalWeeklySalesData[category]
     }));
     
-      
+    const weeksCategoryData = weeks.map((week, i) => {
+      const weekSales = { name: `Week ${i + 1}` };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        weekSales[categoryMap[j]] = 0;
+      }
+    
+      return weekSales;
+    });
+
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding week
+          const weekIndex = weeks.findIndex(week => orderDate.isBetween(week.start, week.end, 'day', '[]'));
+    
+          // If the order date is within the last 5 weeks
+          if (weekIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and week
+            // Use the category name from categoryMap
+            weeksCategoryData[weekIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+    const totalFiveWeeksSalesData = weeksCategoryData.reduce((acc, weekSales) => {
+      // For each category in the week's sales
+      for (const category in weekSales) {
+        // Skip the 'name' key
+        if (category !== 'name') {
+          // If this category has not been seen before, initialize its total sales to 0
+          if (!acc.hasOwnProperty(category)) {
+            acc[category] = 0;
+          }
+          // Add the week's sales to the total sales for this category
+          acc[category] += weekSales[category];
+        }
+      }
+      return acc;
+    }, {});
+    
+    // Convert the totalFiveWeeksSalesData object to an array of objects
+    const pieChartFiveWeeksData = Object.keys(totalFiveWeeksSalesData).map(category => ({
+      name: category,
+      value: totalFiveWeeksSalesData[category]
+    }));
+
     return ( 
     <div className="m-5">
         <div className="d-flex w-100">
@@ -500,7 +558,9 @@ useEffect(() => {
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("daily")}>Journalier</button>
                 <button className="btn btn-brown mx-2" onClick={() => setCategoryGranularity("weekly")}>Hebdomadaire</button>
             <h2 className="my-3"> Volume de vente par catégorie</h2>
-                <Camembert data={pieChartData} />
+                <Camembert data={camGranularity === "daily" ? pieChartData : pieChartFiveWeeksData } granularity={camGranularity} />
+                <button className="btn btn-brown mx-2" onClick={() => setCamGranularity("daily")}>Journalier</button>
+                <button className="btn btn-brown mx-2" onClick={() => setCamGranularity("weekly")}>Hebdomadaire</button>
   </div>
 
   <div ref={popupRef} className="popup">
