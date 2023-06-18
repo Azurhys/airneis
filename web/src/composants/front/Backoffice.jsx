@@ -294,13 +294,66 @@ useEffect(() => {
     }
     
       
-    const pieChartData = [
-        { name: "Catégorie 1", value: 400 },
-        { name: "Catégorie 2", value: 300 },
-        { name: "Catégorie 3", value: 200 },
-        { name: "Catégorie 4", value: 100 }
-    ];
-
+    const sevenDaySalesData = days.map((day, i) => {
+      const daySales = { name: day.format('DD/MM') };
+    
+      // Initialize all category sales as 0
+      for (let j = 0; j <= 5; j++) {
+        // Use the category name from categoryMap
+        daySales[categoryMap[j]] = 0;
+      }
+    
+      return daySales;
+    });
+    
+    // Go through all commandes
+    for (const commande of commandes) {
+      // Parse order date
+      const orderDate = moment(commande.orderDate, "DD/MM/YYYY");
+    
+      // Go through all items in the cart
+      for (const item of commande.cartItems.cart) {
+        // Check if the item belongs to one of the categories
+        if (item.category_id >= 0 && item.category_id <= 5) {
+          // Find the corresponding day
+          const dayIndex = days.findIndex(day => day.isSame(orderDate, 'day'));
+    
+          // If the order date is within the last 7 days
+          if (dayIndex !== -1) {
+            // Calculate sales for this item
+            const sales = item.price * item.quantityInCart;
+    
+            // Add sales to the corresponding category and day
+            sevenDaySalesData[dayIndex][categoryMap[item.category_id]] += sales;
+          }
+        }
+      }
+    }
+    
+    // Sum sales data over the last 7 days
+    const totalWeeklySalesData = sevenDaySalesData.reduce((acc, daySales) => {
+      // For each category in the day's sales
+      for (const category in daySales) {
+        // Skip the 'name' key
+        if (category !== 'name') {
+          // If this category has not been seen before, initialize its total sales to 0
+          if (!acc.hasOwnProperty(category)) {
+            acc[category] = 0;
+          }
+          // Add the day's sales to the total sales for this category
+          acc[category] += daySales[category];
+        }
+      }
+      return acc;
+    }, {});
+    
+    // Convert the totalWeeklySalesData object to an array of objects
+    const pieChartData = Object.keys(totalWeeklySalesData).map(category => ({
+      name: category,
+      value: totalWeeklySalesData[category]
+    }));
+    
+      
     return ( 
     <div className="m-5">
         <div className="d-flex w-100">
