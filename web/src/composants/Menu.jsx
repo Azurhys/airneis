@@ -118,13 +118,31 @@ const Menu = () => {
               <Dropdown.Toggle variant="link" id="dropdown-menu">
                 <img src="/list.svg" alt="list" width="28" height="28" />
               </Dropdown.Toggle>
+              {isAuthenticated ? (
+                <Dropdown.Menu>
+                  <Dropdown.Item as={NavLink} to="/settings">Mes paramètres</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/Mescommande">Mes commandes</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/cgu">CGU</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/mentions-legales">Mentions Légales</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/contact">Contact</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/">À propos d’ÀIRNEIS</Dropdown.Item>
+                  {categorie_user_Id === 1 && isAuthenticated ? (
+                    
+                    <Dropdown.Item as={NavLink} to="/backoffice">Backoffice</Dropdown.Item>
+                  ) : null}
+                  <Dropdown.Item><button onClick={handleLogout} className="btn btn-br">Déconnexion</button></Dropdown.Item>
+                </Dropdown.Menu>
+              )
+              :(
               <Dropdown.Menu>
-                <Dropdown.Item as={NavLink} to="/lien1">Lien 1</Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/lien2">Lien 2</Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/lien3">Lien 3</Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/lien4">Lien 4</Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/lien5">Lien 5</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/connexion">Se Connecter</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/inscription">S'inscrire</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/cgu">CGU</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/mentions-legales">Mentions Légales</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/contact">Contact</Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/">À propos d’ÀIRNEIS</Dropdown.Item>
               </Dropdown.Menu>
+               )}
             </Dropdown>
           </li>
           {isAuthenticated ? (
