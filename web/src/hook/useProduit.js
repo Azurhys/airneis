@@ -94,25 +94,27 @@ const ajouterProduit = (nouveauProduit) => {
   };
 
   // Modifier un produit
-const modifierProduit = (produitModifie) => {
-  const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10),};
-  //await axios.patch(`${import.meta.env.VITE_API}produits/${productID}.json`
-  axios.patch(`${import.meta.env.VITE_API}produits/${produit.id}.json`, produit).then(() => {
-    setProduits((prevProduits) => {
-      const index = prevProduits.findIndex((p) => p.id === produit.id);
-      if (index !== -1) {
-        const produitsCopies = [...prevProduits];
-        produitsCopies[index] = produit;
-        return produitsCopies;
-      }
-      return prevProduits;
-    });
-      console.log("Produit modifié");
-    })
-    .catch((error) => {
-      console.error("Erreur", error);
-    });
-};
+  const modifierProduit = (produitModifie) => {
+    const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10)};
+    console.log("Produit à modifier:", produit); // Pour vérifier le produit
+    
+    axios.patch(`${import.meta.env.VITE_API}produits/${produit.product_id}.json`, produit)
+      .then(() => {
+        setProduits((prevProduits) => {
+          const index = prevProduits.findIndex((p) => p.product_id === produit.product_id);
+          if (index !== -1) {
+            const produitsCopies = [...prevProduits];
+            produitsCopies[index] = produit;
+            return produitsCopies;
+          }
+          return prevProduits;
+        });
+        console.log("Produit modifié");
+      })
+      .catch((error) => {
+        console.error("Erreur", error);
+      });
+  };
 
   
   

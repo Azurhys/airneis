@@ -68,6 +68,8 @@ const Backoffice = () => {
    
 
 useEffect(() => {
+  setModifProduit(produitDetail);
+  console.log(ModifProduit)
     const newSortedProduits = [...produits].sort((a, b) => {
         if (sortBy === null) {
             // Tri par défaut sur l'ID du produit en ordre ascendant
@@ -78,7 +80,7 @@ useEffect(() => {
         return 0;
     });
     setSortedProduits(newSortedProduits);
-}, [sortBy, sortOrder, produits]);
+}, [sortBy, sortOrder, produits, produitDetail]);
 
     const handleSort = (colName) => {
         if (sortBy === colName) {
@@ -625,17 +627,14 @@ useEffect(() => {
   {produitDetail ? (
     <>
       <h2>Modifier le produit</h2>
-      <input type="number" value={produitDetail.category_id} onChange={(e) => setModifProduit({ ...produitDetail, category_id: e.target.value })} />
-      <label>Description: <input type="text" value={produitDetail.description} onChange={(e) => setModifProduit({ ...produitDetail, description: e.target.value })} /></label>
-      <label>Images: <input type="text" value={produitDetail.images} onChange={(e) => setModifProduit({ ...produitDetail, images: e.target.value })} /></label>
-      <label>Nom: <input type="text" value={produitDetail.name} onChange={(e) => setModifProduit({ ...produitDetail, name: e.target.value })} /></label>
-      <label>Prix: <input type="text" value={produitDetail.price} onChange={(e) => setModifProduit({ ...produitDetail, price: e.target.value })} /></label>
-      <label>Quantité: <input type="number" value={produitDetail.quantity} id="quantity" name="quantity" onChange={(e) => setModifProduit({ ...produitDetail, quantity: e.target.value })} /></label>
+      <input type="number" value={ModifProduit.category_id} onChange={(e) => setModifProduit({ ...produitDetail, category_id: e.target.value })} />
+      <label>Description: <input type="text" value={ModifProduit.description} onChange={(e) => setModifProduit({ ...produitDetail, description: e.target.value })} /></label>
+      <label>Images: <input type="text" value={ModifProduit.images} onChange={(e) => setModifProduit({ ...produitDetail, images: e.target.value })} /></label>
+      <label>Nom: <input type="text" value={ModifProduit.name} onChange={(e) => setModifProduit({ ...produitDetail, name: e.target.value })} /></label>
+      <label>Prix: <input type="text" value={ModifProduit.price} onChange={(e) => setModifProduit({ ...produitDetail, price: e.target.value })} /></label>
+      <label>Quantité: <input type="number" value={ModifProduit.quantity} id="quantity" name="quantity" onChange={(e) => setModifProduit({ ...produitDetail, quantity: e.target.value })} /></label>
 
-
-
-
-      <button className="mt-3" onClick={() => modifierProduit(produitDetail.product_id)}>Enregistrer</button>
+      <button className="mt-3" onClick={() => modifierProduit(ModifProduit)}>Enregistrer</button>
     </>
   ) : (
     <p>Chargement des détails du produit...</p>

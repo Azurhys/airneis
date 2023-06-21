@@ -14,6 +14,6 @@ export function useCommandes() {
             setCommandes(resultat)
          }) 
     } , [commandes.length]) // exécute que lorsque la page est chargé et update
-    console.log(commandes)
+    
     return [commandes, setCommandes];
 }
