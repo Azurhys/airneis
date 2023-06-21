@@ -100,11 +100,13 @@ const Panier = () => {
                     <h2 class="text-muted fs-6 d-flex justify-content-between">TVA
                     <span>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}</span>
                     </h2>
-                    <NavLink onClick={handleCheckout} to="/livraison" className="nav-link btn btn-brown">
+                    {cart?.length > 0 && 
+                        <NavLink onClick={handleCheckout} to="/livraison" className="nav-link btn btn-brown">
                             Procéder au paiement
-                    </NavLink>
+                        </NavLink>
+                    }
                 </div>
-        </div>      
+            </div>      
         </div>
 
 
