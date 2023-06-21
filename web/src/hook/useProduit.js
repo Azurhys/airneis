@@ -68,7 +68,7 @@ const ajouterProduit = (nouveauProduit) => {
   const produit = { ...nouveauProduit, product_id: nouveauProductID };
   const firebaseKey = nouveauProductID.toString(); // Utilisez nouveauProductID comme clé
 
-  axios.post(`${import.meta.env.VITE_API}produits/${firebaseKey}.json`, produit).then((response) => {
+  axios.put(`${import.meta.env.VITE_API}produits/${firebaseKey}.json`, produit).then((response) => {
     const nouveauProduitAvecId = { ...produit, id: firebaseKey };
     setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
     console.log("Produit ajouté");
@@ -77,6 +77,7 @@ const ajouterProduit = (nouveauProduit) => {
     console.error("Erreur lors de l'ajout du produit :", error);
   });
 };
+
 
 
   
