@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, TextInput, StatusBar, Text } from 'react-native';
+import { View, TouchableOpacity , StatusBar, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../styles';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Menu() {
   const navigation = useNavigation();
@@ -13,12 +14,20 @@ export default function Menu() {
 
   return (
     <View style={[styles.menu, { paddingTop: statusBarHeight }]}>
-      <Text style={styles.brand}>ÀIRNEIS</Text>
-      <TextInput placeholder="Recherche" />
-      <Button 
-        title="Panier" 
-        onPress={() => navigation.navigate('Panier')} 
-      />
+      <TouchableOpacity onPress={() => navigation.navigate('Accueil')}>
+        <Text style={styles.brand}>ÀIRNEIS</Text>
+        </TouchableOpacity>
+      <View style={styles.icons}>
+        <TouchableOpacity onPress={() => navigation.navigate('Recherche')}>
+          <Ionicons name="search" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Panier')}>
+            <Ionicons name="cart" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Panier')}>
+          <Ionicons name="menu" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

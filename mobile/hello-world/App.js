@@ -5,6 +5,8 @@ import Accueil from './screens/Accueil';
 import Panier from './screens/Panier';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
+import Recherche from './screens/Recherche'
+
 
 const Stack = createStackNavigator();
 
@@ -47,6 +49,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Accueil">
         <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
         <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
+        <Stack.Screen name="Recherche" component={Recherche} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

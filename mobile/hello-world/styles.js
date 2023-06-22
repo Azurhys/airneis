@@ -12,11 +12,22 @@ const styles = StyleSheet.create({
   },
   menu: {
     flexDirection: 'row', 
-    justifyContent: 'flex-start',
+    backgroundColor: '#BDA18A',
+    alignSelf: "stretch",
+    justifyContent: 'space-between',
+    height: 80,
+    paddingLeft: 10,  
+    paddingRight: 10,
   },
   brand: {
     fontSize: 30,
-    fontFamily: 'Cinzel-Bold'
+    fontFamily: 'Cinzel-Bold',
+    color: 'white',   
+  },
+  icons: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    width: 100, // ajustez la valeur en fonction de votre mise en page
   },
 });
 
