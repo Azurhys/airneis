@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, TextInput, StatusBar } from 'react-native';
+import { Button, View, TextInput, StatusBar, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styles from '../styles';
 
 export default function Menu() {
   const navigation = useNavigation();
@@ -11,7 +12,8 @@ export default function Menu() {
   }, []);
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', paddingTop: statusBarHeight }}>
+    <View style={[styles.menu, { paddingTop: statusBarHeight }]}>
+      <Text style={styles.brand}>ÀIRNEIS</Text>
       <TextInput placeholder="Recherche" />
       <Button 
         title="Panier" 

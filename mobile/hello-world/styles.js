@@ -10,7 +10,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'blue',
   },
-  // Ajoutez plus de styles ici
+  menu: {
+    flexDirection: 'row', 
+    justifyContent: 'flex-start',
+  },
+  brand: {
+    fontSize: 30,
+    fontFamily: 'Cinzel-Bold'
+  },
 });
 
 export default styles;
