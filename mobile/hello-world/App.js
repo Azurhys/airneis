@@ -14,6 +14,8 @@ import Contact from './screens/Contact'
 import Connexion from './screens/Connexion'
 import CGU from './screens/CGU'
 import APropos from './screens/Apropos';
+import Produit from './screens/Produit';
+import CartContextProvider from './context/CartContext';
 
 const Stack = createStackNavigator();
 
@@ -52,20 +54,23 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Accueil">
-        <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
-        <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
-        <Stack.Screen name="Recherche" component={Recherche} options={{ headerShown: false }} />
-        <Stack.Screen name="Parametres" component={Parametres} options={{ headerShown: false }} />
-        <Stack.Screen name="Mescommandes" component={Mescommandes} options={{ headerShown: false }} />
-        <Stack.Screen name="MentionsLegales" component={MentionsLegales} options={{ headerShown: false }} />
-        <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
-        <Stack.Screen name="Contact" component={Contact} options={{ headerShown: false }} />
-        <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
-        <Stack.Screen name="CGU" component={CGU} options={{ headerShown: false }} />
-        <Stack.Screen name="APropos" component={APropos} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CartContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Accueil">
+          <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
+          <Stack.Screen name="Produit" component={Produit} options={{ headerShown: false }} />
+          <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
+          <Stack.Screen name="Recherche" component={Recherche} options={{ headerShown: false }} />
+          <Stack.Screen name="Parametres" component={Parametres} options={{ headerShown: false }} />
+          <Stack.Screen name="Mescommandes" component={Mescommandes} options={{ headerShown: false }} />
+          <Stack.Screen name="MentionsLegales" component={MentionsLegales} options={{ headerShown: false }} />
+          <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+          <Stack.Screen name="Contact" component={Contact} options={{ headerShown: false }} />
+          <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
+          <Stack.Screen name="CGU" component={CGU} options={{ headerShown: false }} />
+          <Stack.Screen name="APropos" component={APropos} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartContextProvider>
   );
 }

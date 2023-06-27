@@ -81,6 +81,9 @@ export default function Menu() {
               <TouchableOpacity onPress={() => {navigation.navigate('Parametres'); toggleMenu();}}>
                 <Text style={styles.modalText}>Parametres</Text>
               </TouchableOpacity>
+              <TouchableOpacity onPress={() => {navigation.navigate('Produit'); toggleMenu();}}>
+                <Text style={styles.modalText}>Produit</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>

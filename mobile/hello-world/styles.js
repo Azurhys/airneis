@@ -48,6 +48,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color:'white',
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  price: {
+      fontSize: 20,
+  },
+  status: {
+      fontSize: 18,
+      color: 'grey',
+  },
+  description: {
+      fontSize: 16,
+  },
+  subTitle: {
+      fontSize: 22,
+      fontWeight: 'bold',
+  },
 });
 
 export default styles;
