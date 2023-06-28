@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const cartContext = createContext();
+export const CartContext = createContext();
 
 export function CartContextProvider({ children }) {
   const [cart, setCart] = useState([]);
@@ -81,12 +81,12 @@ export function CartContextProvider({ children }) {
   }
 
   return (
-    <cartContext.Provider value={{
+    <CartContext.Provider value={{
       cart, addToCart, updateQuantity, removeFromCart, checkoutInProgress,
       startCheckout, completeCheckout, clearCart
     }}>
       {children}
-    </cartContext.Provider>
+    </CartContext.Provider>
   );
 }
 

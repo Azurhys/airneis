@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styles from '../styles';
 
 export const RecommandationsProduits = ({ produits, produit }) => {
     const navigation = useNavigation();
@@ -13,7 +14,7 @@ export const RecommandationsProduits = ({ produits, produit }) => {
     const sixProduitsSimilaires = produitsSimilairesAleatoires.slice(0, 6);
   
     return (
-      <View style={{flex: 1, flexDirection: 'row', margin: 20}}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {sixProduitsSimilaires.map((p) => (
             <View key={p.product_id} style={{flex: 1}}>
                 <TouchableOpacity onPress={() => navigation.navigate('Product', {productId: p.product_id})}>
@@ -21,6 +22,6 @@ export const RecommandationsProduits = ({ produits, produit }) => {
                 </TouchableOpacity>
             </View>
         ))}
-      </View>
+      </ScrollView>
     );
 };

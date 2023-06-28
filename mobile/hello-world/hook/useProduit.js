@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Alert } from 'react-native';
-import Env from 'react-native-dotenv'; // Assurez-vous d'avoir installé react-native-config
+import { VITE_API } from "@env"; // Assurez-vous d'avoir installé react-native-config
 
 
 export function useProduit() {
@@ -9,7 +9,7 @@ export function useProduit() {
   const [produitDetail, setProduitDetail] = useState(null);
 
   useEffect(() => {
-    axios.get(`${Env.VITE_API}produits.json`).then((reponse) => {
+    axios.get(`${VITE_API}produits.json`).then((reponse) => {
       const resultat = [];
       for (const key in reponse.data) {
         if (reponse.data[key]) resultat.push({ ...reponse.data[key], id: key });
@@ -30,7 +30,7 @@ export function useProduit() {
       if (p.id === produit.id) {
         const updatedProduit = { ...p, enAvant: p.enAvant === 0 ? 1 : 0 };
         // Mettre à jour la valeur "enAvant" dans la base de données
-        axios.put(`${import.meta.env.VITE_API}produits/${p.id}.json`, updatedProduit).then(() => {console.log("Produit mis à jour avec succès !");})
+        axios.put(`${VITE_API}produits/${p.id}.json`, updatedProduit).then(() => {console.log("Produit mis à jour avec succès !");})
           .catch((error) => {console.error("Erreur lors de la mise à jour du produit :", error);});
         return updatedProduit;
       }
@@ -54,7 +54,7 @@ export function useProduit() {
   //supprimer
   const supprimerProduit = (produitId) => {
     console.log(typeof produitId);
-    axios.delete(`${Env.VITE_API}produits/${produitId}.json`).then(() => {
+    axios.delete(`${VITE_API}produits/${produitId}.json`).then(() => {
         setProduits((prevProduits) => prevProduits.filter((produit) => produit.id !== produitId));
         console.log(`Produit avec ID ${produitId} supprimé avec succès.`);
       })
@@ -71,7 +71,7 @@ const ajouterProduit = (nouveauProduit) => {
   const produit = { ...nouveauProduit, product_id: nouveauProductID };
   const firebaseKey = nouveauProductID.toString(); // Utilisez nouveauProductID comme clé
 
-  axios.put(`${Env.VITE_API}produits/${firebaseKey}.json`, produit).then((response) => {
+  axios.put(`${VITE_API}produits/${firebaseKey}.json`, produit).then((response) => {
     const nouveauProduitAvecId = { ...produit, id: firebaseKey };
     setProduits((prevProduits) => [...prevProduits, nouveauProduitAvecId]);
   })
@@ -86,7 +86,7 @@ const ajouterProduit = (nouveauProduit) => {
 
   // Detail produit
   const afficherDetailProduit = (produitId) => {
-    axios.get(`${Env.VITE_API}produits/${produitId}.json`).then(response => {
+    axios.get(`${VITE_API}produits/${produitId}.json`).then(response => {
         const produit = response.data;
         setProduitDetail(produit);
       })
@@ -100,7 +100,7 @@ const ajouterProduit = (nouveauProduit) => {
     const produit = {...produitModifie,product_id: parseInt(produitModifie.product_id, 10)};
     console.log("Produit à modifier:", produit); // Pour vérifier le produit
     
-    axios.patch(`${Env.VITE_API}produits/${produit.product_id}.json`, produit)
+    axios.patch(`${VITE_API}produits/${produit.product_id}.json`, produit)
       .then(() => {
         setProduits((prevProduits) => {
           const index = prevProduits.findIndex((p) => p.product_id === produit.product_id);

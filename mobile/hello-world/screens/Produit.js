@@ -1,8 +1,7 @@
-import { View, Text } from 'react-native';
 import Menu from '../composants/Menu';
 import styles from '../styles';
 import React, { useContext } from 'react';
-import { View, Text, Image, Button, Dimensions } from 'react-native';
+import { View, Text, Image, Button, Dimensions, ScrollView } from 'react-native';
 import Caroussel from "../composants/Caroussel";
 import { useProduit } from "../hook/useProduit";
 import { RecommandationsProduits } from "../composants/Recommandations";
@@ -15,7 +14,7 @@ const Produit = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const [produits] = useProduit();
-    const { id } = route.params;
+    const  id  = 1;
     const { addToCart } = useContext(CartContext);
     const produitId = Number(id);
 
@@ -34,7 +33,7 @@ const Produit = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <Menu />
             <Image 
                 source={{ uri: produit?.image[1] }} 
@@ -66,7 +65,7 @@ const Produit = () => {
             </Text>
 
             <RecommandationsProduits produits={produits} produit={produit} />
-        </View>
+        </ScrollView>
     );
 }
 
