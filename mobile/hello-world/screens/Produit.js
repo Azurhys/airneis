@@ -14,7 +14,7 @@ const Produit = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const [produits] = useProduit();
-    const  id  = 1;
+    const  id  = 0;
     const { addToCart } = useContext(CartContext);
     const produitId = Number(id);
 
