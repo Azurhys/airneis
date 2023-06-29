@@ -16,6 +16,8 @@ import CGU from './screens/CGU'
 import APropos from './screens/Apropos';
 import Produit from './screens/Produit';
 import CartContextProvider from './context/CartContext';
+import { AuthContextProvider } from './context/Authcontext';
+
 
 const Stack = createStackNavigator();
 
@@ -54,6 +56,7 @@ export default function App() {
   }
 
   return (
+    <AuthContextProvider>
     <CartContextProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Accueil">
@@ -72,5 +75,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </CartContextProvider>
+    </AuthContextProvider>
   );
 }

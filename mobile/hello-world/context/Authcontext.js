@@ -39,10 +39,15 @@ export function AuthContextProvider({ children }) {
       setUserName(firstName);
       setCategoryId(categorie_user_Id);
       setuser_Id(user_Id);
+  
+      console.log('Connexion réussie');
+      // Effectuer d'autres actions après la connexion réussie
     } catch (e) {
-      // saving error
+      console.log('Erreur lors de la connexion');
+      // Gérer les erreurs lors de la connexion
     }
   };
+  
 
   const logout = async () => {
     try {
