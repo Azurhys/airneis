@@ -17,7 +17,7 @@ import APropos from './screens/Apropos';
 import Produit from './screens/Produit';
 import CartContextProvider from './context/CartContext';
 import { AuthContextProvider } from './context/Authcontext';
-
+import Categories from './screens/Categories';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +61,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Accueil">
           <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
+          <Stack.Screen name="Categories" component={Categories} options={{ headerShown: false }} />
           <Stack.Screen name="Produit" component={Produit} options={{ headerShown: false }} />
           <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
           <Stack.Screen name="Recherche" component={Recherche} options={{ headerShown: false }} />

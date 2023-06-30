@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { VITE_API } from "@env";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useLoginValidation = (email, password) => {
   const [isValid, setIsValid] = useState(false);
@@ -19,11 +20,14 @@ const useLoginValidation = (email, password) => {
           setFirstName(matchedClient.firstName);
           setCategoryId(matchedClient.categorie_user_Id);
           setuser_Id(matchedClient.user_Id);
+          // Write to Async Storage
+          await AsyncStorage.setItem('userID', matchedClient.user_Id.toString());
         } else {
           setIsValid(false);
           setFirstName('');
           setCategoryId('');
           setuser_Id('');
+          await AsyncStorage.removeItem('userID'); // optional, remove userID if login is not successful
         }
       } catch (error) {
         console.error(error);
@@ -32,7 +36,7 @@ const useLoginValidation = (email, password) => {
 
     fetchData();
   }, [email, password]);
-  console.log(user_Id)
+
   return { isValid, firstName, categorie_user_Id, user_Id };
 };
 

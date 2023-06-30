@@ -1,5 +1,5 @@
 // Panier.js
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, Button, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -13,10 +13,17 @@ const Panier = () => {
   const { cart, updateQuantity, removeFromCart, startCheckout, checkoutInProgress, clearCart } = useContext(CartContext);
   const total = cart.reduce((total, product) => total + product.price * product.quantityInCart, 0);
   const tva = total * 0.2;
-  const userIdFromStorage = '...'; // récupérez l'ID de l'utilisateur à partir du stockage
+  const [userIdFromStorage, setUserIdFromStorage] = useState('');// récupérez l'ID de l'utilisateur à partir du stockage
   const navigation = useNavigation();
 
-  console.log(cart)
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const userID = await AsyncStorage.getItem('userID');
+      setUserIdFromStorage(userID);
+    }
+
+    fetchUserId();
+  }, []);
 
   const handleCheckout = async () => {
     let orderNumber = Math.floor(Math.random() * 1e9);
