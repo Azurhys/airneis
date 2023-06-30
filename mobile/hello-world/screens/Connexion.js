@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu from '../composants/Menu';
-//import styles from '../styles';
 import useLoginValidation from '../verif/useLoginValidation';
-
 import { AuthContext }  from '../context/Authcontext';
 import { CartContext } from '../context/CartContext';
 
