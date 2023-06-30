@@ -1,24 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, ScrollView, Button } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, ScrollView, Button, ActivityIndicator  } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCategories } from "../hook/useCategories";
 import { useProduit } from "../hook/useProduit";
 import styles from '../styles';
 import Menu from '../composants/Menu';
 
-const Categorie = () => {
-  const [categories] = useCategories();
-//   console.log(categories)
-  const [produits, setProduits] = useProduit();
-  const navigation = useNavigation();
-  const route = useRoute();
-  const category_id = 0; 
-  const produitsParCategorie = produits.filter(p => p.category_id === Number(category_id));
-  const sortedProduits = [...produitsParCategorie].sort((a, b) => {
-    if (a.quantity === 0) return 1; 
-    if (b.quantity === 0) return -1; 
-    return b.priority - a.priority; 
-  });
+const Categories = () => {
+    
+    const [produits] = useProduit();    
+    const navigation = useNavigation();
+    const route = useRoute();
+    const category_id = 0;
+    
+    const [categories, setCategories, isLoading] = useCategories();
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+    // Ajouter cette vérification
+    let produitsParCategorie = [];
+    let sortedProduits = [];
+    
+    if (produits && produits.length > 0) {
+      produitsParCategorie = produits.filter(p => p.category_id === Number(category_id));
+      sortedProduits = [...produitsParCategorie].sort((a, b) => {
+        if (a.quantity === 0) return 1; 
+        if (b.quantity === 0) return -1; 
+        return b.priority - a.priority; 
+      });
+    }
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Produit', { productId: item.product_id })}>
@@ -57,4 +73,4 @@ const Categorie = () => {
   )
 }
 
-export default Categorie;
+export default Categories;

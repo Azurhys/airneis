@@ -4,10 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function Menu() {
   const navigation = useNavigation();
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [menuVisible, setMenuVisible] = useState(false);
+
 
   useEffect(() => {
     setStatusBarHeight(StatusBar.currentHeight);
