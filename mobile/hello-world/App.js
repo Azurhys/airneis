@@ -18,6 +18,7 @@ import Produit from './screens/Produit';
 import CartContextProvider from './context/CartContext';
 import { AuthContextProvider } from './context/Authcontext';
 import Categories from './screens/Categories';
+import Livraison from './screens/Livraison';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,7 @@ export default function App() {
           <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
           <Stack.Screen name="CGU" component={CGU} options={{ headerShown: false }} />
           <Stack.Screen name="APropos" component={APropos} options={{ headerShown: false }} />
+          <Stack.Screen name="Livraison" component={Livraison} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartContextProvider>
