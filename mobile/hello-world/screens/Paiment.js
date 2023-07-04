@@ -88,6 +88,7 @@ const Paiement = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const deliveryAddress = JSON.parse(await AsyncStorage.getItem('deliveryAddress'));
         const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingDetails;
         setBillingDetails(billingAddressToUse);
         
@@ -112,7 +113,7 @@ const Paiement = () => {
                 console.error(error);
             }
         }
-
+    
         if (!selectedPayment) {
             const data = {
                 user_Id: userIdFromStorage,
@@ -137,17 +138,17 @@ const Paiement = () => {
             await AsyncStorage.setItem('paymentDetails', JSON.stringify(selectedPayment));
             navigation.navigate("ConfirmationPaiement");
         }
-
+    
         const cartItems = JSON.parse(await AsyncStorage.getItem('infocart'));
-        const deliveryAddress = JSON.parse(await AsyncStorage.getItem('deliveryAddress'));
         const paymentDetails = JSON.parse(await AsyncStorage.getItem('paymentDetails'));
         const userId = await AsyncStorage.getItem('userID');
-            
+        const orderNumberFromStorage = await AsyncStorage.getItem('orderNumber'); // Add this line to retrieve orderNumber
+    
         const today = new Date();
         const formattedDate = today.toLocaleDateString('fr-FR');
-
+    
         const order = {
-            orderId: orderNumberFromStorage,
+            orderId: orderNumberFromStorage, // use the retrieved orderNumber here
             userId: userId,
             cartItems: cartItems,
             deliveryAddress: deliveryAddress,
@@ -156,12 +157,12 @@ const Paiement = () => {
             billingAddress: billingAddressToUse,
             status: getRandomStatus()
         };
-
+    
         try {
             const response = await axios.put(`${VITE_API}commandes/${order.orderId}.json`, order);
             if (response.status === 200) {
                 console.log("Commande enregistrée");
-
+    
                 await AsyncStorage.removeItem('infocart');
                 await AsyncStorage.removeItem('cart');
                 await AsyncStorage.removeItem('deliveryAddress');
@@ -172,6 +173,7 @@ const Paiement = () => {
             console.error(error);
         }
     };
+    
 
 
     return (
