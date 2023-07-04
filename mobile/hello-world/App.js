@@ -19,6 +19,8 @@ import CartContextProvider from './context/CartContext';
 import { AuthContextProvider } from './context/Authcontext';
 import Categories from './screens/Categories';
 import Livraison from './screens/Livraison';
+import Paiement from './screens/Paiment';
+import ConfirmationPaiement from './screens/ConfirmationPaiement';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +77,8 @@ export default function App() {
           <Stack.Screen name="CGU" component={CGU} options={{ headerShown: false }} />
           <Stack.Screen name="APropos" component={APropos} options={{ headerShown: false }} />
           <Stack.Screen name="Livraison" component={Livraison} options={{ headerShown: false }} />
+          <Stack.Screen name="Paiement" component={Paiement} options={{ headerShown: false }} />
+          <Stack.Screen name="ConfirmationPaiement" component={ConfirmationPaiement} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartContextProvider>

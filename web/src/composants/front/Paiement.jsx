@@ -23,15 +23,6 @@ const Paiment = () => {
     const { cart, updateQuantity, removeFromCart, startCheckout, checkoutInProgress, clearCart } = useContext(cartContext);
     const orderNumberFromStorage = localStorage.getItem('orderNumber');
     const [useDeliveryAddress, setUseDeliveryAddress] = useState(false);
-    const [billingAddress, setBillingAddress] = useState('');
-    const [prenom, setPrenom] = useState('');
-    const [nom, setNom] = useState('');
-    const [adresse1, setAdresse1] = useState('');
-    const [adresse2, setAdresse2] = useState('');
-    const [ville, setVille] = useState('');
-    const [codePostal, setCodePostal] = useState('');
-    const [pays, setPays] = useState('');
-    const [telephone, setTelephone] = useState('');
     const [billingAddresses, setBillingAddresses] = useState([]);
 
     const initialBillingAddress = {

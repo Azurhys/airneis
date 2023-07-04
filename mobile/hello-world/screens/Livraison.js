@@ -9,6 +9,7 @@ import { VITE_API } from "@env";
 import Menu from '../composants/Menu';
 import styles from '../styles';
 
+
 const Livraison = () => {
     const navigation = useNavigation();
     const { isAuthenticated, userName, logout, user_Id } = useContext(AuthContext);
@@ -82,7 +83,7 @@ const Livraison = () => {
             selectedAdresse.pays === pays && 
             selectedAdresse.telephone === telephone) {
             // Si c'est le cas, ne faites rien et naviguez directement vers la page de paiement
-            navigation.navigate("/Paiement");
+            navigation.navigate("Paiement");
             return;
         }
     
@@ -94,7 +95,7 @@ const Livraison = () => {
             if (response.status === 200) {
                 console.log("Adresse enregistrée");
                 // Naviguer vers la page de paiement
-                navigation.navigate("/Paiement");
+                navigation.navigate("Paiement");
             }
         } catch (error) {
             console.error(error);
