@@ -19,7 +19,7 @@ import CartContextProvider from './context/CartContext';
 import { AuthContextProvider } from './context/Authcontext';
 import Categories from './screens/Categories';
 import Livraison from './screens/Livraison';
-import Paiement from './screens/Paiment';
+import Paiement from './screens/Paiement';
 import ConfirmationPaiement from './screens/ConfirmationPaiement';
 
 const Stack = createStackNavigator();
