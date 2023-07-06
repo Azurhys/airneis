@@ -24,7 +24,7 @@ export default function Connexion() {
 
   const handleSubmit = () => {
     if (!isValid) {
-      setErrorMessage("L'adresse e-mail ou le mot de passe est incoorrect.");
+      setErrorMessage("L'adresse e-mail ou le mot de passe est incorrecte.");
     } else {
       login(firstName, categorie_user_Id, user_Id);
       //login(formData.email, formData.password);

@@ -8,6 +8,7 @@ import Accueil from './screens/Accueil';
 import Panier from './screens/Panier';
 import Parametres from './screens/Parametres'
 import Mescommandes from './screens/Mescommandes'
+import Macommande from './screens/Macommande';
 import MentionsLegales from './screens/MentionsLegales'
 import Inscription from './screens/Inscription'
 import Contact from './screens/Contact'
@@ -70,6 +71,7 @@ export default function App() {
           <Stack.Screen name="Recherche" component={Recherche} options={{ headerShown: false }} />
           <Stack.Screen name="Parametres" component={Parametres} options={{ headerShown: false }} />
           <Stack.Screen name="Mescommandes" component={Mescommandes} options={{ headerShown: false }} />
+          <Stack.Screen name="Macommande" component={Macommande} options={{ headerShown: false }} />
           <Stack.Screen name="MentionsLegales" component={MentionsLegales} options={{ headerShown: false }} />
           <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
           <Stack.Screen name="Contact" component={Contact} options={{ headerShown: false }} />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Alert } from 'react-native';
-import { VITE_API } from "@env"; // Assurez-vous d'avoir installé react-native-config
+import { VITE_API } from "@env";
 
 
 export function useProduit() {
