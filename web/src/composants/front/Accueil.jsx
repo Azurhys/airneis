@@ -2,27 +2,19 @@ import React, { useContext } from 'react';
 import Carousel from 'better-react-carousel'
 import { NavLink} from "react-router-dom"
 import { useProduit } from "../../hook/useProduit";
-
+import { useCategories } from '../../hook/useCategorie'
 
 const Accueil = () => {
   const [produits] = useProduit();
+  const [categories] = useCategories();
 
   // Filtrer les produits en avant
   const produitsEnAvant = produits.filter((produit) => produit.enAvant === 1);
 
   const getCategoryRoute = (categoryId) => {
-    const url = '/Categorie'
-    switch (categoryId) {
-      case 0:
-        return url + "/Table";
-      case 1:
-        return url + "/Meuble";
-      case 2:
-        return url + "/Lit";
-      default:
-        return "/";
-    }
+    return `/Categorie/${categoryId}`;
   };
+
 
 
   return (
@@ -50,7 +42,17 @@ const Accueil = () => {
           </Carousel.Item>
         </Carousel>
       </div>
-      <div className="text-center mt-3 mb-5 container-fluid">
+      <div className="text-center mt-5 mb-5 container-fluid">
+      <div className="row">
+        {categories.map((categorie) => (
+          <div key={categorie.category_id} className="col-md-4 mb-5">
+            <NavLink to={getCategoryRoute(categorie.category_id)}>
+              <img width={300} src={categorie.image} alt={categorie.name} />
+              <p>{categorie.name}</p>
+            </NavLink>
+          </div>
+        ))}
+        </div>
         <h3>
           Venant des hautes terres d'écosse <br/> nos meubles sont immortels
         </h3>

@@ -63,9 +63,20 @@ const Backoffice = () => {
       quantity: 0,
     });
     
-    const [categories] = useCategories();
+    const [categories, setCategories, updateCategory] = useCategories();
     const [sortedProduits, setSortedProduits] = useState([...produits]);
-   
+    const [editingCategory, setEditingCategory] = useState(null);
+    const [updatedCategory, setUpdatedCategory] = useState({});
+
+    const handleEdit = (category) => {
+      setEditingCategory(category.id);
+      setUpdatedCategory(category);
+    };
+  
+    const handleUpdate = () => {
+      updateCategory(editingCategory, updatedCategory);
+      setEditingCategory(null);
+    };
 
 useEffect(() => {
   setModifProduit(produitDetail);
@@ -546,7 +557,33 @@ useEffect(() => {
         ))}
     </tbody>
 </table>
-
+  <div>
+      {categories.map((category) => (
+        <div key={category.id}>
+          {editingCategory === category.id ? (
+            <div>
+              <input
+                type="text"
+                value={updatedCategory.name}
+                onChange={(e) => setUpdatedCategory(prevCategory => ({ ...prevCategory, name: e.target.value }))}
+              />
+              <input
+                type="text"
+                value={updatedCategory.image}
+                onChange={(e) => setUpdatedCategory(prevCategory => ({ ...prevCategory, image: e.target.value }))}
+              />
+              <button onClick={handleUpdate}>Mettre à jour</button>
+            </div>
+          ) : (
+            <div>
+              <img src={category.image} alt={category.name} />
+              <h3>{category.name}</h3>
+              <button onClick={() => handleEdit(category)}>Éditer</button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
 
     </div>
         <h1>Tableau de bord</h1>
