@@ -54,7 +54,7 @@ const Accueil = () => {
         ))}
         </div>
         <h3>
-          Venant des hautes terres d'écosse <br/> nos meubles sont immortels
+          Venant des hautes terres d'Écosse <br/> nos meubles sont immortels
         </h3>
         <div className="row">
         {produitsEnAvant.map((produit) => (

@@ -6,7 +6,7 @@ import { cartContext } from '../../context/CartContext';
 
 const ConnexionPage = () => {
   const navigate = useNavigate();
-  const { checkoutInProgress, startCheckout, completeCheckout }= useContext(cartContext);
+  const { checkoutInProgress }= useContext(cartContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,8 +15,6 @@ const ConnexionPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const isLoginValid = useLoginValidation(formData.email, formData.password);
   const { isValid, firstName, categorie_user_Id, user_Id} = isLoginValid;
-
-
   const { isAuthenticated, login} = useContext(AuthContext);
 
   const handleInputChange = (event) => {
