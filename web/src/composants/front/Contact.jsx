@@ -7,8 +7,8 @@ const Contact = () => {
   const emailRef = useRef();
   const messageRef = useRef();
   const sujetRef = useRef();
-  const [alerte, setAlerte, getError] = useAlert();
-  const { isSuccess, error, handleSubmit } = useContact();
+  const [alerte, setAlerte] = useAlert();
+  const { handleSubmit } = useContact();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
