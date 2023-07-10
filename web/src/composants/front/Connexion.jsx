@@ -58,7 +58,7 @@ const ConnexionPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                />
+                required/>
               </label>
             </div>
 
@@ -72,7 +72,7 @@ const ConnexionPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                />
+                required/>
               </label>
             </div>
             <br />
