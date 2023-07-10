@@ -101,7 +101,7 @@ const Recherche = () => {
     );
     }
 
-    setFilteredProducts(filteredProducts.slice(0, 3));
+    setFilteredProducts(filteredProducts.slice(0, 10));
   };
 
   const handleResetClick = () => {
@@ -116,69 +116,68 @@ const Recherche = () => {
   };
 
   return (
-    <Container className='m-5'>
-      <Row>
-        <Col>
-          <InputGroup>
-            <Form.Control
+    <div className='m-5'>
+      <div className='row'>
+        <div className='col'>
+          <div className='input-group'>
+            <input
               type="text"
               placeholder="Rechercher un produit..."
               value={searchText}
               onChange={handleSearchTextChange}
             />
-            <Button className='btn-brown' onClick={handleFilterClick}>Filtrer</Button>
-          </InputGroup>
-        </Col>
-      </Row>
+            <button className='btn-brown' onClick={handleFilterClick}>Filtrer</button>
+          </div>
+        </div>
+      </div>
       {showOptions && (
-        <Row className='position-absolute start-50 w-50 filtre bg-light'>
-          <Col className='ms-auto w-50 my-2'>
-            <Button className='my-2' variant="secondary" onClick={handleResetClick}>Réinitialiser</Button>
+        <div className='position-absolute start-50 w-50 filtre bg-light'>
+          <div className='ms-auto w-50 my-2'>
+            <button className='my-2' onclick={handleResetClick}>Réinitialiser</button>
             <br />
-            <Form.Label className='my-2'>Description</Form.Label>
-            <Form.Control type="text" value={searchTextDescription} onChange={handleDescriptionTextChange} />
+            <label className='my-2'>Description</label>
+            <input type="text" value={searchTextDescription} onchange={handleDescriptionTextChange} />
 
-            <Form.Label className='my-2'>Matériau</Form.Label>
-            <Form.Control type="text" value={material} onChange={handleMaterialChange} />
+            <label className='my-2'>Matériau</label>
+            <input type="text" value={material} onchange={handleMaterialChange} />
 
-            <Form.Label className='my-2'>Prix min.</Form.Label>
-            <Form.Control type="number" value={minPrice} onChange={handleMinPriceChange} />
+            <label className='my-2'>Prix min.</label>
+            <input type="number" value={minPrice} onchange={handleMinPriceChange} />
 
-            <Form.Label className='my-2'>Prix max.</Form.Label>
-            <Form.Control type="number" value={maxPrice} onChange={handleMaxPriceChange} />
+            <label className='my-2'>Prix max.</label>
+            <input type="number" value={maxPrice} onchange={handleMaxPriceChange} />
 
-            <Form.Label className='my-2'>Catégories</Form.Label>
-            <Form.Control as="select" value={categories} onChange={handleCategoriesChange}>
+            <label className='my-2'>Catégories</label>
+            <select value={categories} onchange={handleCategoriesChange}>
               <option value={0}>Table</option>
               <option value={1}>Étagères</option>
               <option value={2}>ya pas de 2</option>
               <option value={3}>Chaise</option>
               <option value={4}>Armoire</option>
               <option value={5}>Buffet</option>
-            </Form.Control>
+            </select>
             
 
+            <input className='my-2' type="checkbox" label="Afficher uniquement les produits en stock" checked={inStockOnly} onchange={handleInStockOnlyChange} />
 
-            <Form.Check className='my-2' type="checkbox" label="Afficher uniquement les produits en stock" checked={inStockOnly} onChange={handleInStockOnlyChange} />
-
-            <Form.Label className='my-2'>Trier par</Form.Label>
-            <Form.Control as="select" value={sortBy} onChange={handleSortByChange}>
+            <label className='my-2'>Trier par</label>
+            <select value={sortBy} onchange={handleSortByChange}>
               <option value="price-asc">Prix croissant</option>
               <option value="price-desc">Prix décroissant</option>
               <option value="date-asc">Le plus récent</option>
               <option value="date-desc">Le plus ancien</option>
-            </Form.Control>
-          </Col>
-        </Row>
+            </select>
+          </div>
+        </div>
       )}
-      <Row className='my-3 text-center'>
-        <Col>
-          <Button className='btn-brown' onClick={handleSearchClick}>Rechercher</Button>
-        </Col>
-      </Row>
-      <Row className='mt-5'>
-        {filteredProducts.slice(0, 3).map((produit) => (
-          <Col md={4} key={produit.id}>
+      <div className='my-3 text-center'>
+        <div className='col'>
+          <button className='btn-brown' onClick={handleSearchClick}>Rechercher</button>
+        </div>
+      </div>
+      <div className='mt-5'>
+        {filteredProducts.slice(0, 10).map((produit) => (
+          <div className='col-md-4' key={produit.id}>
             <div className="card mb-4 shadow-sm">
               <img src={produit.image} alt="Product" />
               <div className="card-body">
@@ -189,10 +188,11 @@ const Recherche = () => {
                 <p className="card-text"><small className="text-muted">{produit.inStock ? 'En stock' : 'En rupture de stock'}</small></p>
               </div>
             </div>
-          </Col>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
+
   );
 };
 
