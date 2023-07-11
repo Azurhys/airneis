@@ -30,6 +30,7 @@ import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
 import {CartContextProvider} from './context/CartContext';
 import MaCommande from './composants/front/MaCommande';
+import Test from './composants/front/Test';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
@@ -58,6 +59,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
+            <Route path="Test" element={<Test />} />
             <Route path="/produit/:id" element={<Produit />} />
           </Route>    
         </Routes>

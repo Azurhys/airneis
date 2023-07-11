@@ -10,6 +10,7 @@ import axios from "axios";
 import { useCommandes } from "../../hook/useCommandes";
 import { startOfWeek, eachDayOfInterval, format } from 'date-fns';
 import moment from 'moment';
+import ProduitsGestion from "../back/ProduitsGestion";
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -166,10 +167,7 @@ useEffect(() => {
       setEditedProduitDetail(true)
     }
 
-  const handleCategoryClick = (categoryId) => {
-    // setCurrentCategory(null); // Réinitialise la catégorie actuelle
-    setTimeout(() => setCurrentCategory(categoryId), 0); // Puis définis la nouvelle catégorie après une pause
-  };
+  
   
   const handleProductPriorityChange = (produitId, newPriority) => {
     changeProductPriority(produitId, newPriority);
@@ -186,10 +184,6 @@ useEffect(() => {
           console.error("Erreur lors de la mise à jour de la priorité : ", error);
       }
     }
-
-  const [currentCategory, setCurrentCategory] = useState(null);
-  const filteredProduits = produits.filter((produit) => produit.category_id === currentCategory);
-
 
   const today = moment();
     const days = [6, 5, 4, 3, 2, 1, 0].map(n => moment(today).subtract(n, 'days'));  // Inverse order here
@@ -493,71 +487,13 @@ useEffect(() => {
         </tfoot>
     </table>
     </div>
-    <div className="w-100">
-                <h2 className="my-3 text-center">Gestion de la priorité des produits par catégorie</h2>
-                <br />
-                <div className="text-center">
-                    {categories.map((category) => (
-                      <button
-                        key={category.category_id}
-                        className="btn btn-brown mx-2"
-                        onClick={() => handleCategoryClick(category.category_id)}
-                      >
-                        {category.name}
-                      </button>
-                    ))}
-                </div>
-                <table className="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Prix</th>
-            <th>Quantité</th>
-            <th>Catégorie</th>
-            <th onClick={() => handleSort('priority')}>
-                Priorité 
-                {sortBy === 'priority' ? (
-                    sortOrder === 'asc' ? '▲' : '▼'
-                ) : (
-                    '▲' // flèche par défaut indiquant un tri ascendant
-                )}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {produits
-        .filter(produit => produit.category_id === currentCategory)
-        .sort((a, b) => {
-          if (sortBy === null) {
-            // Tri par défaut sur l'ID du produit en ordre ascendant
-            return a.product_id - b.product_id;
-        }
-            if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
-            if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
-            return 0;
-        })
-        .map((produit) => (
-            <tr key={produit.product_id}>
-                <td>{produit.product_id}</td>
-                <td>{produit.name}</td>
-                <td>{produit.description}</td>
-                <td>{produit.price}</td>
-                <td>{produit.quantity}</td>
-                <td>{produit.category_id}</td>
-                <td>
-                    <p>Priorité actuelle : <span id={`priorityValue${produit.product_id}`}>{produit.priority}</span></p>
-                    <div className="d-flex flex-nowrap">
-                    <input className="form-control mx-3 w-25" type="number" id={`newPriority${produit.product_id}`} min="1" />
-                    <button className="btn btn-brown w-50" onClick={() => changePriority(produit.product_id, document.getElementById(`newPriority${produit.product_id}`).value)}>Changer la priorité</button>
-                    </div>
-                </td>
-            </tr>
-        ))}
-    </tbody>
-</table>
-  <div>
+    <ProduitsGestion 
+      categories={categories}
+      produits={produits}
+      sortBy={sortBy}
+      sortOrder={sortOrder}
+    />
+<div>
       {categories.map((category) => (
         <div key={category.id}>
           {editingCategory === category.id ? (
@@ -583,8 +519,6 @@ useEffect(() => {
           )}
         </div>
       ))}
-    </div>
-
     </div>
         <h1>Tableau de bord</h1>
         <div>
