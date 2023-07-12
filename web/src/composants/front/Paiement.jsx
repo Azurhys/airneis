@@ -24,6 +24,7 @@ const Paiment = () => {
     const orderNumberFromStorage = localStorage.getItem('orderNumber');
     const [useDeliveryAddress, setUseDeliveryAddress] = useState(false);
     const [billingAddresses, setBillingAddresses] = useState([]);
+    
 
     const initialBillingAddress = {
         prenom: '',
@@ -35,7 +36,7 @@ const Paiment = () => {
         pays: '',
         telephone: '',
     };
-
+    const [billingAddress, setBillingAddress] = useState(initialBillingAddress);
     const [billingDetails, setBillingDetails] = useState(initialBillingAddress);
 
     const handleBillingDetailsChange = e => {
@@ -92,8 +93,9 @@ const Paiment = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
-        const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingDetails;
+        const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingAddress;
         setBillingAddress(billingAddressToUse);
+
         
         const addressExists = billingAddresses.some(address => 
             address.prenom === billingAddressToUse.prenom &&
