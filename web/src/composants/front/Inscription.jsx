@@ -8,23 +8,16 @@ const RegistrationPage = () => {
     email: '',
     password: '',
     user_Id : '', 
-    categorie_user_Id : 0, // Champ pour la catégorie du client
+    categorie_user_Id : 0,
   });
 
-  const isEmailValid = useEmailValidation(formData.email);
-
-  // Gère les modifications des champs de saisie
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Soumet le formulaire d'inscription
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!isEmailValid) {
       setErrorMessage("L'adresse e-mail est déjà utilisée.");
       return;
@@ -32,20 +25,17 @@ const RegistrationPage = () => {
       setErrorMessage("Inscription réussie !");
       //window.location.href = "/"; // Redirige vers la page d'accueil après une inscription réussie (à revoir pour une meilleure approche)
     }
-
     try {
-      // Générer un ID aléatoire
       const clientId = Math.floor(Math.random() * 1000000);
-
-      // Ajouter l'ID et la catégorie du client aux données du formulaire
       const clientData = { ...formData, id: clientId, CatégorieClientId: 0 };
-
       const response = await axios.post(`${import.meta.env.VITE_API}clients.json`, clientData);
-      // Effectuer des actions supplémentaires après l'envoi du formulaire si nécessaire
     } catch (error) {
       // Gérer les erreurs de requête en cas d'échec de l'envoi du formulaire
     }
   };
+
+  const isEmailValid = useEmailValidation(formData.email);
+  const [errorMessage, setErrorMessage] = useState('');
 
   return (
     <>
