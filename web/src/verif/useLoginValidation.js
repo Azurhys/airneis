@@ -31,7 +31,6 @@ const useLoginValidation = (email, password) => {
 
     fetchData();
   }, [email, password]);
-  console.log(user_Id)
   return { isValid, firstName, categorie_user_Id, user_Id };
 };
 

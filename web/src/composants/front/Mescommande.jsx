@@ -7,15 +7,12 @@ const MesCommandes = () => {
     const { isAuthenticated, user_Id } = useContext(AuthContext);
     const [commandes] = useCommandes();
     const userIdFromStorage = localStorage.getItem('userID');
-    
-    // Filtrer les commandes pour n'obtenir que celles de l'utilisateur connecté
     const userCommandes = commandes.filter(commande => commande.userId === userIdFromStorage);
 
-    // Triez les commandes par année
     const commandesByYear = userCommandes.reduce((acc, commande) => {
-        const [day, month, year] = commande.orderDate.split("/").map(Number); // convertir en tableau de nombres
-        const date = new Date(year, month - 1, day); // créer un objet Date
-        const fullYear = date.getFullYear(); // obtenir l'année complète (4 chiffres)
+        const [day, month, year] = commande.orderDate.split("/").map(Number);
+        const date = new Date(year, month - 1, day);
+        const fullYear = date.getFullYear();
 
         if (!acc[fullYear]) {
             acc[fullYear] = [];
