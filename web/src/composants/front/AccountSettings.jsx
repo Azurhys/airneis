@@ -3,62 +3,44 @@ import { Dropdown } from 'react-bootstrap';
 import useConfigsetting from "../../hook/useConfigsetting";
 
 const AccountSettings = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confPassword, setConfPassword] = useState('');
-  const [shippingAddress, setShippingAddress] = useState('');
-  const [billingAddress, setBillingAddress] = useState('');
-  const [paymentMethods, setPaymentMethods] = useState('');
-  const [paymentOptions, setPaymentOptions] = useState([]);
-  const [cardName, setCardName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [useDeliveryAddress, setUseDeliveryAddress] = useState(false);
-  const [useAddress, setUseAddress] = useState(false);
-  const [billingAddresses, setBillingAddresses] = useState([]);
-  const { isSuccess, error, handleSubmit } = useConfigsetting();
-  
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    handleSubmit(
-      fullName,
-      email,
-      password,
-      shippingAddress,
-      billingAddress,
-      paymentMethods
-    );
+    const { handleSubmit } = useConfigsetting();    
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confPassword, setConfPassword] = useState('');
 
-    setFullName('');
-    setEmail('');
-    setPassword('');
-    setConfPassword('');
-    setShippingAddress('');
-    setBillingAddress('');
-    setPaymentMethods('');
-  };
-  
-  const handleUseDeliveryAddressChange = (event) => {
-    setUseDeliveryAddress(event.target.checked);
-    if (event.target.checked) {
-      const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
-      setBillingAddress(deliveryAddress);
-    } else {
-      setBillingAddress(billingAddresses[0]); // Utilisez une valeur par défaut appropriée pour billingAddresses
-    }
-  };
-  
-  const handleUseAddressChange = (event) => {
-    setUseAddress(event.target.checked);
-    if (event.target.checked) {
-      const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
-      setBillingAddress(deliveryAddress);
-    } else {
-      setBillingAddress(billingAddresses[0]); // Utilisez une valeur par défaut appropriée pour billingAddresses
-    }
-  };
+    const [paymentMethods, setPaymentMethods] = useState('');
+    const [billingAddress, setBillingAddress] = useState('');
+    const [shippingAddress, setShippingAddress] = useState('');
+
+    const [paymentOptions, setPaymentOptions] = useState([]);
+    const [cardName, setCardName] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvv, setCvv] = useState('');
+
+    const [useAddress, setUseAddress] = useState(false);
+    const [billingAddresses, setBillingAdresses] = useState([]);
+    
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+      handleSubmit(
+        fullName,
+        email,
+        password,
+        shippingAddress,
+        billingAddress,
+        paymentMethods,
+      );
+
+      setFullName('');
+      setEmail('');
+      setPassword('');
+      setConfPassword('');
+      setShippingAddress('');
+      setBillingAddress('');
+      setPaymentMethods('');
+    };
 
   const initialBillingAddress = {
     prenom: '',
@@ -68,7 +50,7 @@ const AccountSettings = () => {
     ville: '',
     codePostal: '',
     pays: '',
-    telephone: '',
+    telephone: ''
   };
 
   const [billingDetails, setBillingDetails] = useState(initialBillingAddress);
@@ -76,6 +58,14 @@ const AccountSettings = () => {
   const handleBillingDetailsChange = (e) => {
     setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
   };
+
+  const handlePaymentSelect = (payment) => {
+    setSelectedPayment(payment);
+    setCardName(payment.cardName);
+    setCardNumber(payment.cardNumber);
+    setExpiryDate(payment.expiryDate);
+    setCvv(payment.cvv);
+};
 
   return (
     <div className='m-5'>
@@ -125,7 +115,7 @@ const AccountSettings = () => {
         <div className='mb-3 mx-5 d-flex'>
           <div className='w-50'>
             <Dropdown>
-              <Dropdown.Toggle variant='info' id='dropdown-basic'>
+              <Dropdown.Toggle variant='info' id='dropdown-basic1'>
                 Choisissez une option de paiement
               </Dropdown.Toggle>
 
@@ -185,10 +175,9 @@ const AccountSettings = () => {
           <div className='w-50'>
             <div className=''>
               <Dropdown>
-                <Dropdown.Toggle variant='info' id='dropdown-basic'>
+                <Dropdown.Toggle variant='info' id='dropdown-basic2'>
                   Choisissez une adresse de facturation
                 </Dropdown.Toggle>
-
                 <Dropdown.Menu>
                   {billingAddresses.map((address, index) => (
                     <Dropdown.Item
@@ -201,8 +190,7 @@ const AccountSettings = () => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            {!useDeliveryAddress && (
-              <form className=''>
+              <form className='' id='1'>
                 <label htmlFor='fname' className='fw-bold'>Prénom</label>
                 <br />
                 <input
@@ -285,12 +273,12 @@ const AccountSettings = () => {
                 />
                 <br />
               </form>
-            )}
+
           </div>
           <div className='w-50'>
             <div className=''>
               <Dropdown>
-                <Dropdown.Toggle variant='info' id='dropdown-basic'>
+                <Dropdown.Toggle variant='info' id='dropdown-basic3'>
                   Choisissez une adresse de délivraison
                 </Dropdown.Toggle>
 
@@ -306,7 +294,6 @@ const AccountSettings = () => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            {!useAddress && (
               <form className=''>
                 <label htmlFor='fname' className='fw-bold'>Prénom</label>
                 <br />
@@ -390,7 +377,6 @@ const AccountSettings = () => {
                 />
                 <br />
               </form>
-            )}
           </div>
         </div>
 
