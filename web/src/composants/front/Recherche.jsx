@@ -157,6 +157,7 @@ const Recherche = () => {
               <option value={5}>Buffet</option>
             </Form.Control>
             
+            
 
 
             <Form.Check className='my-2' type="checkbox" label="Afficher uniquement les produits en stock" checked={inStockOnly} onChange={handleInStockOnlyChange} />

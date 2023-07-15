@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import useConfigsetting from "../../hook/useConfigsetting";
+import './AccountSettings.css';
 
 const AccountSettings = () => {
   const fullNameRef = useRef('');
@@ -34,66 +35,95 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className='m-5'>
-      <h2>Paramètres du compte</h2>
-      <form onSubmit={handleFormSubmit}>
-        <div className='my-3'>
-          <label>Nom complet :</label>
-          <br />
-          <input
-            className='form-control'
-            type="text"
-            ref={fullNameRef}
-          />
+
+
+    <body>
+      <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+      <div className="container bootstrap snippets bootdeys">
+        <div className="row">
+          <div className="col-xs-12 col-sm-9">
+            <form  onSubmit={handleFormSubmit} className="form-horizontal">
+              
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">Informations Utilisateur</h4>
+                </div>
+                <div className="panel-body">
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Nom complet</label>
+                    <div className="col-sm-10">
+                      <input type="text" ref={fullNameRef} className="form-control"  />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">E-mail</label>
+                    <div className="col-sm-10">
+                      <input type="email"  ref={emailRef} className="form-control" />
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">informations livraison</h4>
+                </div>
+                <div className="panel-body">
+                  
+                  
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Adresse de livraison :</label>
+                    <div className="col-sm-10">
+                      <textarea rows="3" ref={shippingAddressRef} className="form-control"></textarea>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Adresse de facturation :</label>
+                    <div className="col-sm-10">
+                      <textarea rows="3"  ref={billingAddressRef} className="form-control"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">securite</h4>
+                </div>
+                <div className="panel-body">
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Mot de passe :</label>
+                    <div className="col-sm-10">
+                      <input type="password"  ref={passwordRef} className="form-control" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">nouveau mot de passe</label>
+                    <div className="col-sm-10">
+                      <input type="password" className="form-control" />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <div className="col-sm-10 col-sm-offset-2">
+                      <button type="submit" className="btn btn-primary">Enregistrer les modifications</button>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className='my-3'>
-          <label>E-mail :</label>
-          <br />
-          <input
-            className='form-control'
-            type="email"
-            ref={emailRef}
-          />
-        </div>
-        <div className='my-3'>
-          <label>Mot de passe :</label>
-          <br />
-          <input
-            className='form-control'
-            type="password"
-            ref={passwordRef}
-          />
-        </div>
-        <div className='my-3'>
-          <label>Adresse de livraison :</label>
-          <br />
-          <textarea
-            className='form-control'
-            ref={shippingAddressRef}
-          />
-        </div>
-        <div className='my-3'> 
-          <label>Adresse de facturation :</label>
-          <br />
-          <textarea
-            className='form-control'
-            ref={billingAddressRef}
-          />
-        </div>
-        <div className='my-3 '>
-          <label>Méthodes de paiement :</label>
-          <br />
-          <input
-            className='form-control'
-            type="text"
-            ref={paymentMethodsRef}
-          />
-        </div>
-        <div className="d-flex justify-content-center">
-          <button className='btn btn-brown' type="submit">Enregistrer les modifications</button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/javascript">
+
+      </script>
+  </body>
+
+    
   );
 };
 
