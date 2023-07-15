@@ -28,13 +28,23 @@ const AccountSettings = () => {
         fullName,
         email,
         password,
+        cardName,
+        cardNumber,
+        expiryDate,
+        cvv,
         shippingAddress,
         billingAddress,
-        paymentMethods,
+        paymentMethods
       );
 
       setFullName('');
       setEmail('');
+      setPassword('');
+      setCardName('');
+      setCardNumber('');
+      setExpiryDate('');
+      setCvv('');
+      setPassword('');
       setPassword('');
       setConfPassword('');
       setShippingAddress('');
@@ -190,84 +200,92 @@ const AccountSettings = () => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-              <form className='' id='1'>
-                <label htmlFor='fname' className='fw-bold'>Prénom</label>
+              <form className=''>
+                <label htmlFor='billing_prenom' className='fw-bold'>Prénom</label>
                 <br />
                 <input
                   type='text'
-                  name='prenom'
+                  name='billing_prenom'
+                  id = ''
                   className='mb-3'
-                  value={billingDetails.prenom}
+                  value={billingDetails.prenom_un}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Nom</label>
+                <label htmlFor='billing_nom' className='fw-bold'>Nom</label>
                 <br />
                 <input
                   type='text'
-                  name='nom'
+                  name='billing_nom'
+                  id='billing_nom'
                   className='mb-3'
-                  value={billingDetails.nom}
+                  value={billingDetails.nom_un}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Adresse 1</label>
+                <label htmlFor='billing_addresse1' className='fw-bold'>Adresse 1</label>
                 <br />
                 <input
                   type='text'
-                  name='adresse1'
+                  name='billing_addresse1'
+                  id='billing_addresse1'
                   className='mb-3'
-                  value={billingDetails.adresse1}
+                  value={billingDetails.adresse1_un}
                   onChange={handleBillingDetailsChange}
                 />
-                <br />
-                <label htmlFor='fname' className='fw-bold'>Adresse 2</label>
+                <br/>
+                <label htmlFor='billing_addresse2' className='fw-bold'>Adresse 2</label>
                 <br />
                 <input
                   type='text'
-                  name='adresse2'
+                  name='billing_addresse2'
+                  id='billing_addresse2'
                   className='mb-3'
-                  value={billingDetails.adresse2}
+                  value={billingDetails.adresse2_un}
                   onChange={handleBillingDetailsChange}
                 />
-                <br />
-                <label htmlFor='fname' className='fw-bold'>Ville</label>
-                <br />
+                <br/>
+                <label htmlFor='billing_ville' className='fw-bold'>Ville</label>
+                <br/>
                 <input
                   type='text'
-                  name='ville'
+                  name='billing_ville'
+                  id='billing_ville'
                   className='mb-3'
-                  value={billingDetails.ville}
+                  value={billingDetails.ville_un}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Code Postal</label>
+                <label htmlFor='billing_codePostal' className='fw-bold'>Code Postal</label>
                 <br />
                 <input
                   type='number'
-                  name='codePostal'
+                  name='billing_codePostal'
+                  id='billing_codePostal'
                   className='mb-3'
-                  value={billingDetails.codePostal}
+                  value={billingDetails.codePostal_un}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='pays' className='fw-bold'>Pays</label>
+                <label htmlFor='billing_pays' className='fw-bold'>Pays</label>
                 <br />
                 <input
                   type='text'
-                  name='pays'
+                  name='billing_pays'
+                  id='billing_pays'
                   className='mb-3'
-                  value={billingDetails.pays}
+                  value={billingDetails.pays_un}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='telephone' className='fw-bold'>Numéro de téléphone</label>
+                <label htmlFor='billing_telephone' className='fw-bold'>Numéro de téléphone</label>
                 <br />
                 <input
                   type='tel'
-                  name='telephone'
+                  name='billing_telephone'
+                  id='billing_telephone'
                   className='mb-3'
-                  value={billingDetails.telephone}
+                  value={billingDetails.telephone_un}
                   maxLength={10}
                   onChange={handleBillingDetailsChange}
                 />
@@ -295,83 +313,91 @@ const AccountSettings = () => {
               </Dropdown>
             </div>
               <form className=''>
-                <label htmlFor='fname' className='fw-bold'>Prénom</label>
+                <label htmlFor='shipping_prenom' className='fw-bold'>Prénom</label>
                 <br />
                 <input
                   type='text'
-                  name='prenom'
+                  name='shipping_prenom'
+                  id='shipping_prenom'
                   className='mb-3'
-                  value={billingDetails.prenom}
+                  value={billingDetails.prenom_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Nom</label>
+                <label htmlFor='shipping_nom' className='fw-bold'>Nom</label>
                 <br />
                 <input
                   type='text'
-                  name='nom'
+                  name='shipping_nom'
+                  id='shipping_nom'
                   className='mb-3'
-                  value={billingDetails.nom}
+                  value={billingDetails.nom_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Adresse 1</label>
+                <label htmlFor='shipping_adresse1' className='fw-bold'>Adresse 1</label>
                 <br />
                 <input
                   type='text'
-                  name='adresse1'
+                  name='shipping_adresse1'
+                  id='shipping_adresse1'
                   className='mb-3'
-                  value={billingDetails.adresse1}
+                  value={billingDetails.adresse_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Adresse 2</label>
+                <label htmlFor='shipping_adresse2' className='fw-bold'>Adresse 2</label>
                 <br />
                 <input
                   type='text'
-                  name='adresse2'
+                  name='shipping_adresse2'
+                  id='shipping_adresse2'
                   className='mb-3'
-                  value={billingDetails.adresse2}
+                  value={billingDetails.adresse2_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Ville</label>
+                <label htmlFor='shipping_ville' className='fw-bold'>Ville</label>
                 <br />
                 <input
                   type='text'
-                  name='ville'
+                  name='shipping_ville'
+                  id='shipping_ville'
                   className='mb-3'
-                  value={billingDetails.ville}
+                  value={billingDetails.ville_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='fname' className='fw-bold'>Code Postal</label>
+                <label htmlFor='shipping_codePostal' className='fw-bold'>Code Postal</label>
                 <br />
                 <input
                   type='number'
-                  name='codePostal'
+                  name='shipping_codePostal'
+                  id='shipping_codePostal'
                   className='mb-3'
-                  value={billingDetails.codePostal}
+                  value={billingDetails.codePostal_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='pays' className='fw-bold'>Pays</label>
+                <label htmlFor='shipping_pays' className='fw-bold'>Pays</label>
                 <br />
                 <input
                   type='text'
-                  name='pays'
+                  name='shipping_pays'
+                  id='shipping_pays'
                   className='mb-3'
-                  value={billingDetails.pays}
+                  value={billingDetails.pays_deux}
                   onChange={handleBillingDetailsChange}
                 />
                 <br />
-                <label htmlFor='telephone' className='fw-bold'>Numéro de téléphone</label>
+                <label htmlFor='shipping_telephone' className='fw-bold'>Numéro de téléphone</label>
                 <br />
                 <input
                   type='tel'
-                  name='telephone'
+                  name='shipping_telephone'
+                  id='shipping_telephone'
                   className='mb-3'
-                  value={billingDetails.telephone}
+                  value={billingDetails.telephone_deux}
                   maxLength={10}
                   onChange={handleBillingDetailsChange}
                 />
@@ -379,7 +405,6 @@ const AccountSettings = () => {
               </form>
           </div>
         </div>
-
         <div className='d-flex justify-content-center'>
           <button className='btn btn-brown' type='submit'>Enregistrer les modifications</button>
         </div>

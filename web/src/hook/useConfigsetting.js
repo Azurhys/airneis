@@ -61,32 +61,64 @@ const useConfigsetting = () => {
     firstName,
     email,
     password,
-    paymentMethods,
-    billingAddress,
-    shippingAddress
+    cardName,
+    cardNumber,
+    expiryDate,
+    cvv,
+    adresse1,
+    adresse2,
+    codePostal,
+    nom,
+    pays,
+    prenom,
+    telephone,
+    ville 
   ) => {
-    try {;
+    try {
+      // ...
 
+      const updatedData1 = {
+        firstName: firstName || undefined, // Conserver la valeur existante ou utiliser undefined si le champ est vide
+        email: email || undefined,
+        password: password || undefined
+      };
+      const updatedData2 = {
+        cardName: cardName || undefined,
+        cardNumber: cardNumber || undefined,
+        cvv: cvv || undefined,
+        expiryDate: expiryDate || undefined,
+      };
+      const updatedData3 = {
+        adresse1: adresse1 || undefined,
+        adresse2: adresse2 || undefined,
+        codePostal: codePostal || undefined,
+        nom: nom || undefined,
+        pays: pays || undefined,
+        prenom: prenom || undefined,
+        telephone: telephone || undefined,
+        ville: ville || undefined
+      };
 
-      if (!selectedPayment) {
-        const data = {
-            user_Id: userIdFromStorage,
-            cardName: cardName,
-            cardNumber: cardNumber,
-            expiryDate: expiryDate,
-            cvv: cvv,
-        };
-      }
+      const updatedData4 = {
+        adresse1: adresse1 || undefined,
+        adresse2: adresse2 || undefined,
+        codePostal: codePostal || undefined,
+        nom: nom || undefined,
+        pays: pays || undefined,
+        prenom: prenom || undefined,
+        telephone: telephone || undefined,
+        ville: ville || undefined
+      };
 
-      await axios.put(`${import.meta.env.VITE_API}clients/${userIdFromStorage}.json`, {
-        fullname: firstName,
-        email: email,
-        password: password
-      });
-      
       console.log(userIdFromStorage)
 
+      // Utiliser la méthode PATCH au lieu de PUT pour mettre à jour les données sans supprimer les champs existants
+      await axios.patch(`${import.meta.env.VITE_API}clients/${userIdFromStorage}.json`, updatedData1);
+      await axios.patch(`${import.meta.env.VITE_API}facturation/${userIdFromStorage}.json`, updatedData2);
+      await axios.patch(`${import.meta.env.VITE_API}billingAddress/${userIdFromStorage}.json`, updatedData3);
+      await axios.patch(`${import.meta.env.VITE_API}adresses/${userIdFromStorage}.json`, updatedData4);
       setIsSuccess(true);
+      // ...
     } catch (error) {
       setIsSuccess(false);
       setError(error.message);
