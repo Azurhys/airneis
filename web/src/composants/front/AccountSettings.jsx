@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import useConfigsetting from "../../hook/useConfigsetting";
+import './AccountSettings.css';
 
 const AccountSettings = () => {
     const { handleSubmit } = useConfigsetting();    

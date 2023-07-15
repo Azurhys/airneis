@@ -157,6 +157,7 @@ const Recherche = () => {
               <option value={5}>Buffet</option>
             </select>
             
+            
 
             <input className='my-2' type="checkbox" label="Afficher uniquement les produits en stock" checked={inStockOnly} onchange={handleInStockOnlyChange} />
 
