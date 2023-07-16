@@ -104,7 +104,8 @@ const useConfigsetting = () => {
         pays: billing_pays || undefined,
         prenom: billing_prenom || undefined,
         telephone: billing_telephone || undefined,
-        ville: billing_ville || undefined
+        ville: billing_ville || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
 
       const updatedData4 = {
@@ -115,7 +116,8 @@ const useConfigsetting = () => {
         pays: shipping_pays || undefined,
         prenom: shipping_prenom || undefined,
         telephone: shipping_telephone || undefined,
-        ville: shipping_ville || undefined
+        ville: shipping_ville || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
 
       console.log(userIdFromStorage)
