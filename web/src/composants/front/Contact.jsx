@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Alert from "../Alert";
 import { useAlert } from "../../hook/useAlert";
 import useContact from "../../hook/useContact";
+import './contact.css';
 
 const Contact = () => {
   const emailRef = useRef();
@@ -24,40 +25,54 @@ const Contact = () => {
   };
 
   return (
-    <div className="p-5">
-      <h1 className="text-center mb-3">Nous contacter</h1>
-      <p>Pour nous contacter, veuillez compléter le formulaire suivant :</p>
-      <div className="row">
-        <form onSubmit={handleFormSubmit} className="col-12">
-          <input
-            type="email"
-            placeholder="Votre@email.fr"
-            className="form-control mb-3"
-            ref={emailRef}
-            onFocus={handleFocus}
-          />
-          <input
-            type="text"
-            placeholder="Sujet"
-            className="form-control mb-3"
-            ref={sujetRef}
-            onFocus={handleFocus}
-          />
-          <textarea
-            placeholder="Votre message"
-            className="form-control mb-3"
-            rows={5}
-            ref={messageRef}
-            onFocus={handleFocus}
-          ></textarea>
-          <div className="d-flex justify-content-center">
-            <input type="submit" className="btn btn-dark" />
-          </div>
-        </form>
-      </div>
 
-      <Alert alerte={alerte} />
-    </div>
+    <body>
+    <form action="">
+        <div class="title">
+            <h2>CONTACT</h2>
+        </div>
+        <div class="half">
+            <div class="item">
+                <label for="name">Nom</label>
+                <input type="text" id="name" />
+            </div>
+            <div class="item">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  placeholder="Votre@email.fr"
+                  className="form-control mb-3"
+                  ref={emailRef}
+                  onFocus={handleFocus}
+                />
+            </div>
+        </div>
+        <div class="full">
+            <label for="message">Message</label>
+            <textarea
+              placeholder="Votre message"
+              className="form-control mb-3"
+              rows={5}
+              ref={messageRef}
+              onFocus={handleFocus}
+            ></textarea>
+        </div>
+        <div class="action">
+            <input type="submit" className="btn btn-dark" />  
+            
+        </div>
+
+        <div class="icons">
+            <a href="" class="fa fa-twitter"></a>
+            <a href="" class="fa fa-facebook"></a>
+            <a href="" class="fa fa-instagram"></a>
+        </div>
+
+    </form>
+
+</body>
+
+    
   );
 };
 
