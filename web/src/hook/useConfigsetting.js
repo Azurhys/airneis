@@ -65,20 +65,28 @@ const useConfigsetting = () => {
     cardNumber,
     expiryDate,
     cvv,
-    adresse1,
-    adresse2,
-    codePostal,
-    nom,
-    pays,
-    prenom,
-    telephone,
-    ville 
+    shipping_adresse1,
+    shipping_adresse2,
+    shipping_codePostal,
+    shipping_nom,
+    shipping_pays,
+    shipping_prenom,
+    shipping_telephone,
+    shipping_ville,
+    billing_adresse1,
+    billing_adresse2,
+    billing_codePostal,
+    billing_nom,
+    billing_pays,
+    billing_prenom,
+    billing_telephone,
+    billing_ville
   ) => {
     try {
       // ...
 
       const updatedData1 = {
-        firstName: firstName || undefined, // Conserver la valeur existante ou utiliser undefined si le champ est vide
+        firstName: firstName || undefined,
         email: email || undefined,
         password: password || undefined
       };
@@ -89,25 +97,25 @@ const useConfigsetting = () => {
         expiryDate: expiryDate || undefined,
       };
       const updatedData3 = {
-        adresse1: adresse1 || undefined,
-        adresse2: adresse2 || undefined,
-        codePostal: codePostal || undefined,
-        nom: nom || undefined,
-        pays: pays || undefined,
-        prenom: prenom || undefined,
-        telephone: telephone || undefined,
-        ville: ville || undefined
+        adresse1: billing_adresse1 || undefined,
+        adresse2: billing_adresse2 || undefined,
+        codePostal: billing_codePostal || undefined,
+        nom: billing_nom || undefined,
+        pays: billing_pays || undefined,
+        prenom: billing_prenom || undefined,
+        telephone: billing_telephone || undefined,
+        ville: billing_ville || undefined
       };
 
       const updatedData4 = {
-        adresse1: adresse1 || undefined,
-        adresse2: adresse2 || undefined,
-        codePostal: codePostal || undefined,
-        nom: nom || undefined,
-        pays: pays || undefined,
-        prenom: prenom || undefined,
-        telephone: telephone || undefined,
-        ville: ville || undefined
+        adresse1: shipping_adresse1 || undefined,
+        adresse2: shipping_adresse2 || undefined,
+        codePostal: shipping_codePostal || undefined,
+        nom: shipping_nom || undefined,
+        pays: shipping_pays || undefined,
+        prenom: shipping_prenom || undefined,
+        telephone: shipping_telephone || undefined,
+        ville: shipping_ville || undefined
       };
 
       console.log(userIdFromStorage)

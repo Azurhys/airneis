@@ -4,54 +4,7 @@ import useConfigsetting from "../../hook/useConfigsetting";
 import './AccountSettings.css';
 
 const AccountSettings = () => {
-    const { handleSubmit } = useConfigsetting();    
-    const [fullName, setFullName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confPassword, setConfPassword] = useState('');
 
-    const [paymentMethods, setPaymentMethods] = useState('');
-    const [billingAddress, setBillingAddress] = useState('');
-    const [shippingAddress, setShippingAddress] = useState('');
-
-    const [paymentOptions, setPaymentOptions] = useState([]);
-    const [cardName, setCardName] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [expiryDate, setExpiryDate] = useState('');
-    const [cvv, setCvv] = useState('');
-
-    const [useAddress, setUseAddress] = useState(false);
-    const [billingAddresses, setBillingAdresses] = useState([]);
-    
-    const handleFormSubmit = (e) => {
-      e.preventDefault();
-      handleSubmit(
-        fullName,
-        email,
-        password,
-        cardName,
-        cardNumber,
-        expiryDate,
-        cvv,
-        shippingAddress,
-        billingAddress,
-        paymentMethods
-      );
-
-      setFullName('');
-      setEmail('');
-      setPassword('');
-      setCardName('');
-      setCardNumber('');
-      setExpiryDate('');
-      setCvv('');
-      setPassword('');
-      setPassword('');
-      setConfPassword('');
-      setShippingAddress('');
-      setBillingAddress('');
-      setPaymentMethods('');
-    };
 
   const initialBillingAddress = {
     prenom: '',
@@ -64,11 +17,121 @@ const AccountSettings = () => {
     telephone: ''
   };
 
+    const { handleSubmit } = useConfigsetting();    
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confPassword, setConfPassword] = useState('');
+
+    const [billingAddress, setBillingAddresse] = useState([]);
+    const [billingAddress2, setBillingAddress] = useState([]);
+
+    const [billing_prenom, setbilling_prenom] = useState('');
+    const [billing_nom, setbilling_nom] = useState('');
+    const [billing_adresse1, setbilling_addresse1] = useState('');
+    const [billing_adresse2, setbilling_addresse2] = useState('');
+    const [billing_ville, setbilling_ville] = useState('');
+    const [billing_codePostal, setbilling_codePostal] = useState('');
+    const [billing_pays, setbilling_pays] = useState('');
+    const [billing_telephone, setbilling_telephone] = useState('');
+
+    const [shipping_prenom, setshipping_prenom] = useState('');
+    const [shipping_nom, setshipping_nom] = useState('');
+    const [shipping_adresse1, setshipping_addresse1] = useState('');
+    const [shipping_adresse2, setshipping_addresse2] = useState('');
+    const [shipping_ville, setshipping_ville] = useState('');
+    const [shipping_codePostal, setshipping_codePostal] = useState('');
+    const [shipping_pays, setshipping_pays] = useState('');
+    const [shipping_telephone, setshipping_telephone] = useState('');
+
+    const [paymentOptions, setPaymentOptions] = useState([]);
+    const [cardName, setCardName] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvv, setCvv] = useState('');
+
+    
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+      handleSubmit(
+        fullName,
+        email,
+        password,
+        cardName,
+        cardNumber,
+        expiryDate,
+        cvv,
+        shipping_adresse1,
+        shipping_adresse2,
+        shipping_codePostal,
+        shipping_nom,
+        shipping_pays,
+        shipping_prenom,
+        shipping_telephone,
+        shipping_ville,
+        billing_adresse1,
+        billing_adresse2,
+        billing_codePostal,
+        billing_nom,
+        billing_pays,
+        billing_prenom,
+        billing_telephone,
+        billing_ville
+      );
+
+      setFullName('');
+      setEmail('');
+      setPassword('');
+      setConfPassword('');
+
+      setCardName('');
+      setCardNumber('');
+      setExpiryDate('');
+      setCvv('');
+
+      setbilling_prenom('');
+      setbilling_nom('');
+      setbilling_addresse1('');
+      setbilling_addresse2('');
+      setbilling_ville('');
+      setbilling_codePostal('');
+      setbilling_pays('');
+      setbilling_telephone('');
+
+      setshipping_prenom('');
+      setshipping_nom('');
+      setshipping_addresse1('');
+      setshipping_addresse2('');
+      setshipping_ville('');
+      setshipping_codePostal('');
+      setshipping_pays('');
+      setshipping_telephone('');
+
+
+
+
+      // setShippingAddress('');
+      // setBillingAddress('');
+      // setPaymentMethods('');
+
+    };
+
+
   const [billingDetails, setBillingDetails] = useState(initialBillingAddress);
 
   const handleBillingDetailsChange = (e) => {
     setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
   };
+
+  const handleUseDeliveryAddressChange = (event) => {
+    setUseDeliveryAddress(event.target.checked);
+    if (event.target.checked) {
+        const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
+        setBillingAddress(deliveryAddress);
+    } else {
+        setBillingAddress(billingDetails);
+    }
+};
 
   const handlePaymentSelect = (payment) => {
     setSelectedPayment(payment);
@@ -190,7 +253,7 @@ const AccountSettings = () => {
                   Choisissez une adresse de facturation
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {billingAddresses.map((address, index) => (
+                  {billingAddress.map((address, index) => (
                     <Dropdown.Item
                       key={index}
                       onClick={() => setBillingDetails(address)}
@@ -209,8 +272,8 @@ const AccountSettings = () => {
                   name='billing_prenom'
                   id = ''
                   className='mb-3'
-                  value={billingDetails.prenom_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_prenom}
+                  onChange={(e) => setbilling_prenom(e.target.value)}
                 />
                 <br />
                 <label htmlFor='billing_nom' className='fw-bold'>Nom</label>
@@ -220,19 +283,19 @@ const AccountSettings = () => {
                   name='billing_nom'
                   id='billing_nom'
                   className='mb-3'
-                  value={billingDetails.nom_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_nom}
+                  onChange={(e) => setbilling_nom(e.target.value)}
                 />
                 <br />
-                <label htmlFor='billing_addresse1' className='fw-bold'>Adresse 1</label>
+                <label htmlFor='billing_adresse1' className='fw-bold'>Adresse 1</label>
                 <br />
                 <input
                   type='text'
-                  name='billing_addresse1'
-                  id='billing_addresse1'
+                  name='billing_adresse1'
+                  id='billing_adresse1'
                   className='mb-3'
-                  value={billingDetails.adresse1_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_adresse1}
+                  onChange={(e) => setbilling_addresse1(e.target.value)}
                 />
                 <br/>
                 <label htmlFor='billing_addresse2' className='fw-bold'>Adresse 2</label>
@@ -242,8 +305,8 @@ const AccountSettings = () => {
                   name='billing_addresse2'
                   id='billing_addresse2'
                   className='mb-3'
-                  value={billingDetails.adresse2_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_adresse2}
+                  onChange={(e) => setbilling_addresse2(e.target.value)}
                 />
                 <br/>
                 <label htmlFor='billing_ville' className='fw-bold'>Ville</label>
@@ -253,8 +316,8 @@ const AccountSettings = () => {
                   name='billing_ville'
                   id='billing_ville'
                   className='mb-3'
-                  value={billingDetails.ville_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_ville}
+                  onChange={(e) => setbilling_ville(e.target.value)}
                 />
                 <br />
                 <label htmlFor='billing_codePostal' className='fw-bold'>Code Postal</label>
@@ -264,8 +327,8 @@ const AccountSettings = () => {
                   name='billing_codePostal'
                   id='billing_codePostal'
                   className='mb-3'
-                  value={billingDetails.codePostal_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_codePostal}
+                  onChange={(e) => setbilling_codePostal(e.target.value)}
                 />
                 <br />
                 <label htmlFor='billing_pays' className='fw-bold'>Pays</label>
@@ -275,8 +338,8 @@ const AccountSettings = () => {
                   name='billing_pays'
                   id='billing_pays'
                   className='mb-3'
-                  value={billingDetails.pays_un}
-                  onChange={handleBillingDetailsChange}
+                  value={billing_pays}
+                  onChange={(e) => setbilling_pays(e.target.value)}
                 />
                 <br />
                 <label htmlFor='billing_telephone' className='fw-bold'>Numéro de téléphone</label>
@@ -286,9 +349,9 @@ const AccountSettings = () => {
                   name='billing_telephone'
                   id='billing_telephone'
                   className='mb-3'
-                  value={billingDetails.telephone_un}
+                  value={billing_telephone}
                   maxLength={10}
-                  onChange={handleBillingDetailsChange}
+                  onChange={(e) => setbilling_telephone(e.target.value)}
                 />
                 <br />
               </form>
@@ -302,7 +365,7 @@ const AccountSettings = () => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  {billingAddresses.map((address, index) => (
+                  {billingAddress2.map((address, index) => (
                     <Dropdown.Item
                       key={index}
                       onClick={() => setBillingDetails(address)}
@@ -321,8 +384,8 @@ const AccountSettings = () => {
                   name='shipping_prenom'
                   id='shipping_prenom'
                   className='mb-3'
-                  value={billingDetails.prenom_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_prenom}
+                  onChange={(e) => setshipping_prenom(e.target.value)}
                 />
                 <br />
                 <label htmlFor='shipping_nom' className='fw-bold'>Nom</label>
@@ -332,30 +395,30 @@ const AccountSettings = () => {
                   name='shipping_nom'
                   id='shipping_nom'
                   className='mb-3'
-                  value={billingDetails.nom_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_nom}
+                  onChange={(e) => setshipping_nom(e.target.value)}
                 />
                 <br />
-                <label htmlFor='shipping_adresse1' className='fw-bold'>Adresse 1</label>
+                <label htmlFor='shipping_addresse1' className='fw-bold'>Adresse 1</label>
                 <br />
                 <input
                   type='text'
-                  name='shipping_adresse1'
-                  id='shipping_adresse1'
+                  name='shipping_addresse1'
+                  id='shipping_addresse1'
                   className='mb-3'
-                  value={billingDetails.adresse_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_adresse1}
+                  onChange={(e) => setshipping_addresse1(e.target.value)}
                 />
                 <br />
-                <label htmlFor='shipping_adresse2' className='fw-bold'>Adresse 2</label>
+                <label htmlFor='shipping_addresse2' className='fw-bold'>Adresse 2</label>
                 <br />
                 <input
                   type='text'
-                  name='shipping_adresse2'
-                  id='shipping_adresse2'
+                  name='shipping_addresse2'
+                  id='shipping_addresse2'
                   className='mb-3'
-                  value={billingDetails.adresse2_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_adresse2}
+                  onChange={(e) => setshipping_addresse2(e.target.value)}
                 />
                 <br />
                 <label htmlFor='shipping_ville' className='fw-bold'>Ville</label>
@@ -365,8 +428,8 @@ const AccountSettings = () => {
                   name='shipping_ville'
                   id='shipping_ville'
                   className='mb-3'
-                  value={billingDetails.ville_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_ville}
+                  onChange={(e) => setshipping_ville(e.target.value)}
                 />
                 <br />
                 <label htmlFor='shipping_codePostal' className='fw-bold'>Code Postal</label>
@@ -376,8 +439,8 @@ const AccountSettings = () => {
                   name='shipping_codePostal'
                   id='shipping_codePostal'
                   className='mb-3'
-                  value={billingDetails.codePostal_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_codePostal}
+                  onChange={(e) => setshipping_codePostal(e.target.value)}
                 />
                 <br />
                 <label htmlFor='shipping_pays' className='fw-bold'>Pays</label>
@@ -387,8 +450,8 @@ const AccountSettings = () => {
                   name='shipping_pays'
                   id='shipping_pays'
                   className='mb-3'
-                  value={billingDetails.pays_deux}
-                  onChange={handleBillingDetailsChange}
+                  value={shipping_pays}
+                  onChange={(e) => setshipping_pays(e.target.value)}
                 />
                 <br />
                 <label htmlFor='shipping_telephone' className='fw-bold'>Numéro de téléphone</label>
@@ -398,9 +461,9 @@ const AccountSettings = () => {
                   name='shipping_telephone'
                   id='shipping_telephone'
                   className='mb-3'
-                  value={billingDetails.telephone_deux}
+                  value={shipping_telephone}
                   maxLength={10}
-                  onChange={handleBillingDetailsChange}
+                  onChange={(e) => setshipping_telephone(e.target.value)}
                 />
                 <br />
               </form>
