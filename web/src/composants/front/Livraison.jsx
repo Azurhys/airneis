@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { AuthContext } from '../../context/Authcontext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { adresseVerif } from '../../verif/verifForm';
 
 const Livraison = () => {
     const navigate = useNavigate();
@@ -72,6 +73,13 @@ const Livraison = () => {
             pays: pays, 
             telephone: telephone,
         };
+        
+        const { error } = adresseVerif.validate(data);
+        if (error) {
+            console.error(error.details[0].message);
+            alert(error.details[0].message); // ou une autre méthode pour afficher l'erreur à l'utilisateur
+            return;
+        }
 
         // Stocker l'adresse de livraison dans le localStorage
         localStorage.setItem('deliveryAddress', JSON.stringify(data));
