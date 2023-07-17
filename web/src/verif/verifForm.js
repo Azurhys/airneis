@@ -145,3 +145,17 @@ export const carteVerif = Joi.object({
       'any.required': 'Le CVV est un champ obligatoire',
     }),
 });
+
+export const contactVerif = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required(),
+  sujet: Joi.string()
+    .pattern(/^[^<>{}"\/$%]*$/, 'g')
+    .max(50)
+    .required(),
+  text: Joi.string()
+    .pattern(/^[^<>{}"\/$%]*$/, 'g')
+    .max(2048)
+    .required(),
+});
