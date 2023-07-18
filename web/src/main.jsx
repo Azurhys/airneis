@@ -9,11 +9,6 @@ import Cgu from './composants/front/Cgu';
 import MentionsLegales from './composants/front/Mentionslegales';
 import Contact from './composants/front/Contact';
 import Accueil from './composants/front/Accueil';
-
-import Table from './composants/front/Categorie/Table'
-import Meuble from './composants/front/Categorie/Meuble'
-import Lit from './composants/front/Categorie/Lit'
-
 import Produit from './composants/front/Produit';
 import Panier from './composants/front/Panier';
 import AccountSettings from './composants/front/AccountSettings';
@@ -30,7 +25,7 @@ import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
 import {CartContextProvider} from './context/CartContext';
 import MaCommande from './composants/front/MaCommande';
-import Test from './composants/front/Test';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
