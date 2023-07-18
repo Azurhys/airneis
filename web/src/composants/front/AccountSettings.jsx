@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import useConfigsetting from "../../hook/useConfigsetting";
 import './AccountSettings.css';
+import { AuthContext } from '../../context/Authcontext';
 
 const AccountSettings = () => {
     const { handleSubmit } = useConfigsetting();    
@@ -22,7 +23,13 @@ const AccountSettings = () => {
 
     const [useAddress, setUseAddress] = useState(false);
     const [billingAddresses, setBillingAdresses] = useState([]);
-    
+    const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion", { state: { from: "/settings" } });
+        }
+      }, [isAuthenticated, navigate]);
     const handleFormSubmit = (e) => {
       e.preventDefault();
       handleSubmit(

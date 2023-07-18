@@ -43,10 +43,11 @@ const Paiment = () => {
     const handleBillingDetailsChange = e => {
         setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
     };
-      
+    
+    
     useEffect(() => {
         if (!isAuthenticated) {
-            navigate("/connexion");
+            navigate("/connexion", { state: { from: "/panier" } });
         }
         fetchPaymentOptions();
         fetchBillingAddresses();

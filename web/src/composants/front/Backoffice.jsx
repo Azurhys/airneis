@@ -11,7 +11,7 @@ import moment from 'moment';
 import PriorityGestion from "../back/PriorityGestion";
 import ProduitsGestion from "../back/ProduitsGestion";
 import useContact from "../../hook/useContact";
-
+import { AuthContext } from "../../context/Authcontext";
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -28,6 +28,13 @@ const Backoffice = () => {
     const popupRefDetail = useRef(null);
     const popupRefModif = useRef(null);
     const { messages } = useContact();
+    const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion", { state: { from: "/backoffice" } });
+        }
+      }, [isAuthenticated, navigate]);
 
     const [nouveauProduit, setNouveauProduit] = useState({
       category_id: 0,

@@ -39,10 +39,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />}> 
             <Route index element={<Accueil />} />
-
-            <Route path='Categorie/Table' element={<Table />} />
-            <Route path='Categorie/Meuble' element={<Meuble />} />
-            <Route path='Categorie/Lit' element={<Lit />} />
             <Route path="/categorie/:category_id" element={<Categorie  />} />
             <Route path='Inscription' element={<Inscription />} />
             <Route path='Connexion' element={<Connexion />} />
@@ -59,7 +55,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
-            <Route path="Test" element={<Test />} />
             <Route path="/produit/:id" element={<Produit />} />
           </Route>    
         </Routes>

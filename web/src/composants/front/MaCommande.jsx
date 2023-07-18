@@ -3,6 +3,7 @@ import { useCommandes } from '../../hook/useCommandes';
 import axios from 'axios';
 import { useState } from 'react';
 import './order_details.css';
+import { AuthContext } from '../../context/Authcontext';
 
 const MaCommande = () => {
   const { orderId } = useParams();
@@ -10,6 +11,13 @@ const MaCommande = () => {
   const commande = commandes.find((commande) => commande.orderId === orderId);
 
   const [tempQuantities, setTempQuantities] = useState({});
+  const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion", { state: { from: "/mescommande" } });
+        }
+      }, [isAuthenticated, navigate]);
 
   const handleQuantityChange = (productId, newQuantity) => {
     setTempQuantities((prevQuantities) => ({

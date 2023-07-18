@@ -6,11 +6,12 @@ import './Mescommandes.css';
 import { useNavigate } from 'react-router-dom';
 
 const MesCommandes = () => {
-    const { isAuthenticated, user_Id } = useContext(AuthContext);
+    
     const [commandes] = useCommandes();
     const userIdFromStorage = localStorage.getItem('userID');
+    const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    
     // Filtrer les commandes pour n'obtenir que celles de l'utilisateur connecté
     const userCommandes = commandes.filter(
         (commande) => commande.userId === userIdFromStorage
