@@ -10,6 +10,8 @@ import { useCommandes } from "../../hook/useCommandes";
 import moment from 'moment';
 import PriorityGestion from "../back/PriorityGestion";
 import ProduitsGestion from "../back/ProduitsGestion";
+import useContact from "../../hook/useContact";
+
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -25,7 +27,8 @@ const Backoffice = () => {
     const popupRef = useRef(null);
     const popupRefDetail = useRef(null);
     const popupRefModif = useRef(null);
-  
+    const { messages } = useContact();
+
     const [nouveauProduit, setNouveauProduit] = useState({
       category_id: 0,
       description: "",
@@ -361,6 +364,28 @@ useEffect(() => {
       ))}
     </div>
         <h1>Tableau de bord</h1>
+        <div>
+            <h2>Messages</h2>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Sujet</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {messages.map((message, index) => (
+                        <tr key={index}>
+                            <td>{message.email}</td>
+                            <td>{message.sujet}</td>
+                            <td>{message.text}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+
         <div>
             <h2 className="my-3">Ventes totales</h2>    
                 <Histogramme data={granularity === "daily" ? dailySalesData : weeklySalesData} granularity={granularity} />

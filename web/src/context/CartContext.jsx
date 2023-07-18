@@ -1,4 +1,4 @@
-import { createContext , useState } from "react"
+import { createContext , useState, useEffect } from "react"
 import React from "react";
 
 export const cartContext = React.createContext();
@@ -68,9 +68,15 @@ export function CartContextProvider({children}) {
     setCart([]);
   }
 
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
+
+  useEffect(() => {
+    setIsCartEmpty(!cart.length);
+  }, [cart]);
+
   return (
     <cartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, checkoutInProgress, startCheckout, 
-      completeCheckout, clearCart }}>
+      completeCheckout, clearCart, isCartEmpty  }}>
       {children}
     </cartContext.Provider>
   );

@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useCommandes } from '../../hook/useCommandes';
 import { AuthContext } from '../../context/Authcontext';
 import { NavLink, Link } from 'react-router-dom';
 import './Mescommandes.css';
+import { useNavigate } from 'react-router-dom';
 
 const MesCommandes = () => {
     const { isAuthenticated, user_Id } = useContext(AuthContext);
     const [commandes] = useCommandes();
     const userIdFromStorage = localStorage.getItem('userID');
+    const navigate = useNavigate();
 
     // Filtrer les commandes pour n'obtenir que celles de l'utilisateur connecté
     const userCommandes = commandes.filter(
@@ -33,6 +35,12 @@ const MesCommandes = () => {
         }
         return total;
     };
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion", { state: { from: "/mescommande" } });
+        }
+      }, [isAuthenticated, navigate]);
 
     return (
         <div className="container-xl px-4 mt-4">

@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useLoginValidation from '../../verif/useLoginValidation';
 import { AuthContext } from '../../context/Authcontext';
 import { cartContext } from '../../context/CartContext';
 
 const ConnexionPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { checkoutInProgress }= useContext(cartContext);
   const [formData, setFormData] = useState({
     email: '',
@@ -28,16 +29,23 @@ const ConnexionPage = () => {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrect.");
     } else {
       login(firstName, categorie_user_Id, user_Id);
+      // Si la localisation et la page précédente existent, redirigez vers cette page
+      if (location.state && location.state.from) {
+        navigate(location.state.from);
+      }
+      // Si ce n'est pas le cas, redirigez vers la page d'accueil
+      else {
+        navigate("/");
+      }
     }
   };
+  
 
   useEffect(() => {
-    if (checkoutInProgress && isAuthenticated) {
-        navigate('/livraison');
-    } else if (!checkoutInProgress && isAuthenticated) {
-        navigate('/');
+    if (isAuthenticated) {
+      navigate(-1);
     }
-}, [checkoutInProgress, isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <>
