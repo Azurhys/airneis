@@ -159,3 +159,32 @@ export const contactVerif = Joi.object({
     .max(2048)
     .required(),
 });
+
+export const schemaLogin = Joi.object({
+  firstName: Joi.string().min(3).max(30).pattern(/^[^<>{}'";]*$/).required()
+    .messages({
+      'string.empty': 'Le prénom est requis',
+      'string.min': 'Le prénom doit avoir au moins 3 caractères',
+      'string.max': 'Le prénom ne doit pas dépasser 30 caractères',
+      'string.pattern.base': 'Le prénom contient des caractères invalides'
+    }),
+  email: Joi.string().pattern(/^[^<>{}'";]*$/).email({ tlds: { allow: false } })
+    .messages({
+      'string.empty': 'L\'email est requis',
+      'string.email': 'L\'email n\'est pas valide',
+      'string.pattern.base': 'L\'email contient des caractères invalides'
+    }),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+    .messages({
+      'string.empty': 'Le mot de passe est requis',
+      'string.pattern.base': 'Le mot de passe doit contenir entre 3 et 30 caractères alphanumériques'
+    }),
+  user_Id: Joi.string().required()
+    .messages({
+      'string.empty': 'L\'identifiant utilisateur est requis'
+    }),
+  categorie_user_Id: Joi.number().integer()
+    .messages({
+      'number.base': 'L\'identifiant de catégorie doit être un nombre entier'
+    })
+});

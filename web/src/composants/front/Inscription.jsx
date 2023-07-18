@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import useEmailValidation from '../../verif/useEmailExiste';
 import axios from 'axios';
+import { schemaLogin } from '../../verif/verifForm'
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,12 @@ const RegistrationPage = () => {
     } else {
       setErrorMessage("Inscription réussie !");
     }
+    const { error } = schemaLogin.validate(formData); // Apply validation with Joi
+    if (error) {
+      setErrorMessage(error.details[0].message);
+      return;
+    }
+
 
     try {
       const clientId = Math.floor(Math.random() * 1000000);
