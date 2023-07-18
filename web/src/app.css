@@ -74,3 +74,18 @@
 .w-90{
   width: 90%;
 }
+
+.nombre-panier {
+  position: absolute;
+  top: 37%;
+  right: 4.7%;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
