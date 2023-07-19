@@ -3,11 +3,12 @@ import Carousel from 'better-react-carousel'
 import { NavLink} from "react-router-dom"
 import { useProduit } from "../../hook/useProduit";
 import { useCategories } from '../../hook/useCategorie'
+import { useCarouselImages } from '../../hook/useCarousel';
 
 const Accueil = () => {
   const [produits] = useProduit();
   const [categories] = useCategories();
-
+  const [images] = useCarouselImages();
   // Filtrer les produits en avant
   const produitsEnAvant = produits.filter((produit) => produit.enAvant === 1);
 
@@ -21,26 +22,13 @@ const Accueil = () => {
     <>
       <br />
       <div className="text-center">
-        <Carousel cols={1} rows={1} gap={10} loop autoplay={5000}>
-          <Carousel.Item>
-            <img
-              width={500}
-              src="https://picsum.photos/800/600?random=1"
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              width={500}
-              src="https://picsum.photos/800/600?random=2"
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              width={500}
-              src="https://picsum.photos/800/600?random=3"
-            />
-          </Carousel.Item>
-        </Carousel>
+      <Carousel cols={1} rows={1} gap={10} loop autoplay={5000}>
+      {images.map((src, index) => (
+        <Carousel.Item key={index}>
+          <img width={500} src={src} />
+        </Carousel.Item>
+      ))}
+    </Carousel>
       </div>
       <div className="text-center mt-5 mb-5 container-fluid">
       <div className="row">

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef} from "react";
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid,Tooltip,Legend,PieChart,Pie,Cell} from "recharts";
+import React, { useState, useEffect, useRef, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import Histogramme from '../back/Histogramme';
 import HistogrammeAvg from '../back/Histogrammeavg';
 import Camembert from "../back/Camembert";
@@ -12,6 +12,7 @@ import PriorityGestion from "../back/PriorityGestion";
 import ProduitsGestion from "../back/ProduitsGestion";
 import useContact from "../../hook/useContact";
 import { AuthContext } from "../../context/Authcontext";
+import { useCarouselImages } from "../../hook/useCarousel";
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -30,6 +31,24 @@ const Backoffice = () => {
     const { messages } = useContact();
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [images, updateImage] = useCarouselImages();
+    const [newImageUrls, setNewImageUrls] = useState([]);
+    const [showInput, setShowInput] = useState([]);
+
+    const handleShowInput = (index) => {
+      setShowInput({ ...showInput, [index]: !showInput[index] });
+    };
+
+    const handleUpdateImage = (index) => {
+      const newImage = newImageUrls[index] || '';
+      updateImage(index, newImage);
+      setNewImageUrls({ ...newImageUrls, [index]: '' });
+    };
+
+    const handleImageUrlChange = (index, newUrl) => {
+      setNewImageUrls({ ...newImageUrls, [index]: newUrl });
+    };
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/connexion", { state: { from: "/backoffice" } });
@@ -343,6 +362,25 @@ useEffect(() => {
           sortBy={sortBy}
           sortOrder={sortOrder}
         />
+        <div>
+          {images.map((src, index) => (
+            <div key={index}>
+              <img width={500} src={src} />
+              <button onClick={() => handleShowInput(index)}>Modifier</button>
+              {showInput[index] && (
+                <div>
+                  <input
+                    type="text"
+                    value={newImageUrls[index] || ''}
+                    onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                    placeholder="Entrez la nouvelle URL de l'image"
+                  />
+                  <button onClick={() => handleUpdateImage(index)}>Enregistrer</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 <div>
       {categories.map((category) => (
         <div key={category.id}>
