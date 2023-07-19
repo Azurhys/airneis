@@ -15,15 +15,17 @@ export function useCategories() {
         }
         setCategories(resultat);
       });
-  }, [categories.length]); // exécute que lorsque la page est chargé et update
+  }, []); // exécute que lorsque la page est chargé et update
 
-  const updateCategory = (id, updatedCategory) => {
-    axios.put(`${import.meta.env.VITE_API}categories/${id}.json`, updatedCategory)
-      .then(() => {
-        setCategories(prevCategories => {
-          return prevCategories.map(category => category.id === id ? updatedCategory : category);
-        });
+  const updateCategory = async (id, updatedCategory) => {
+    try {
+      await axios.put(`${import.meta.env.VITE_API}categories/${id}.json`, updatedCategory)
+      setCategories(prevCategories => {
+        return prevCategories.map(category => category.id === id ? updatedCategory : category);
       });
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de la catégorie : ", error);
+    }
   };
 
   return [categories, setCategories, updateCategory];

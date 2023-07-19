@@ -16,7 +16,8 @@ const Accueil = () => {
     return `/Categorie/${categoryId}`;
   };
 
-
+  // Trier les catégories par priorité décroissante
+  const categoriesSorted = [...categories].sort((a, b) => b.priority - a.priority);
 
   return (
     <>
@@ -32,7 +33,7 @@ const Accueil = () => {
       </div>
       <div className="text-center mt-5 mb-5 container-fluid">
       <div className="row">
-        {categories.map((categorie) => (
+        {categoriesSorted.map((categorie) => (
           <div key={categorie.category_id} className="col-md-4 mb-5">
             <NavLink to={getCategoryRoute(categorie.category_id)}>
               <img width={300} src={categorie.image} alt={categorie.name} />
