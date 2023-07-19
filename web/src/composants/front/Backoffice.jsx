@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef} from "react";
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid,Tooltip,Legend,PieChart,Pie,Cell} from "recharts";
+import React, { useState, useEffect, useRef, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import Histogramme from '../back/Histogramme';
 import HistogrammeAvg from '../back/Histogrammeavg';
 import Camembert from "../back/Camembert";
@@ -12,6 +12,7 @@ import PriorityGestion from "../back/PriorityGestion";
 import ProduitsGestion from "../back/ProduitsGestion";
 import useContact from "../../hook/useContact";
 import { AuthContext } from "../../context/Authcontext";
+import { useCarouselImages } from "../../hook/useCarousel";
 
 const Backoffice = () => {
     const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -30,6 +31,42 @@ const Backoffice = () => {
     const { messages } = useContact();
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [images, updateImage] = useCarouselImages();
+    const [newImageUrls, setNewImageUrls] = useState([]);
+    const [showInput, setShowInput] = useState([]);
+    // Ajoutez un nouvel état pour la page courante des messages
+    const [currentMessagePage, setCurrentMessagePage] = useState(1);
+
+    // Définissez le nombre de messages par page
+    const messagesPerPage = 5;
+
+    // Calculer les index du premier et du dernier message pour la page actuelle
+    const indexOfLastMessage = currentMessagePage * messagesPerPage;
+    const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
+
+    // Extraire les messages pour la page actuelle
+    const currentMessages = messages.slice(indexOfFirstMessage, indexOfLastMessage);
+
+    // Calculer le nombre total de pages
+    const messagePageNumbers = [];
+    for (let i = 1; i <= Math.ceil(messages.length / messagesPerPage); i++) {
+      messagePageNumbers.push(i);
+    }
+
+    const handleShowInput = (index) => {
+      setShowInput({ ...showInput, [index]: !showInput[index] });
+    };
+
+    const handleUpdateImage = (index) => {
+      const newImage = newImageUrls[index] || '';
+      updateImage(index, newImage);
+      setNewImageUrls({ ...newImageUrls, [index]: '' });
+    };
+
+    const handleImageUrlChange = (index, newUrl) => {
+      setNewImageUrls({ ...newImageUrls, [index]: newUrl });
+    };
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/connexion", { state: { from: "/backoffice" } });
@@ -343,6 +380,25 @@ useEffect(() => {
           sortBy={sortBy}
           sortOrder={sortOrder}
         />
+        <div>
+          {images.map((src, index) => (
+            <div key={index}>
+              <img width={500} src={src} />
+              <button onClick={() => handleShowInput(index)}>Modifier</button>
+              {showInput[index] && (
+                <div>
+                  <input
+                    type="text"
+                    value={newImageUrls[index] || ''}
+                    onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                    placeholder="Entrez la nouvelle URL de l'image"
+                  />
+                  <button onClick={() => handleUpdateImage(index)}>Enregistrer</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 <div>
       {categories.map((category) => (
         <div key={category.id}>
@@ -382,17 +438,23 @@ useEffect(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    {messages.map((message, index) => (
-                        <tr key={index}>
-                            <td>{message.email}</td>
-                            <td>{message.sujet}</td>
-                            <td>{message.text}</td>
-                        </tr>
-                    ))}
+                  {currentMessages.map((message, index) => (
+                    <tr key={index}>
+                      <td>{message.email}</td>
+                      <td>{message.sujet}</td>
+                      <td>{message.text}</td>
+                    </tr>
+                  ))}
                 </tbody>
             </table>
         </div>
-
+        <div className="pagination">
+          {messagePageNumbers.map(number => (
+            <button key={number} onClick={() => setCurrentMessagePage(number)}>
+              {number}
+            </button>
+          ))}
+        </div>              
         <div>
             <h2 className="my-3">Ventes totales</h2>    
                 <Histogramme data={granularity === "daily" ? dailySalesData : weeklySalesData} granularity={granularity} />

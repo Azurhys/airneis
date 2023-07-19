@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 
 const ProduitsGestion = ({ categories, produits, sortBy, sortOrder, handleSelect, handleSort, onProduitDelete, onProduitDetails, onProduitEdit, handleMettreEnAvant, selectedProduits, setSelectedProduits }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 5;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = produits.slice(indexOfFirstProduct, indexOfLastProduct);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(produits.length / productsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className="d-flex w-100">
       <table className="table table-striped">
@@ -24,7 +35,8 @@ const ProduitsGestion = ({ categories, produits, sortBy, sortOrder, handleSelect
           </tr>
         </thead>
         <tbody>
-        {produits.map((produit) => (
+        {currentProducts.map((produit) => (
+
               <tr key={produit.product_id}>
                   <td>
                   <input
@@ -48,6 +60,13 @@ const ProduitsGestion = ({ categories, produits, sortBy, sortOrder, handleSelect
               </tr>
             ))}
         </tbody>
+        <div className="pagination">
+          {pageNumbers.map(number => (
+            <button key={number} onClick={() => setCurrentPage(number)}>
+              {number}
+            </button>
+          ))}
+        </div>
         <tfoot>
           <tr>
                   <td colSpan={7}>
