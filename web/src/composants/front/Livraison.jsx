@@ -4,21 +4,20 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { AuthContext } from '../../context/Authcontext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { adresseVerif } from '../../verif/verifForm';
 
 const Livraison = () => {
-    const navigate = useNavigate();
-    const { isAuthenticated, userName, logout, user_Id } = useContext(AuthContext);
     const userIdFromStorage = localStorage.getItem('userID');
     const [adresses, setAdresses] = useState([]);
     const [selectedAdresse, setSelectedAdresse] = useState(null);
 
+    const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
     useEffect(() => {
         if (!isAuthenticated) {
-            navigate("/connexion"); // or the path of your login page
+            navigate("/connexion", { state: { from: "/livraison" } });
         }
-        // Appeler l'API pour obtenir les adresses
-        fetchAdresses();
-    }, [isAuthenticated, navigate]);
+      }, [isAuthenticated, navigate]);
 
     useEffect(() => {
         if (selectedAdresse) {
@@ -72,6 +71,13 @@ const Livraison = () => {
             pays: pays, 
             telephone: telephone,
         };
+        
+        const { error } = adresseVerif.validate(data);
+        if (error) {
+            console.error(error.details[0].message);
+            alert(error.details[0].message); // ou une autre méthode pour afficher l'erreur à l'utilisateur
+            return;
+        }
 
         // Stocker l'adresse de livraison dans le localStorage
         localStorage.setItem('deliveryAddress', JSON.stringify(data));

@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useContact = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API}contact.json`);
+      setMessages(Object.values(response.data));
+    } catch (error) {
+      setError(error.message);
+      console.error(error);
+    }
+  };
 
   const handleSubmit = async (email, sujet, text) => {
     try {
@@ -23,7 +38,7 @@ const useContact = () => {
     }
   };
 
-  return { isSuccess, error, handleSubmit };
+  return { isSuccess, error, handleSubmit, messages };
 };
 
 export default useContact;

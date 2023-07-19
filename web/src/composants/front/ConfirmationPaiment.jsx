@@ -1,8 +1,16 @@
 import React from "react";
 import'./ConfirmationPaiement.css';
+import { AuthContext } from "../../context/Authcontext";
 
 const ConfirmationPaiment = () => {
   const orderNumberFromStorage = localStorage.getItem('orderNumber');
+  const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/connexion", { state: { from: "/panier" } });
+        }
+      }, [isAuthenticated, navigate]);
 
   return (
     <body>

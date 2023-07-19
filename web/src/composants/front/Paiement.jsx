@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
 import { cartContext } from '../../context/CartContext';
+import { carteVerif, adresseVerif } from '../../verif/verifForm';
 
 function getRandomStatus() {
     const statuses = ['EN COURS', 'LIVRÉE', 'EXPÉDIÉE'];
@@ -42,10 +43,11 @@ const Paiment = () => {
     const handleBillingDetailsChange = e => {
         setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
     };
-      
+    
+    
     useEffect(() => {
         if (!isAuthenticated) {
-            navigate("/connexion");
+            navigate("/connexion", { state: { from: "/panier" } });
         }
         fetchPaymentOptions();
         fetchBillingAddresses();
@@ -93,9 +95,20 @@ const Paiment = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const deliveryAddress = JSON.parse(localStorage.getItem('deliveryAddress'));
-        const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingAddress;
+        const billingAddressToUse = useDeliveryAddress ? deliveryAddress : billingDetails;
         setBillingAddress(billingAddressToUse);
-
+        
+        const { error: errorCarte } = carteVerif.validate({
+            cardName: cardName,
+            cardNumber: cardNumber,
+            expiryDate: expiryDate,
+            cvv: cvv,
+          });
+          if (errorCarte) {
+            console.error(errorCarte.details[0].message);
+            alert(errorCarte.details[0].message);
+            return;
+          }
         
         const addressExists = billingAddresses.some(address => 
             address.prenom === billingAddressToUse.prenom &&
@@ -107,7 +120,15 @@ const Paiment = () => {
             address.pays === billingAddressToUse.pays &&
             address.telephone === billingAddressToUse.telephone
         );
-    
+        
+        const { error: errorFacturation } = adresseVerif.validate(billingAddressToUse);
+
+        if (errorFacturation) {
+        console.error(errorFacturation.details[0].message);
+        alert(errorFacturation.details[0].message);
+        return;
+        }
+
         if (!addressExists) {
             try {
                 const response = await axios.post(`${import.meta.env.VITE_API}billingAddress.json`, { ...billingAddressToUse, user_Id: userIdFromStorage });

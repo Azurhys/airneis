@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { cartContext } from '../context/CartContext';
 import { AuthContext } from '../context/Authcontext';
 import { NavLink } from "react-router-dom";
 
@@ -9,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 const Menu = () => {
   const { isAuthenticated, userName, logout, categorie_user_Id } = useContext(AuthContext);
+  const { isCartEmpty } = useContext(cartContext);
   const handleLogout = () => {
     logout();
   };
@@ -37,9 +36,10 @@ const Menu = () => {
           </li>
           <li className="nav-item">
             <NavLink to="/panier" className="nav-link">
-              <img src="/cart.svg" alt="cart" width="28" height="28" />
+            <img src="/cart.svg" alt="cart" width="28" height="28" />
+            {!isCartEmpty && <span className="nombre-panier"> </span>}
             </NavLink>
-          </li>
+        </li>
           
           <li className="nav-item">
             <Dropdown>

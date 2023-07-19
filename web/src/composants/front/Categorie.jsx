@@ -25,12 +25,15 @@ return (
   <div className="container bootstrap snipets">
     <h1 className="text-center text-muted">Catalogue</h1> <br /><br />
 
-    <div className="text-center p-0">
-        {
-             categories && categories[0] && // vérif de delai pour pas que l'URL soit vide 
-            <img src={categories[category_id].image} className="img-banner w-100" alt="image categorie" />
-        }
-        </div>
+    <div className="text-center p-0 position-relative">
+    {
+        categories && categories[0] && // vérif de delai pour pas que l'URL soit vide 
+        <>
+        <img src={categories[category_id].image} className="img-banner w-100" alt="image categorie" />
+        <h2 className="position-absolute top-50 start-50 translate-middle overlay-text">{categories[category_id].name}</h2>
+        </>
+    }
+    </div>
 
     <div className="text-center my-5">
         {
