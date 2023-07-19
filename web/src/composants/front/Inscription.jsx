@@ -19,7 +19,7 @@ const RegistrationPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!isEmailValid) {
+    if (!emailValidationResult.isEmailValid) {
       setErrorMessage("L'adresse e-mail est déjà utilisée.");
       return;
     } else {
@@ -46,7 +46,7 @@ const RegistrationPage = () => {
     }
   };
 
-  const isEmailValid = useEmailValidation(formData.email);
+  const emailValidationResult = useEmailValidation(formData.email);
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
