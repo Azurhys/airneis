@@ -11,7 +11,7 @@ const useConfigsetting = () => {
   const [error, setError] = useState(null);
   const [billingAddresses, setBillingAddresses] = useState([]);
   const [shippingAddresses, setShippingAddresses] = useState([]);
-  const [selectedPayment, setPaymentOptions] = useState(null);
+  const [paymentOptions, setPaymentOptions] = useState([]);    
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
@@ -22,40 +22,7 @@ const useConfigsetting = () => {
     if (!isAuthenticated) {
         navigate("/connexion");
     }
-    fetchPaymentOptions();
-    fetchBillingAddresses();
-    fetchShippingAddresses();
   }, [isAuthenticated, navigate]);
-
-  const fetchPaymentOptions = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}facturation.json`);
-      const paymentCards = Object.values(response.data).filter(card => card.user_Id === userIdFromStorage);
-      setPaymentOptions(paymentCards);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchBillingAddresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}billingAddress.json`);
-      const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
-      setBillingAddresses(addresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchShippingAddresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}adresses.json`);
-      const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
-      setShippingAddresses(addresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleSubmit = async (
     firstName,
@@ -88,13 +55,15 @@ const useConfigsetting = () => {
       const updatedData1 = {
         firstName: firstName || undefined,
         email: email || undefined,
-        password: password || undefined
+        password: password || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
       const updatedData2 = {
         cardName: cardName || undefined,
         cardNumber: cardNumber || undefined,
         cvv: cvv || undefined,
         expiryDate: expiryDate || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
       const updatedData3 = {
         adresse1: billing_adresse1 || undefined,
