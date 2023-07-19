@@ -95,6 +95,7 @@ const ConnexionPage = () => {
         <div className='text-center'>
           <br />
           <h6>Pas de compte ? <Link to="/Inscription">Inscrivez-vous.</Link></h6>
+          <h6>Mot de passe oublié ? <Link to="/Reset">Changez votre mot de passe</Link></h6>
         </div>
       </div>
     </>
