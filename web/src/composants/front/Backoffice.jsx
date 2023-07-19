@@ -34,6 +34,24 @@ const Backoffice = () => {
     const [images, updateImage] = useCarouselImages();
     const [newImageUrls, setNewImageUrls] = useState([]);
     const [showInput, setShowInput] = useState([]);
+    // Ajoutez un nouvel état pour la page courante des messages
+    const [currentMessagePage, setCurrentMessagePage] = useState(1);
+
+    // Définissez le nombre de messages par page
+    const messagesPerPage = 5;
+
+    // Calculer les index du premier et du dernier message pour la page actuelle
+    const indexOfLastMessage = currentMessagePage * messagesPerPage;
+    const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
+
+    // Extraire les messages pour la page actuelle
+    const currentMessages = messages.slice(indexOfFirstMessage, indexOfLastMessage);
+
+    // Calculer le nombre total de pages
+    const messagePageNumbers = [];
+    for (let i = 1; i <= Math.ceil(messages.length / messagesPerPage); i++) {
+      messagePageNumbers.push(i);
+    }
 
     const handleShowInput = (index) => {
       setShowInput({ ...showInput, [index]: !showInput[index] });
@@ -420,17 +438,23 @@ useEffect(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    {messages.map((message, index) => (
-                        <tr key={index}>
-                            <td>{message.email}</td>
-                            <td>{message.sujet}</td>
-                            <td>{message.text}</td>
-                        </tr>
-                    ))}
+                  {currentMessages.map((message, index) => (
+                    <tr key={index}>
+                      <td>{message.email}</td>
+                      <td>{message.sujet}</td>
+                      <td>{message.text}</td>
+                    </tr>
+                  ))}
                 </tbody>
             </table>
         </div>
-
+        <div className="pagination">
+          {messagePageNumbers.map(number => (
+            <button key={number} onClick={() => setCurrentMessagePage(number)}>
+              {number}
+            </button>
+          ))}
+        </div>              
         <div>
             <h2 className="my-3">Ventes totales</h2>    
                 <Histogramme data={granularity === "daily" ? dailySalesData : weeklySalesData} granularity={granularity} />
