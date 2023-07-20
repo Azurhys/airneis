@@ -63,43 +63,54 @@ const Panier = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <Text style={styles.title}>Panier</Text>
-      {cart.map((product, index) => (
-        <View key={index} style={styles.cartItemContainer}>
-          <Image source={{ uri: product.image[0] }} style={styles.cartItemImage} />
-          <View style={styles.cartItemDetails}>
-            <Text style={styles.cartItemName}>{product.name}</Text>
-            <Text style={styles.cartItemDescription}>{product.description}</Text>
-          </View>
-          <View style={styles.cartItemPriceContainer}>
-            <Text style={styles.cartItemPrice}>
-              {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}
+        <View style={styles.cartItemContainer}>
+          <Text style={styles.subTitle}>Panier</Text>
+          {cart.map((product, index) => (
+            <View key={index} style={styles.cartCard}>
+              <Image source={{ uri: product.image[0] }} style={styles.cartItemImage} />
+              <View style={styles.cartSubCard}>
+                <View style={styles.cartItemDetails}>
+                  <Text style={styles.subTitleCart}>{product.name}</Text>
+                  <Text style={styles.subTitleCart}>
+                    {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}
+                  </Text>
+                </View>
+                <View style={styles.cartItemDetails}>
+                  
+                    <Text style={styles.descriptionCart}>
+                      {product.description}
+                    </Text>
+                  <View style={styles.cartSubCard2}>
+                    <View style={styles.spacer}>
+                      <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={product.quantityInCart.toString()}
+                        onChangeText={(text) => updateQuantity(product.id, text)}
+                      />
+                    </View>
+                    <Button title="🗑️" onPress={() => removeFromCart(product.id)} color="red" />
+                  </View>
+                </View>
+              </View>
+            </View>
+          ))}
+          <View style={styles.cartTotalContainer}>
+            <Text style={styles.cartTotalText}>
+              Total: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(total)}
             </Text>
-            <TextInput
-              style={styles.cartItemQuantityInput}
-              keyboardType="numeric"
-              value={product.quantityInCart.toString()}
-              onChangeText={(text) => updateQuantity(product.id, text)}
-            />
-            <Button title="Supprimer" onPress={() => removeFromCart(product.id)} color="red" />
+            <Text style={styles.cartTotalText}>
+              TVA: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}
+            </Text>
+            {cart.length > 0 && (
+              <Button
+                title="Procéder au paiement"
+                onPress={handleCheckout}
+                disabled={checkoutInProgress}
+              />
+            )}
           </View>
         </View>
-      ))}
-      <View style={styles.cartTotalContainer}>
-        <Text style={styles.cartTotalText}>
-          Total: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(total)}
-        </Text>
-        <Text style={styles.cartTotalText}>
-          TVA: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}
-        </Text>
-        {cart.length > 0 && (
-          <Button
-            title="Procéder au paiement"
-            onPress={handleCheckout}
-            disabled={checkoutInProgress}
-          />
-        )}
-      </View>
     </ScrollView>
   );
 };

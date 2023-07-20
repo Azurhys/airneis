@@ -11,7 +11,8 @@ const Categories = () => {
     const [produits] = useProduit();    
     const navigation = useNavigation();
     const route = useRoute();
-    const category_id = 0;
+    
+    const category_id = route.params.categoryId; // Ici nous obtenons l'ID de la catégorie passée en paramètre
     
     const [categories, setCategories, isLoading] = useCategories();
 

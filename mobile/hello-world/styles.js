@@ -66,9 +66,14 @@ const styles = StyleSheet.create({
       color: 'grey',
       marginBottom: '5%',
   },
-  description: {
+  descriptionCart: {
       fontSize: 16,
       marginBottom: '10%',
+      width:'75%',
+  },
+  description: {
+    fontSize: 16,
+    marginBottom: '10%',
   },
   subTitle: {
       fontSize: 22,
@@ -80,11 +85,20 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     alignSelf: "stretch",
   },
+  scrollViewCart: {
+    alignSelf: "stretch",
+    height: '50%',
+  },
   subTitleProduit: {
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: '5%',
+},
+subTitleCart: {
+  fontSize: 22,
+  fontWeight: 'bold',
+  textAlign: 'center',
 },
   subTitleRecherche: {
     fontSize: 22,
@@ -151,8 +165,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   cartItemImage: {
-    width: 80,
-    height: 80,
+    width: '30%',
+    height: '80%',
     marginRight: 10,
   },
   cartItemContainer:{
@@ -184,7 +198,28 @@ const styles = StyleSheet.create({
   searchContainer:{
     height: '10%',
     marginBottom: '3%',
-  }
+  },
+  cartCard:{
+    flexDirection:'row',
+    width: '100%',
+    flex: 1,
+  },
+  cartSubCard:{
+    flexDirection:'column',
+    width:'70%',
+  },
+  layoutCart:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+  },
+  spacer:{
+    marginBottom:'5%',
+  },
+  cartSubCard2:{
+    flexDirection:'column',
+    width:'20%',
+    justifyContent:'space-between',
+  },
 });
 
 export default styles;
