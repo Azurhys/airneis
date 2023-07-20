@@ -1,4 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
+
+const { width: viewportWidth } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -65,6 +68,9 @@ const styles = StyleSheet.create({
   subTitle: {
       fontSize: 22,
       fontWeight: 'bold',
+      textAlign: 'center',
+      marginTop: '5%',
+      marginBottom: '5%',
   },
   scrollViewContent: {
     alignSelf: "stretch",
@@ -74,8 +80,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    height: viewportWidth*0.5,
     marginRight: 10,
   },
   productName: {

@@ -24,24 +24,27 @@ const Accueil = () => {
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
       <Caroussel images={images} />
-      
-      <View>
-        {categoriesSorted.map((categorie) => (
-          <TouchableOpacity key={categorie.category_id} onPress={() => navigation.navigate('Categories', { categoryId: categorie.category_id })}>
-            <Image style={{ width: 300, height: 300 }} source={{ uri: categorie.image }} />
-            <Text>{categorie.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      
-      <Text>
+      <Text style={styles.subTitle}>
         Venant des hautes terres d'Écosse, nos meubles sont immortels
       </Text>
       
       <View>
+        {categoriesSorted.map((categorie) => (
+          <TouchableOpacity key={categorie.category_id} onPress={() => navigation.navigate('Categories', { categoryId: categorie.category_id })}>
+            <Image style={styles.image} source={{ uri: categorie.image }} />
+            <Text style={styles.subTitle}>{categorie.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      
+      <Text style={styles.subTitle}>
+        Nos Highlanders du moment
+      </Text>
+
+      <View>
         {produitsEnAvant.map((produit) => (
           <TouchableOpacity key={produit.id} onPress={() => navigation.navigate('Produit', { productId: produit.id })}>
-            <Image style={{ width: 300, height: 300 }} source={{ uri: produit.image[0] }} />
+            <Image style={styles.image} source={{ uri: produit.image[0] }} />
           </TouchableOpacity>
         ))}
       </View>

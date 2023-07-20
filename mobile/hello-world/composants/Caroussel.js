@@ -9,7 +9,7 @@ const Caroussel = ({ images }) => {
     return (
       <Image 
         source={{ uri: item }} 
-        style={{ width: viewportWidth, height: viewportWidth }} // Ajustez la taille de l'image ici
+        style={{ width: viewportWidth, height: viewportWidth*0.5 }} // Ajustez la taille de l'image ici
       />
     );
   };
