@@ -82,7 +82,11 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: viewportWidth*0.5,
-    marginRight: 10,
+  },
+  imageProduit: {
+    width: '100%',
+    height: viewportWidth*0.5,
+    alignSelf: 'center',
   },
   productName: {
     fontSize: 18,
@@ -119,6 +123,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     marginRight: 10,
+  },
+  cartItemContainer:{
+    width:'100%',
+    padding:'5%',
+    paddingTop: 0,
+  },
+  cartItemDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
