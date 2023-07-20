@@ -95,21 +95,27 @@ const Panier = () => {
               </View>
             </View>
           ))}
-          <View style={styles.cartTotalContainer}>
-            <Text style={styles.cartTotalText}>
-              Total: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(total)}
+          <View style={styles.cartItemDetails}>
+            <Text style={styles.subTitleCart}>Total:</Text>
+            <Text style={styles.subTitleCart}>
+               {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(total)}
             </Text>
-            <Text style={styles.cartTotalText}>
-              TVA: {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}
-            </Text>
+          </View>
+            <View style={styles.cartItemDetails}>
+              <Text style={styles.status}>TVA :</Text>
+              <Text style={styles.status}>
+                {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(tva)}
+              </Text>
+            </View>
             {cart.length > 0 && (
               <Button
                 title="Procéder au paiement"
                 onPress={handleCheckout}
                 disabled={checkoutInProgress}
+                color="#BDA18A"
               />
             )}
-          </View>
+          
         </View>
     </ScrollView>
   );
