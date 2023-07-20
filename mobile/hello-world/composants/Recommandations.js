@@ -18,7 +18,7 @@ export const RecommandationsProduits = ({ produits, produit }) => {
         {sixProduitsSimilaires.map((p) => (
             <View key={p.product_id} style={{flex: 1}}>
                 <TouchableOpacity onPress={() => navigation.navigate('Produit', {productId: p.product_id})}>
-                    <Image source={{uri: p.image[0]}} style={{width: '100%', height: undefined, aspectRatio: 1}} />
+                    <Image source={{uri: p.image[0]}} style={styles.imageReco} />
                 </TouchableOpacity>
             </View>
         ))}

@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,  
     paddingRight: 10,
   },
+  btn:{
+    backgroundColor: 'red',
+  },
   brand: {
     fontSize: 30,
     fontFamily: 'Cinzel-Bold',
@@ -61,9 +64,11 @@ const styles = StyleSheet.create({
   status: {
       fontSize: 18,
       color: 'grey',
+      marginBottom: '5%',
   },
   description: {
       fontSize: 16,
+      marginBottom: '10%',
   },
   subTitle: {
       fontSize: 22,
@@ -75,6 +80,12 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     alignSelf: "stretch",
   },
+  subTitleProduit: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: '5%',
+},
   productContainer: {
     flexDirection: 'row',
     marginBottom: 10,
@@ -87,6 +98,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: viewportWidth*0.5,
     alignSelf: 'center',
+  },
+  imageReco: {
+    width: '100%',
+    height: viewportWidth*0.5,
+    alignSelf: 'center',
+    marginBottom: '10%',
   },
   productName: {
     fontSize: 18,

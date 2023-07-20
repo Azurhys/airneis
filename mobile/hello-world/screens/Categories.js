@@ -41,8 +41,8 @@ const Categories = () => {
       <View style={styles.cartItemContainer}>
         <Image source={{ uri: item.image[0] }} style={styles.imageProduit} />
         <View style={styles.cartItemDetails}>
-          <Text style={styles.subTitle}>{item.name}</Text>
-          <Text style={styles.subTitle}>
+          <Text style={styles.subTitleProduit}>{item.name}</Text>
+          <Text style={styles.subTitleProduit}>
             {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(item.price)}
           </Text>
         </View>
