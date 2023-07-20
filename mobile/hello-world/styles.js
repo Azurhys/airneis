@@ -86,6 +86,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: '5%',
 },
+  subTitleRecherche: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: '5%',
+  },
   productContainer: {
     flexDirection: 'row',
     marginBottom: 10,
@@ -136,6 +142,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+  },
   cartItemImage: {
     width: 80,
     height: 80,
@@ -151,6 +165,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  inputContainer: {
+    marginTop:'5%',
+    marginBottom:'10%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: '1%',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    paddingLeft: '1%',
+    paddingRight: '1%',
+  },
+  modalContainer: {
+    padding: '5%',
+  },
+  searchContainer:{
+    height: '10%',
+    marginBottom: '3%',
+  }
 });
 
 export default styles;
