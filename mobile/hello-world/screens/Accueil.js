@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Carousel from 'react-native-snap-carousel';
+import Caroussel from "../composants/Caroussel";
 import { useProduit } from "../hook/useProduit";
 import { useCategories } from '../hook/useCategories'
 import { useCarouselImages } from '../hook/useCarousel';
@@ -23,17 +23,7 @@ const Accueil = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <Carousel
-        autoplay={true}
-        autoplayDelay={5000}
-        loop={true}
-        sliderWidth={300} // Update with your values
-        itemWidth={300} // Update with your values
-      >
-        {images.map((src, index) => (
-          <Image key={index} style={{ width: 300, height: 300 }} source={{ uri: src }} /> // Update with your values
-        ))}
-      </Carousel>
+      <Caroussel images={images} />
       
       <View>
         {categoriesSorted.map((categorie) => (
