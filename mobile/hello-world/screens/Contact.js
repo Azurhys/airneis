@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import { View, Text, TextInput, Button, ScrollView } from 'react-native';
-import Alert from "../components/Alert";
-import useContact from "../../hooks/useContact";
-import { useAlert } from "../../hooks/useAlert";
+import useContact from "../hook/useContact";
 import styles from '../styles';
 import Menu from '../composants/Menu';
 
@@ -10,7 +8,6 @@ const Contact = () => {
   const emailRef = useRef();
   const messageRef = useRef();
   const sujetRef = useRef();
-  const [alerte, setAlerte, getError] = useAlert();
   const { isSuccess, error, handleSubmit } = useContact();
 
   const handleFormSubmit = () => {
