@@ -105,3 +105,25 @@ p {
 b, strong {
     font-weight: 700 !important;
 }
+
+/*.card {
+  width: 424px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+@media (min-width: 428px) {
+  .card-columns {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+
+@media (min-width: 428px) {
+  .card-columns {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}*/

@@ -28,54 +28,62 @@ const Produit = () => {
   }
 
   return (
-    <div className="mt-0 mb-5 container-fluid ml-0 mr-0 p-0">
-      <div className="text-center p-0">
+    
+  <div className="container">
+     <div className="text-center p-0" style={{marginTop:"20px"}}>
         {produits && produits[produitId] && (
           <img
             src={produits[produitId].image[1]}
             className="img-banner w-100"
             alt="image produit"
           />
-        )}
-      </div>
+        )}</div>
+    <div className="row">
+      <div className="col-md-7">
       <div className="mt-5 container-fluid  w-100 px-5 ">
         <div className="row">
-          <div className="text-center mx-0 col-6 caroussel-h">
+          <div className="text-center mx-0 col-6 caroussel-h" style={{ width: "500px", height: "500px" }} >
             {produits && produits[produitId] && (
               <Caroussel images={produits[produitId].image} style={400} />
             )}
-          </div>
-          <div className="col-6">
-            <div className="d-flex justify-content-between">
-              <h3>
+          
+        </div>
+      </div>
+      </div>
+      </div>
+      <div className="col-md-5" style={{marginTop: "25px"}}>
+        <div className="project-info-box">
+            <p><div style={{marginLeft: "300px"}}>
                 {produits && produits[produitId] && (
-                  new Intl.NumberFormat("fr-FR", {
-                    style: "currency",
-                    currency: "EUR",
-                  }).format(produits[produitId].price)
+                    new Intl.NumberFormat("fr-FR", {
+                        style: "currency",
+                        currency: "EUR",
+                }).format(produits[produitId].price)
+                )}</div>
+                {produits && produits[produitId] && (
+                <h3 style={{ marginTop: "-20px" }}>{produits[produitId].name}</h3>
                 )}
-              </h3>
-              {produits && produits[produitId] && (
-                <h3>{produits[produitId].name}</h3>
-              )}
-            </div>
-            <div className="d-flex justify-content-end">
-              {produits && produits[produitId] && (
-                <h5 className="text-secondary">
-                  {produits[produitId].quantity > 0
+                
+            <p> {produits && produits[produitId] && (
+                    <h5 classNameName="text-secondary" style={{ marginLeft: "300px" }}>
+                    {produits[produitId].quantity > 0
                     ? "En Stock"
                     : "Stock Épuisé"}
-                </h5>
-              )}
-            </div>
-            <div>
-              {produits && produits[produitId] && (
-                <p className="my-4">{produits[produitId].description}</p>
-              )}
-            </div>
-            <div>
-              {produits && produits[produitId] && (
-                <button
+                    </h5>
+                )}</p></p>
+          
+          
+          <div className="project-info-box mt-0" style={{ paddingLeft: "0px" }}>
+            <h5>DETAILS PRODUIT</h5>
+            <p className="mb-0">{produits && produits[produitId] && (
+                                <p className="my-4">{produits[produitId].description}</p>
+                            )}</p>
+          </div>
+        </div>
+        <div className="project-info-box mt-0 mb-0">
+          <p className="mb-0">
+          {produits && produits[produitId] && (
+                <button style={{ marginLeft: "75px", width: "320px", height: "42px" }}
                   className={PanierAchat}
                   onClick={() => addToCart(produits[produitId])}
                 >
@@ -84,24 +92,33 @@ const Produit = () => {
                     : "Stock Épuisé"}
                 </button>
               )}
-            </div>
-          </div>
+          </p>
         </div>
       </div>
-      <div className="container-fluid mt-5 p-0 ">
-        <div className="row">
-          <h2 className="text-center">Produits Similaires</h2>
-        </div>
-        <div>
+    </div>
+
+    <div className="row mt-5">
+      <div className="col-md-12">
+        <h2 style={{textAlign: "center"}}>Produits similaires</h2>
+      </div>
+    </div>
+
+    <div >
           {produits && produits[produitId] && (
             <RecommandationsProduits
+                
               produits={produits}
               produit={produits[produitId]}
             />
           )}
-        </div>
-      </div>
     </div>
+  
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript"></script>
+  </div>
+
   );
 };
 

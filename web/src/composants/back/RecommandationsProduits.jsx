@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink , useNavigate } from "react-router-dom"
+import '../front/produits_details.css';
 
 export const RecommandationsProduits = ({ produits, produit }) => {
     const produitsSimilaires = produits.filter(
@@ -11,16 +12,26 @@ export const RecommandationsProduits = ({ produits, produit }) => {
     const sixProduitsSimilaires = produitsSimilairesAleatoires.slice(0, 6);
   
     return (
-      <div>
-        <div className="row d-flex my-5">
-            {sixProduitsSimilaires.map((p) => (
-                <div key={p.product_id} className='col-4'>
-                    <NavLink to={url+`${p.product_id}`}>
-                        <img src={p.image[0]} className='w-100' alt={p.name} />
-                    </NavLink>
-                </div>
-            ))}
+
+
+      <div class="row mt-3">
+      
+      {sixProduitsSimilaires.map((p) => (
+        <div class="card" key={p.product_id} style={{ width: "300px", marginLeft: "10px" }}>
+          <img img src={p.image[0]} alt={p.name} class="card-img-top" />
+          <div class="card-body">
+            <h5 class="card-title">Produit 1</h5>
+            <p class="card-text">Prix du Produit 1</p>
+            <NavLink to={url+`${p.product_id}`} class="btn btn-primary">
+              Voir plus
+            </NavLink>
+            <a href="lien_vers_produit1.html" ></a>
+          </div>
         </div>
+        ))}
       </div>
+      
+
+    
     );
   };
