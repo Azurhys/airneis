@@ -26,8 +26,9 @@ import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
 import {CartContextProvider} from './context/CartContext';
 import MaCommande from './composants/front/MaCommande';
-
 import UpdatePasswordPage from './composants/front/UpdatePasswordPage';
+import Page404 from './composants/front/404';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
@@ -55,6 +56,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
             <Route path="/produit/:id" element={<Produit />} />
+            <Route path="*" element={<Page404 />} />
           </Route>    
         </Routes>
     </BrowserRouter>

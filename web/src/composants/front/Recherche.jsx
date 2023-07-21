@@ -57,8 +57,8 @@ const Recherche = () => {
   const handleSearchClick = () => {
     let filteredProducts = produits.filter((produit) =>
       produit.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-
+      );
+      console.log(produits)
     //applique les filtres
     if (material !== '') {
       filteredProducts = filteredProducts.filter((produit) =>
@@ -180,7 +180,7 @@ const Recherche = () => {
         {filteredProducts.slice(0, 10).map((produit) => (
           <div className='col-md-4' key={produit.id}>
             <div className="card mb-4 shadow-sm">
-              <img src={produit.image} alt="Product" />
+              {produit.image && produit.image.length > 0 && (<img src={produit.image[0]} alt={`Product`} />)}
               <div className="card-body">
                 <h5 className="card-title">{produit.name}</h5>
                 <p className="card-text">{produit.description}</p>
