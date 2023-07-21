@@ -86,6 +86,11 @@ const styles = StyleSheet.create({
       marginTop: '5%',
       marginBottom: '5%',
   },
+  subTitleOrder: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    
+},
   scrollViewContent: {
     alignSelf: "stretch",
   },
