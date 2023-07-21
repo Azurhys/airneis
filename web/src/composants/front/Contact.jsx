@@ -16,6 +16,19 @@ const Contact = () => {
     const email = emailRef.current.value;
     const sujet = sujetRef.current.value;
     const text = messageRef.current.value;
+
+    const { error } = contactVerif.validate({
+      email: email,
+      sujet: sujet,
+      text: text,
+    });
+
+    if (error) {
+      console.error(error.details[0].message);
+      alert(error.details[0].message);
+      return;
+    }
+    
     handleSubmit(email, sujet, text);
     e.target.reset();
   };

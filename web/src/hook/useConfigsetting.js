@@ -11,7 +11,7 @@ const useConfigsetting = () => {
   const [error, setError] = useState(null);
   const [billingAddresses, setBillingAddresses] = useState([]);
   const [shippingAddresses, setShippingAddresses] = useState([]);
-  const [selectedPayment, setPaymentOptions] = useState(null);
+  const [paymentOptions, setPaymentOptions] = useState([]);    
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
@@ -22,40 +22,7 @@ const useConfigsetting = () => {
     if (!isAuthenticated) {
         navigate("/connexion");
     }
-    fetchPaymentOptions();
-    fetchBillingAddresses();
-    fetchShippingAddresses();
   }, [isAuthenticated, navigate]);
-
-  const fetchPaymentOptions = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}facturation.json`);
-      const paymentCards = Object.values(response.data).filter(card => card.user_Id === userIdFromStorage);
-      setPaymentOptions(paymentCards);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchBillingAddresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}billingAddress.json`);
-      const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
-      setBillingAddresses(addresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchShippingAddresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}adresses.json`);
-      const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
-      setShippingAddresses(addresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleSubmit = async (
     firstName,
@@ -65,49 +32,61 @@ const useConfigsetting = () => {
     cardNumber,
     expiryDate,
     cvv,
-    adresse1,
-    adresse2,
-    codePostal,
-    nom,
-    pays,
-    prenom,
-    telephone,
-    ville 
+    shipping_adresse1,
+    shipping_adresse2,
+    shipping_codePostal,
+    shipping_nom,
+    shipping_pays,
+    shipping_prenom,
+    shipping_telephone,
+    shipping_ville,
+    billing_adresse1,
+    billing_adresse2,
+    billing_codePostal,
+    billing_nom,
+    billing_pays,
+    billing_prenom,
+    billing_telephone,
+    billing_ville
   ) => {
     try {
       // ...
 
       const updatedData1 = {
-        firstName: firstName || undefined, // Conserver la valeur existante ou utiliser undefined si le champ est vide
+        firstName: firstName || undefined,
         email: email || undefined,
-        password: password || undefined
+        password: password || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
       const updatedData2 = {
         cardName: cardName || undefined,
         cardNumber: cardNumber || undefined,
         cvv: cvv || undefined,
         expiryDate: expiryDate || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
       const updatedData3 = {
-        adresse1: adresse1 || undefined,
-        adresse2: adresse2 || undefined,
-        codePostal: codePostal || undefined,
-        nom: nom || undefined,
-        pays: pays || undefined,
-        prenom: prenom || undefined,
-        telephone: telephone || undefined,
-        ville: ville || undefined
+        adresse1: billing_adresse1 || undefined,
+        adresse2: billing_adresse2 || undefined,
+        codePostal: billing_codePostal || undefined,
+        nom: billing_nom || undefined,
+        pays: billing_pays || undefined,
+        prenom: billing_prenom || undefined,
+        telephone: billing_telephone || undefined,
+        ville: billing_ville || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
 
       const updatedData4 = {
-        adresse1: adresse1 || undefined,
-        adresse2: adresse2 || undefined,
-        codePostal: codePostal || undefined,
-        nom: nom || undefined,
-        pays: pays || undefined,
-        prenom: prenom || undefined,
-        telephone: telephone || undefined,
-        ville: ville || undefined
+        adresse1: shipping_adresse1 || undefined,
+        adresse2: shipping_adresse2 || undefined,
+        codePostal: shipping_codePostal || undefined,
+        nom: shipping_nom || undefined,
+        pays: shipping_pays || undefined,
+        prenom: shipping_prenom || undefined,
+        telephone: shipping_telephone || undefined,
+        ville: shipping_ville || undefined,
+        user_Id: userIdFromStorage ||undefined
       };
 
       console.log(userIdFromStorage)

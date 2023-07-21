@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView, View, Text, TextInput, Button, Modal , Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity  } from 'react-native';
 import Menu from '../composants/Menu';
-
+import styles from '../styles';
 import { useProduit } from "../hook/useProduit";
+import { Checkbox } from 'react-native-paper';
+import { useNavigation} from '@react-navigation/native';
 
 export default function Recherche() {
   const [produits, mettreEnAvantProduit, supprimerProduit, ajouterProduit, produitDetail, afficherDetailProduit, modifierProduit, changeProductPriority] = useProduit();
@@ -16,6 +18,7 @@ export default function Recherche() {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState('price-asc');
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const navigation = useNavigation();
 
   const handleScreenPress = () => {
     Keyboard.dismiss();
@@ -103,8 +106,8 @@ export default function Recherche() {
         produit.description.toLowerCase().includes(searchTextDescription.toLowerCase())
       );
     }
-
-    setFilteredProducts(filteredProducts.slice(0, 3));
+    setShowOptions(false);
+    setFilteredProducts(filteredProducts.slice(0, 6));
   };
 
   const handleResetClick = () => {
@@ -123,141 +126,106 @@ export default function Recherche() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
       <TouchableWithoutFeedback onPress={handleScreenPress}>
-      <View style={styles.touchableContainer}>
-        <View style={styles.contentContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Rechercher un produit..."
-          value={searchText}
-          onChangeText={handleSearchTextChange}
-        />
-        <Button title="Filtrer" onPress={handleFilterClick} />
-        <Button title="Rechercher" onPress={handleSearchClick} />
-      </View>
+        <View style={styles.touchableContainer}>
+          <View style={styles.contentContainer}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Rechercher un produit..."
+                  value={searchText}
+                  onChangeText={handleSearchTextChange}
+                />
+                <View style={styles.btnContainer}>
+                  <Button title="Filtrer" onPress={handleFilterClick} color="#BDA18A"/>
+                </View>
+                <View style={styles.btnContainer}>
+                  <Button title="Rechercher" onPress={handleSearchClick} color="#BDA18A"/>
+                </View>
+              </View>
 
-      {showOptions && (
-        <View style={styles.optionsContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Description"
-            value={searchTextDescription}
-            onChangeText={handleDescriptionTextChange}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Matériau"
-            value={material}
-            onChangeText={handleMaterialChange}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Prix min."
-            keyboardType="numeric"
-            value={minPrice}
-            onChangeText={handleMinPriceChange}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Prix max."
-            keyboardType="numeric"
-            value={maxPrice}
-            onChangeText={handleMaxPriceChange}
-          />
-          <Text>Catégories</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Afficher uniquement les produits en stock"
-            value={inStockOnly ? 'true' : 'false'}
-            onChangeText={handleInStockOnlyChange}
-          />
-          <Text>Trier par</Text>
-          <Button title="Réinitialiser" onPress={handleResetClick} />
-          <Button title="Fermer" onPress={handleCloseClick} />
-          <Button title="Rechercher" onPress={handleSearchClick} />
-        </View>
-      )}
-
-      {filteredProducts.slice(0, 3).map((produit) => (
-        <View key={produit.id} style={styles.card}>
-          {produit.image.map((image, index) => (
-            <Image key={index} source={{ uri: image }} style={styles.image} />
-          ))}
-          <View style={styles.cardBody}>
-            <Text style={styles.title}>{produit.name}</Text>
-            <Text style={styles.description}>{produit.description}</Text>
-            <Text style={styles.text}>Matériau: {produit.material}</Text>
-            <Text style={styles.text}>Prix: {produit.price}</Text>
-            <Text style={styles.text}>
-              {produit.inStock ? 'En stock' : 'En rupture de stock'}
-            </Text>
+            <Modal visible={showOptions} animationType="slide">
+              <View style={styles.modalContainer}>
+                
+                  <View style={styles.searchContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Description"
+                        value={searchTextDescription}
+                        onChangeText={handleDescriptionTextChange}
+                      />
+                  </View>
+                  <View style={styles.searchContainer}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Matériau"
+                      value={material}
+                      onChangeText={handleMaterialChange}
+                    />
+                  </View>
+                  <View style={styles.searchContainer}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Prix min."
+                      keyboardType="numeric"
+                      value={minPrice}
+                      onChangeText={handleMinPriceChange}
+                    />
+                  </View>
+                  <View style={styles.searchContainer}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Prix max."
+                      keyboardType="numeric"
+                      value={maxPrice}
+                      onChangeText={handleMaxPriceChange}
+                    />
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <Text>Produits uniquement en stock :</Text>
+                    <Checkbox
+                      status={inStockOnly ? 'checked' : 'unchecked'}
+                      onPress={() => handleInStockOnlyChange(!inStockOnly)}
+                    />
+                  </View>
+                  <Text>Trier par</Text>
+                  <View style={styles.inputContainer}>
+                    <View style={styles.btnContainer}>
+                      <Button title="Réinitialiser" onPress={handleResetClick} color="#BDA18A" />
+                    </View>
+                    <View style={styles.btnContainer}>  
+                      <Button title="Fermer" onPress={handleCloseClick} color="#BDA18A"/>
+                    </View>
+                    <View style={styles.btnContainer}>
+                      <Button title="Rechercher" onPress={handleSearchClick} color="#BDA18A"/>
+                    </View>
+                  </View>
+              </View>
+            </Modal>
+            <View style={styles.cartItemContainer}>
+              {filteredProducts.slice(0, 6).map((produit) => (
+                <TouchableOpacity
+                  key={produit.id}
+                  onPress={() => navigation.navigate('Produit', { productId: produit.id })}
+                >
+                  <View style={styles.card}>
+                    <Image source={{ uri: produit.image[0] }} style={styles.image} />
+                    <View style={styles.cartItemDetails}>
+                      <Text style={styles.subTitleRecherche}>{produit.name}</Text>
+                      <Text style={styles.subTitleRecherche}>
+                        {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produit.price)}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </View>
-      ))}
-      </View>
-      </View>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  touchableContainer: {//quand on clic en dehors des input ferme le texte
-    flex: 1,
-  },
-  contentContainer: {//quand on clic en dehors des input ferme le texte
-    flex: 1,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-  },
-  optionsContainer: {
-    position: 'absolute',
-    start: '50%',
-    width: '50%',
-    backgroundColor: 'lightgray',
-    padding: 10,
-    marginTop: 10,
-    zIndex: 1,
-  },
-  
-  card: {
-    marginBottom: 10,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 10,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-  },
-  cardBody: {
-    marginTop: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  description: {
-    marginBottom: 10,
-  },
-  text: {
-    marginBottom: 5,
-  },
-});

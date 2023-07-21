@@ -21,7 +21,7 @@ const Produit = () => {
     let PanierAchat = "";
     if (produits && produits.length > 0) {
         if (produits[produitId].quantity > 0){
-            PanierAchat = "Acheter maintenant";
+            PanierAchat = "Ajouter au panier";
         } else {
             PanierAchat = "Stock Épuisé";
         }
@@ -35,36 +35,32 @@ const Produit = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <Menu />
-            <Image 
-                source={{ uri: produit?.image[1] }} 
-                style={{ width: viewportWidth, height: 200 }} 
-            />
+            <Caroussel images={produit?.image}  />
+            <View style={styles.cartItemContainer}>
+                <View style={styles.cartItemDetails}>
+                    <Text style={styles.subTitleProduit}>{produit?.name}</Text>
+                    <Text style={styles.subTitleProduit}>
+                        {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produit?.price)}
+                    </Text>
+                </View>
+                <Text style={styles.status}>
+                    {produit?.quantity > 0 ? 'En Stock' : 'Stock Épuisé'}
+                </Text>
+                <Text style={styles.description}>
+                    {produit?.description}
+                </Text>
+                <Button 
+                    title={PanierAchat} 
+                    onPress={() => addToCart(produit)} 
+                    disabled={produit?.quantity > 0 ? false : true}
+                    color="#BDA18A"
+                />
 
-            <Caroussel images={produit?.image} style={400} />
-
-            <Text style={styles.title}>
-                {produit?.name}
-            </Text>
-            <Text style={styles.price}>
-                {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(produit?.price)}
-            </Text>
-            <Text style={styles.status}>
-                {produit?.quantity > 0 ? 'En Stock' : 'Stock Épuisé'}
-            </Text>
-            <Text style={styles.description}>
-                {produit?.description}
-            </Text>
-            <Button 
-                title={PanierAchat} 
-                onPress={() => addToCart(produit)} 
-                disabled={produit?.quantity > 0 ? false : true}
-            />
-
-            <Text style={styles.subTitle}>
-                Produits Similaires
-            </Text>
-
-            <RecommandationsProduits produits={produits} produit={produit} />
+                <Text style={styles.subTitle}>
+                    Produits Similaires
+                </Text>
+                <RecommandationsProduits produits={produits} produit={produit} />
+            </View>
         </ScrollView>
     );
 }

@@ -9,11 +9,6 @@ import Cgu from './composants/front/Cgu';
 import MentionsLegales from './composants/front/Mentionslegales';
 import Contact from './composants/front/Contact';
 import Accueil from './composants/front/Accueil';
-
-import Table from './composants/front/Categorie/Table'
-import Meuble from './composants/front/Categorie/Meuble'
-import Lit from './composants/front/Categorie/Lit'
-
 import Produit from './composants/front/Produit';
 import Panier from './composants/front/Panier';
 import AccountSettings from './composants/front/AccountSettings';
@@ -23,6 +18,7 @@ import ConfirmationPaiment from './composants/front/ConfirmationPaiment';
 import Mescommande from './composants/front/Mescommande';
 import Inscription from './composants/front/Inscription';
 import Connexion from './composants/front/Connexion';
+import ResetPasswordPage from './composants/front/ResetPasswordPage';
 import Recherche from './composants/front/Recherche';
 import './app.css'
 import Backoffice from './composants/front/Backoffice';
@@ -30,7 +26,8 @@ import {AuthContextProvider} from './context/Authcontext';
 import Categorie from './composants/front/Categorie';
 import {CartContextProvider} from './context/CartContext';
 import MaCommande from './composants/front/MaCommande';
-import Test from './composants/front/Test';
+
+import UpdatePasswordPage from './composants/front/UpdatePasswordPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthContextProvider>
@@ -39,13 +36,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />}> 
             <Route index element={<Accueil />} />
-
-            <Route path='Categorie/Table' element={<Table />} />
-            <Route path='Categorie/Meuble' element={<Meuble />} />
-            <Route path='Categorie/Lit' element={<Lit />} />
             <Route path="/categorie/:category_id" element={<Categorie  />} />
             <Route path='Inscription' element={<Inscription />} />
             <Route path='Connexion' element={<Connexion />} />
+            <Route path='Reset' element={<ResetPasswordPage /> } />
+            <Route path='UpdatePassword' element={<UpdatePasswordPage /> } />
             <Route path='Backoffice' element={<Backoffice />} />
             <Route path='CGU' element={<Cgu />} />
             <Route path='Mentions-Legales' element={<MentionsLegales />} />
@@ -59,7 +54,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="ConfirmationPaiment" element={<ConfirmationPaiment />} />
             <Route path="Mescommande" element={<Mescommande />} />
             <Route path="Menu" element={<Menu />} />
-            <Route path="Test" element={<Test />} />
             <Route path="/produit/:id" element={<Produit />} />
           </Route>    
         </Routes>

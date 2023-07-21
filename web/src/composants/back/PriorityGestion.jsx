@@ -1,43 +1,59 @@
 import {React, useState} from 'react';
 import axios from 'axios';
 
-
 function PriorityGestion({ categories, produits, sortBy, sortOrder }) {
   const [currentCategory, setCurrentCategory] = useState(null);
-  
+  const [newCategoryPriority, setNewCategoryPriority] = useState('');
 
   const handleCategoryClick = (categoryId) => {
-    setTimeout(() => setCurrentCategory(categoryId), 0);
+    setCurrentCategory(categoryId);
   };
 
-  const changePriority = async (productID, newPriority) => {
+  const changeCategoryPriority = async () => {
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_API}produits/${productID}.json`, {
-          priority: newPriority
+      await axios.patch(`${import.meta.env.VITE_API}categories/${currentCategory}.json`, {
+        priority: newCategoryPriority
       });
 
-      console.log("Priorité mise à jour avec succès", response.data);
+      console.log("Priorité de la catégorie mise à jour avec succès");
     } catch (error) {
-      console.error("Erreur lors de la mise à jour de la priorité : ", error);
+      console.error("Erreur lors de la mise à jour de la priorité de la catégorie :", error);
     }
   };
-  
+
+  const changePriority = async (productId, newPriority) => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_API}produits/${productId}.json`, {
+        priority: newPriority
+      });
+
+      console.log("Priorité du produit mise à jour avec succès");
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de la priorité du produit :", error);
+    }
+  };
 
   return (
     <div className="w-100">
-                <h2 className="my-3 text-center">Gestion de la priorité des produits par catégorie</h2>
-                <br />
-                <div className="text-center">
-                    {categories.map((category) => (
-                      <button
-                        key={category.category_id}
-                        className="btn btn-brown mx-2"
-                        onClick={() => handleCategoryClick(category.category_id)}
-                      >
-                        {category.name}
-                      </button>
-                    ))}
-                </div>
+      <h2 className="my-3 text-center">Gestion de la priorité des produits par catégorie</h2>
+      <br />
+      <div className="text-center">
+        {categories.map((category) => (
+          <button
+            key={category.category_id}
+            className="btn btn-brown mx-2"
+            onClick={() => handleCategoryClick(category.category_id)}
+          >
+            {category.name} Priorité:{category.priority}
+          </button>
+        ))}
+        <input
+          type="number"
+          value={newCategoryPriority}
+          onChange={(e) => setNewCategoryPriority(e.target.value)}
+        />
+        <button onClick={changeCategoryPriority}>Changer la priorité de la catégorie</button>
+      </div>
                 <table className="table table-striped">
     <thead>
         <tr>

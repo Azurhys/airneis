@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import emailjs from 'emailjs-com';
 import useEmailValidation from '../../verif/useEmailExiste';
+import axios from 'axios';
+import { schemaLogin } from '../../verif/verifForm'
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     email: '',
     password: '',
-    user_Id : '', 
-    categorie_user_Id : 0,
+    user_Id: '',
+    categorie_user_Id: 0,
   });
 
   const handleInputChange = (event) => {
@@ -18,23 +20,40 @@ const RegistrationPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!isEmailValid) {
+    if (!emailValidationResult.isEmailValid) {
       setErrorMessage("L'adresse e-mail est déjà utilisée.");
       return;
     } else {
       setErrorMessage("Inscription réussie !");
-      //window.location.href = "/"; // Redirige vers la page d'accueil après une inscription réussie (à revoir pour une meilleure approche)
     }
+    const { error } = schemaLogin.validate(formData); // Apply validation with Joi
+    if (error) {
+      setErrorMessage(error.details[0].message);
+      return;
+    }
+
+
     try {
       const clientId = Math.floor(Math.random() * 1000000);
-      const clientData = { ...formData, id: clientId, CatégorieClientId: 0 };
-      const response = await axios.post(`${import.meta.env.VITE_API}clients.json`, clientData);
+      const clientData = { ...formData, user_Id : clientId};
+      await axios.post(`${import.meta.env.VITE_API}clients.json`, clientData);
+
+      // Envoyer l'e-mail de confirmation à l'utilisateur
+      const templateParams = {
+        to_email: formData.email,
+        from_name: 'Votre nom ou nom de l\'expéditeur',
+        message: `Bonjour ${formData.firstName},\n\nVotre inscription est confirmée. Bienvenue !`,
+      };
+
+      await emailjs.send('service_ri1kv3q', 'template_af5z69e', templateParams, 'rit4hqMIVPN1n8NeD');
+
+      console.log('E-mail de confirmation envoyé !');
     } catch (error) {
-      // Gérer les erreurs de requête en cas d'échec de l'envoi du formulaire
+      console.error('Erreur lors de l\'envoi de l\'e-mail de confirmation:', error);
     }
   };
 
-  const isEmailValid = useEmailValidation(formData.email);
+  const emailValidationResult = useEmailValidation(formData.email);
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
@@ -54,7 +73,8 @@ const RegistrationPage = () => {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleInputChange}
-                required/>
+                  required
+                />
               </label>
             </div>
 
@@ -68,7 +88,8 @@ const RegistrationPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                required/>
+                  required
+                />
               </label>
             </div>
 
@@ -82,7 +103,8 @@ const RegistrationPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                required/>
+                  required
+                />
               </label>
             </div>
             <br />

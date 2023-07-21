@@ -11,7 +11,8 @@ const Categories = () => {
     const [produits] = useProduit();    
     const navigation = useNavigation();
     const route = useRoute();
-    const category_id = 0;
+    
+    const category_id = route.params.categoryId; // Ici nous obtenons l'ID de la catégorie passée en paramètre
     
     const [categories, setCategories, isLoading] = useCategories();
 
@@ -39,17 +40,11 @@ const Categories = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Produit', { productId: item.product_id })}>
       <View style={styles.cartItemContainer}>
-        <Image source={{ uri: item.image[0] }} style={styles.cartItemImage} />
+        <Image source={{ uri: item.image[0] }} style={styles.imageProduit} />
         <View style={styles.cartItemDetails}>
-          <Text style={styles.cartItemName}>{item.name}</Text>
-          <Text style={styles.cartItemDescription}>{item.description}</Text>
-        </View>
-        <View style={styles.cartItemPriceContainer}>
-          <Text style={styles.cartItemPrice}>
+          <Text style={styles.subTitleProduit}>{item.name}</Text>
+          <Text style={styles.subTitleProduit}>
             {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(item.price)}
-          </Text>
-          <Text style={styles.cartItemPrice}>
-            {item.quantity > 0 ? 'En Stock' : 'Stock Épuisé'}
           </Text>
         </View>
       </View>
@@ -59,9 +54,9 @@ const Categories = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <View style={{ alignItems: 'center', padding: 10 }}>
-        <Image source={{ uri: categories[category_id].image }} style={styles.cartItemImage} />
-        <Text style={styles.title}>{categories[category_id].description}</Text>
+      <View style={{ alignItems: 'center'}}>
+        <Image source={{ uri: categories[category_id].image }} style={styles.image} />
+        <Text style={styles.subTitle}>{categories[category_id].description}</Text>
       </View>
 
       <FlatList
