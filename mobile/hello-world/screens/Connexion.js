@@ -30,6 +30,8 @@ export default function Connexion() {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrecte.");
     } else {
       login(firstName, categorie_user_Id, user_Id);
+      console.log(user_Id)
+      navigation.navigate('Accueil')
       //login(formData.email, formData.password);
     }
   };

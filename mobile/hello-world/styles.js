@@ -58,6 +58,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  year: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   price: {
       fontSize: 20,
   },
@@ -174,11 +178,17 @@ subTitleCart: {
     padding:'5%',
     paddingTop: 0,
   },
+  orderContainer:{
+    width:'100%',
+    paddingTop: 0,
+  },
   cartItemDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    
   },
+  
   inputContainer: {
     marginTop:'5%',
     marginBottom:'10%',
@@ -212,6 +222,12 @@ subTitleCart: {
     width: '100%',
     flex: 1,
   },
+  orderMap:{
+    flexDirection:'column',
+    width: '100%',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
   cartSubCard:{
     flexDirection:'column',
     width:'70%',
@@ -234,6 +250,11 @@ subTitleCart: {
     flexDirection: 'column',
     justifyContent:'flex-start',
   },
+  nbArticle: {
+    fontSize: 18,
+    color: 'grey',
+    
+},
 
 });
 
