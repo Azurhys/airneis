@@ -80,9 +80,6 @@ const AccountSettings = () => {
 
   return (
 
-<<<<<<< HEAD
-    
-=======
     <body>
       
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
@@ -534,7 +531,6 @@ const AccountSettings = () => {
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript"></script>
   </body>
->>>>>>> b854950c12e21480e3412539822bb0c6a50b6da4
 
 
 
