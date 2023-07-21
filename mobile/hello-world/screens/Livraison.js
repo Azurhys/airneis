@@ -16,7 +16,7 @@ const Livraison = () => {
     const [userIdFromStorage, setUserIdFromStorage] = useState(null);
     const [adresses, setAdresses] = useState([]);
     const [selectedAdresse, setSelectedAdresse] = useState(null);
-
+    const [isLoading, setIsLoading] = useState(true);
     const [prenom, setPrenom] = useState('');
     const [nom, setNom] = useState('');
     const [adresse1, setAdresse1] = useState('');
@@ -25,6 +25,8 @@ const Livraison = () => {
     const [codePostal, setCodePostal] = useState('');
     const [pays, setPays] = useState('');
     const [telephone, setTelephone] = useState('');
+    const [loadingDelay, setLoadingDelay] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -34,21 +36,49 @@ const Livraison = () => {
                 navigation.navigate("Connexion"); // or the path of your login page
             }
             // Appeler l'API pour obtenir les adresses
-            fetchAdresses();
         })();
+        
     }, [isAuthenticated]);
+    useEffect(() => {
+        if (selectedAdresse) {
+            setPrenom(selectedAdresse.prenom);
+            setNom(selectedAdresse.nom);
+            setAdresse1(selectedAdresse.adresse1);
+            setAdresse2(selectedAdresse.adresse2 || '');
+            setVille(selectedAdresse.ville);
+            setCodePostal(selectedAdresse.codePostal);
+            setPays(selectedAdresse.pays);
+            setTelephone(selectedAdresse.telephone);
+        }
+    }, [selectedAdresse]);
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoadingDelay(false);
+        }, 1000); 
+    
+        return () => {
+            clearTimeout(timer);
+        };
+    }, []);
 
-    const fetchAdresses = async () => {
-        try {
+    useEffect(() => {
+        const fetchAdresses = async () => {
+          try {
             const response = await axios.get(`${VITE_API}adresses.json`);
             const adressesData = response.data;
             const userAdresses = Object.values(adressesData).filter((adresse) => adresse.user_Id === userIdFromStorage);
             setAdresses(userAdresses);
-        } catch (error) {
+            setSelectedAdresse(userAdresses[0]); // set first address as selected
+            setLoading(false);
+          } catch (error) {
             console.error(error);
-        }
-    };
-
+            setLoading(false);
+          }
+        };
+        fetchAdresses();
+      }, []);
+      
     const handleAdresseSelect = (id) => {
         const selectedAdresse = adresses.find(adresse => adresse.id === id);
         setSelectedAdresse(selectedAdresse);
@@ -101,73 +131,90 @@ const Livraison = () => {
             console.error(error);
         }
     };
-    
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    } else {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <Menu />
-            
-            <Picker
-                selectedValue={selectedAdresse?.id}
-                onValueChange={(itemValue) => handleAdresseSelect(itemValue)}
-            >
-                {adresses.map(adresse => (
-                    <Picker.Item label={adresse.adresse1 + ", " + adresse.ville} value={adresse.id} key={adresse.id} />
-                ))}
-            </Picker>
-            
-            <TextInput 
-                placeholder="Prénom"
-                value={prenom}
-                onChangeText={setPrenom}
-            />
-            
-            <TextInput 
-                placeholder="Nom"
-                value={nom}
-                onChangeText={setNom}
-            />
-            
-            <TextInput 
-                placeholder="Adresse 1"
-                value={adresse1}
-                onChangeText={setAdresse1}
-            />
-
-            <TextInput 
-                placeholder="Adresse 2"
-                value={adresse2}
-                onChangeText={setAdresse2}
-            />
-
-            <TextInput 
-                placeholder="Ville"
-                value={ville}
-                onChangeText={setVille}
-            />
-
-            <TextInput 
-                placeholder="Code Postal"
-                value={codePostal}
-                onChangeText={setCodePostal}
-            />
-
-            <TextInput 
-                placeholder="Pays"
-                value={pays}
-                onChangeText={setPays}
-            />
-
-            <TextInput 
-                placeholder="Numéro de téléphone"
-                value={telephone}
-                onChangeText={setTelephone}
-            />
-
-            <TouchableOpacity onPress={handleSubmit}>
-                <Text>Procéder au paiement</Text>
-            </TouchableOpacity>
+            <View style={styles.cartItemContainer}>
+                <View style={styles.spacer} />
+                
+                    <Picker
+                        selectedValue={selectedAdresse?.id}
+                        onValueChange={(itemValue) => handleAdresseSelect(itemValue)}
+                    >
+                        {adresses.map(adresse => (
+                            <Picker.Item label={adresse.adresse1 + ", " + adresse.ville} value={adresse.id} key={adresse.id} />
+                        ))}
+                    </Picker>
+                
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Prénom"
+                    style={styles.input}
+                    value={prenom}
+                    onChangeText={setPrenom}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Nom"
+                    style={styles.input}
+                    value={nom}
+                    onChangeText={setNom}
+                />
+                <View style={styles.spacer} />    
+                <TextInput 
+                    placeholder="Adresse 1"
+                    style={styles.input}
+                    value={adresse1}
+                    onChangeText={setAdresse1}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Adresse 2"
+                    style={styles.input}
+                    value={adresse2}
+                    onChangeText={setAdresse2}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Ville"
+                    style={styles.input}
+                    value={ville}
+                    onChangeText={setVille}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Code Postal"
+                    style={styles.input}
+                    value={codePostal}
+                    onChangeText={setCodePostal}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Pays"
+                    value={pays}
+                    onChangeText={setPays}
+                    style={styles.input}
+                />
+                <View style={styles.spacer} />
+                <TextInput 
+                    placeholder="Numéro de téléphone"
+                    value={telephone}
+                    onChangeText={setTelephone}
+                    style={styles.input}
+                />
+                <View style={styles.spacer} />
+                <Button
+                    title="Procéder au paiement"
+                    onPress={handleSubmit}
+                    color="#BDA18A"
+                />
+            </View>
         </ScrollView>
-    );
+      );
+    }
 }
  
 export default Livraison;
