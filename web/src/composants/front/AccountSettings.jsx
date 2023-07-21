@@ -1,223 +1,419 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import useConfigsetting from "../../hook/useConfigsetting";
 import './AccountSettings.css';
-import { AuthContext } from '../../context/Authcontext';
-import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { usePaymentOptions, useBillingAddresses, useAddresses } from "../../hook/useAccountSettings";
 
 const AccountSettings = () => {
-  const navigate = useNavigate();
-  const userIdFromStorage = localStorage.getItem('userID');
-  const { isAuthenticated} = useContext(AuthContext);
+    const { handleSubmit } = useConfigsetting();    
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confPassword, setConfPassword] = useState('');
 
-  const { handleSubmit } = useConfigsetting();
+    const [paymentMethods, setPaymentMethods] = useState('');
+    const [billingAddress, setBillingAddress] = useState('');
+    const [shippingAddress, setShippingAddress] = useState('');
 
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confPassword, setConfPassword] = useState('');
+    const [paymentOptions, setPaymentOptions] = useState([]);
+    const [cardName, setCardName] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvv, setCvv] = useState('');
 
-  const [cardName, setCardName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
+    const [useAddress, setUseAddress] = useState(false);
+    const [billingAddresses, setBillingAdresses] = useState([]);
+    
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+      handleSubmit(
+        fullName,
+        email,
+        password,
+        cardName,
+        cardNumber,
+        expiryDate,
+        cvv,
+        shippingAddress,
+        billingAddress,
+        paymentMethods
+      );
 
-  const [billing_prenom, setbilling_prenom] = useState('');
-  const [billing_nom, setbilling_nom] = useState('');
-  const [billing_adresse1, setbilling_addresse1] = useState('');
-  const [billing_adresse2, setbilling_addresse2] = useState('');
-  const [billing_ville, setbilling_ville] = useState('');
-  const [billing_codePostal, setbilling_codePostal] = useState('');
-  const [billing_pays, setbilling_pays] = useState('');
-  const [billing_telephone, setbilling_telephone] = useState('');
+      setFullName('');
+      setEmail('');
+      setPassword('');
+      setCardName('');
+      setCardNumber('');
+      setExpiryDate('');
+      setCvv('');
+      setPassword('');
+      setPassword('');
+      setConfPassword('');
+      setShippingAddress('');
+      setBillingAddress('');
+      setPaymentMethods('');
+    };
 
-  const [shipping_prenom, setshipping_prenom] = useState('');
-  const [shipping_nom, setshipping_nom] = useState('');
-  const [shipping_adresse1, setshipping_addresse1] = useState('');
-  const [shipping_adresse2, setshipping_addresse2] = useState('');
-  const [shipping_ville, setshipping_ville] = useState('');
-  const [shipping_codePostal, setshipping_codePostal] = useState('');
-  const [shipping_pays, setshipping_pays] = useState('');
-  const [shipping_telephone, setshipping_telephone] = useState('');
-
-  const { paymentOptions, fetchPaymentOptions } = usePaymentOptions(userIdFromStorage);
-  const { billingAddresses, fetchBillingAddresses } = useBillingAddresses(userIdFromStorage);
-  const { addresses, fetchAddresses } = useAddresses(userIdFromStorage);
-
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/connexion", { state: { from: "/settings" } });
-    }
-
-    fetchPaymentOptions();
-    fetchBillingAddresses();
-    fetchAddresses();
-  }, [isAuthenticated, navigate]);
-
-  const handleFormSubmit_profil = (e) => {
-    e.preventDefault();
-    handleSubmit(
-      fullName,
-      email,
-      password
-    );
-
-    setFullName('');
-    setEmail('');
-    setPassword('');
-    setConfPassword('');
+  const initialBillingAddress = {
+    prenom: '',
+    nom: '',
+    adresse1: '',
+    adresse2: '',
+    ville: '',
+    codePostal: '',
+    pays: '',
+    telephone: ''
   };
 
-  const handleFormSubmit_card = (e) => {
-    handleSubmit(
-      cardName,
-      cardNumber,
-      expiryDate,
-      cvv
-    );
+  const [billingDetails, setBillingDetails] = useState(initialBillingAddress);
 
-    setCardName('');
-    setCardNumber('');
-    setExpiryDate('');
-    setCvv('');
-  }
-
-  const handleFormSubmit_facturation = (e) => {
-    handleSubmit(
-      billing_adresse1,
-      billing_adresse2,
-      billing_codePostal,
-      billing_nom,
-      billing_pays,
-      billing_prenom,
-      billing_telephone,
-      billing_ville
-    );
-
-    setbilling_prenom('');
-    setbilling_nom('');
-    setbilling_addresse1('');
-    setbilling_addresse2('');
-    setbilling_ville('');
-    setbilling_codePostal('');
-    setbilling_pays('');
-    setbilling_telephone('');
-  }
-
-  const handleFormSubmit_livraison = (e) => {
-    handleSubmit(
-      shipping_adresse1,
-      shipping_adresse2,
-      shipping_codePostal,
-      shipping_nom,
-      shipping_pays,
-      shipping_prenom,
-      shipping_telephone,
-      shipping_ville
-    );
-
-    setshipping_prenom('');
-    setshipping_nom('');
-    setshipping_addresse1('');
-    setshipping_addresse2('');
-    setshipping_ville('');
-    setshipping_codePostal('');
-    setshipping_pays('');
-    setshipping_telephone('');
-  }
+  const handleBillingDetailsChange = (e) => {
+    setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
+  };
 
   const handlePaymentSelect = (payment) => {
+    setSelectedPayment(payment);
     setCardName(payment.cardName);
     setCardNumber(payment.cardNumber);
     setExpiryDate(payment.expiryDate);
     setCvv(payment.cvv);
-  };
-
-  const handleAdresseSelect = (id) => {
-    const selectedAdresse = addresses.find(adresse => adresse.id === id);
-    setshipping_prenom(selectedAdresse.prenom);
-    setshipping_nom(selectedAdresse.nom);
-    setshipping_addresse1(selectedAdresse.adresse1);
-    setshipping_addresse2(selectedAdresse.adresse2);
-    setshipping_ville(selectedAdresse.ville);
-    setshipping_codePostal(selectedAdresse.codePostal);
-    setshipping_pays(selectedAdresse.pays);
-    setshipping_telephone(selectedAdresse.telephone);
-  };
-
-  const handleBillingSelect = (id) => {
-    const selectedBillingAddress = billingAddresses.find(address => address.id === id);
-    setbilling_prenom(selectedBillingAddress.prenom);
-    setbilling_nom(selectedBillingAddress.nom);
-    setbilling_addresse1(selectedBillingAddress.adresse1);
-    setbilling_addresse2(selectedBillingAddress.adresse2);
-    setbilling_ville(selectedBillingAddress.ville);
-    setbilling_codePostal(selectedBillingAddress.codePostal);
-    setbilling_pays(selectedBillingAddress.pays);
-    setbilling_telephone(selectedBillingAddress.telephone);
-  };
+};
 
   return (
-    <div className='m-5'>
-      <h2>Paramètres du compte</h2>
-      <form onSubmit={handleFormSubmit_profil}> 
-        {/* ... Autres champs de formulaire ... */}
-        <div className='my-3'>
-          <label>Nom complet :</label>
-          <br />
-          <input
-            className='form-control'
-            type='text'
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
-        <div className='my-3'>
-          <label>E-mail :</label>
-          <br />
-          <input
-            className='form-control'
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className='my-3'>
-          <label>Mot de passe :</label>
-          <br />
-          <input
-            className='form-control'
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className='my-3'>
-          <label>Confirmation de mot de passe :</label>
-          <br />
-          <input
-            className='form-control'
-            type='password'
-            value={confPassword}
-            onChange={(e) => setConfPassword(e.target.value)}
-          />
-        </div>
-      </form>
 
-      <div className='mb-3 mx-5 d-flex'>
-        <form onSubmit={handleFormSubmit_card}> 
-          <div className='w-50'>
-            <Dropdown>
-              <Dropdown.Toggle variant="info" id="dropdown-basic1">
+    <body>
+      
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <div class="container bootstrap snippets bootdeys">
+      <div class="row">
+        <div class="col-xs-12 col-sm-9">
+          <form class="form-horizontal" onSubmit={handleFormSubmit}>
+            
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">Informations Utilisateur</h4>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Nom complet</label>
+                  <div class="col-sm-10">
+                  <input
+                    className='form-control'
+                    type='text'
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">E-mail</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    className='form-control'
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">informations livraison</h4>
+                <div className=''>
+                  <Dropdown>
+                    <Dropdown.Toggle variant='info' id='dropdown-basic3'>
+                      Choisissez une adresse de délivraison
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      {billingAddresses.map((address, index) => (
+                        <Dropdown.Item
+                          key={index}
+                          onClick={() => setBillingDetails(address)}
+                        >
+                          {address.prenom} {address.nom} - {address.adresse1}, {address.ville}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Prénom</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='shipping_prenom'
+                    id='shipping_prenom'
+                    className='form-control'
+                    value={billingDetails.prenom_deux}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Nom</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                   type='text'
+                   name='shipping_nom'
+                   id='shipping_nom'
+                   className='form-control'
+                   value={billingDetails.nom_deux}
+                   onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Adresse 1</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='shipping_adresse1'
+                    id='shipping_adresse1'
+                    className='form-control'
+                    value={billingDetails.adresse_deux}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Adresse 2</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='shipping_adresse2'
+                    id='shipping_adresse2'
+                    className='form-control'
+                    value={billingDetails.adresse2_deux}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Ville</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='shipping_ville'
+                    id='shipping_ville'
+                    className='form-control'
+                    value={billingDetails.ville_deux}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Code postal</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='number'
+                    name='shipping_codePostal'
+                    id='shipping_codePostal'
+                    className='form-control'
+                    value={billingDetails.codePostal_deux}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Pays</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                     type='text'
+                     name='shipping_pays'
+                     id='shipping_pays'
+                     className='form-control'
+                     value={billingDetails.pays_deux}
+                     onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Numéro de téléphone</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='tel'
+                    name='shipping_telephone'
+                    id='shipping_telephone'
+                    className='form-control'
+                    value={billingDetails.telephone_deux}
+                    maxLength={10}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  Informations facturation
+                </h4>
+                <div className=''>
+                  <Dropdown>
+                    <Dropdown.Toggle variant='info' id='dropdown-basic2'>
+                      Choisissez une adresse de facturation
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {billingAddresses.map((address, index) => (
+                        <Dropdown.Item
+                          key={index}
+                          onClick={() => setBillingDetails(address)}
+                        >
+                          {address.prenom} {address.nom} - {address.adresse1}, {address.ville}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+      
+                
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Prénom</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_prenom'
+                    id = ''
+                    className='form-control'
+                    value={billingDetails.prenom_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Nom</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_nom'
+                    id='billing_nom'
+                    className='form-control'
+                    value={billingDetails.nom_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Adresse 1</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_addresse1'
+                    id='billing_addresse1'
+                    className='form-control'
+                    value={billingDetails.adresse1_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Adresse 2</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_addresse2'
+                    id='billing_addresse2'
+                    className='form-control'
+                    value={billingDetails.adresse2_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Ville</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_ville'
+                    id='billing_ville'
+                    className='form-control'
+                    value={billingDetails.ville_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Code postal</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='number'
+                    name='billing_codePostal'
+                    id='billing_codePostal'
+                    className='form-control'
+                    value={billingDetails.codePostal_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Pays</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    name='billing_pays'
+                    id='billing_pays'
+                    className='form-control'
+                    value={billingDetails.pays_un}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Numéro de téléphone</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='tel'
+                    name='billing_telephone'
+                    id='billing_telephone'
+                    className='form-control'
+                    value={billingDetails.telephone_un}
+                    maxLength={10}
+                    onChange={handleBillingDetailsChange}
+                  />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  Informations carte
+                </h4>
+                <div className=''>
+                <Dropdown>
+              <Dropdown.Toggle variant='info' id='dropdown-basic1'>
                 Choisissez une option de paiement
               </Dropdown.Toggle>
+
               <Dropdown.Menu>
-                {paymentOptions.map(payment => (
+                {paymentOptions.map((payment) => (
                   <Dropdown.Item
-                    key={payment.id}
+                    key={payment.cardNumber}
                     onClick={() => handlePaymentSelect(payment)}
                   >
                     {payment.cardName} - {payment.cardNumber}
@@ -225,281 +421,119 @@ const AccountSettings = () => {
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-            {/* ... Autres champs pour les détails de paiement ... */}
-            <form>
-              <label className='fw-bold'>Nom de la carte</label>
-              <br />
-              <input
-                type='text'
-                value={cardName}
-                onChange={(e) => setCardName(e.target.value)}
-              />
-              <br />
-              <label className='fw-bold'>Numéro de carte</label>
-              <br />
-              <input
-                type='text'
-                pattern='\d*'
-                maxLength='16'
-                value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
-              />
-              <br />
-              <label className='fw-bold'>Date d'expiration</label>
-              <br />
-              <input
-                type='text'
-                pattern='(0[1-9]|1[0-2])\/\d{2}'
-                maxLength='5'
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-              />
-              <br />
-              <label className='fw-bold'>CVV</label>
-              <br />
-              <input
-                type='text'
-                pattern='\d{3}'
-                maxLength='3'
-                value={cvv}
-                onChange={(e) => setCvv(e.target.value)}
-              />
-            </form>   
-          </div>
-        </form> 
+                </div>
+      
+                
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Nom sur la carte</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                   type='text'
+                   value={cardName}
+                   onChange={(e) => setCardName(e.target.value)}
+                    className='form-control'
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Numéro de carte</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    pattern='\d*'
+                    maxLength='16'
+                    value={cardNumber}
+                    onChange={(e) => setCardNumber(e.target.value)}
+                    className='form-control'
+                    
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Date d'expiration</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    pattern='(0[1-9]|1[0-2])/\d{2}'
+                    maxLength='5'
+                    value={expiryDate}
+                    onChange={(e) => setExpiryDate(e.target.value)}
+                    className='form-control'
+                   
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">CVV</label>
+                  <div class="col-sm-10">
+                  <br />
+                  <input
+                    type='text'
+                    pattern='\d{3}'
+                    maxLength='3'
+                    value={cvv}
+                    onChange={(e) => setCvv(e.target.value)}
+                    className='form-control'
+                   
+                  />
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">securite</h4>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Mot de passe :</label>
+                  <div class="col-sm-10">
+                  <input
+                    className='form-control'
+                    type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">nouveau mot de passe</label>
+                  <div class="col-sm-10">
+                  <input
+                    className='form-control'
+                    type='password'
+                    value={confPassword}
+                    onChange={(e) => setConfPassword(e.target.value)}
+                  />
+                  </div>
+                </div>
 
-        <form onSubmit={handleFormSubmit_facturation}> 
-          <div className='w-50'>
-            <Dropdown>
-              <Dropdown.Toggle variant='info' id='dropdown-basic2'>
-                Choisissez une adresse de facturation
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {billingAddresses.map(address => (
-                  <Dropdown.Item
-                    key={address.id}
-                    onClick={() => handleBillingSelect(address.id)}
-                  >
-                    {address.prenom} {address.nom} - {address.adresse1}, {address.ville}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-            {/* ... Autres champs pour les détails de facturation ... */}
-            <form className=''>
-                <label htmlFor='billing_prenom' className='fw-bold'>Prénom</label>
-                <br />
-                <input
-                  type='text'
-                  name='billing_prenom'
-                  id = ''
-                  className='mb-3'
-                  value={billing_prenom}
-                  onChange={(e) => setbilling_prenom(e.target.value)}
-                />
-                <br />
-                <label htmlFor='billing_nom' className='fw-bold'>Nom</label>
-                <br />
-                <input
-                  type='text'
-                  name='billing_nom'
-                  id='billing_nom'
-                  className='mb-3'
-                  value={billing_nom}
-                  onChange={(e) => setbilling_nom(e.target.value)}
-                />
-                <br />
-                <label htmlFor='billing_adresse1' className='fw-bold'>Adresse 1</label>
-                <br />
-                <input
-                  type='text'
-                  name='billing_adresse1'
-                  id='billing_adresse1'
-                  className='mb-3'
-                  value={billing_adresse1}
-                  onChange={(e) => setbilling_addresse1(e.target.value)}
-                />
-                <br/>
-                <label htmlFor='billing_addresse2' className='fw-bold'>Adresse 2</label>
-                <br />
-                <input
-                  type='text'
-                  name='billing_addresse2'
-                  id='billing_addresse2'
-                  className='mb-3'
-                  value={billing_adresse2}
-                  onChange={(e) => setbilling_addresse2(e.target.value)}
-                />
-                <br/>
-                <label htmlFor='billing_ville' className='fw-bold'>Ville</label>
-                <br/>
-                <input
-                  type='text'
-                  name='billing_ville'
-                  id='billing_ville'
-                  className='mb-3'
-                  value={billing_ville}
-                  onChange={(e) => setbilling_ville(e.target.value)}
-                />
-                <br />
-                <label htmlFor='billing_codePostal' className='fw-bold'>Code Postal</label>
-                <br />
-                <input
-                  type='number'
-                  name='billing_codePostal'
-                  id='billing_codePostal'
-                  className='mb-3'
-                  value={billing_codePostal}
-                  onChange={(e) => setbilling_codePostal(e.target.value)}
-                />
-                <br />
-                <label htmlFor='billing_pays' className='fw-bold'>Pays</label>
-                <br />
-                <input
-                  type='text'
-                  name='billing_pays'
-                  id='billing_pays'
-                  className='mb-3'
-                  value={billing_pays}
-                  onChange={(e) => setbilling_pays(e.target.value)}
-                />
-                <br />
-                <label htmlFor='billing_telephone' className='fw-bold'>Numéro de téléphone</label>
-                <br />
-                <input
-                  type='tel'
-                  name='billing_telephone'
-                  id='billing_telephone'
-                  className='mb-3'
-                  value={billing_telephone}
-                  maxLength={10}
-                  onChange={(e) => setbilling_telephone(e.target.value)}
-                />
-                <br />
-              </form>
-          </div>
-        </form>
-
-        <form onSubmit={handleFormSubmit_livraison}> 
-          <div className='w-50'>
-            <Dropdown>
-              <Dropdown.Toggle variant='info' id='dropdown-basic3'>
-                Choisissez une adresse de livraison
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {addresses.map(adresse => (
-                  <Dropdown.Item
-                    key={adresse.id}
-                    onClick={() => handleAdresseSelect(adresse.id)}
-                  >
-                    {adresse.adresse1}, {adresse.ville}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-            {/* ... Autres champs pour les détails de livraison ... */}
-            <form className=''>
-                <label htmlFor='shipping_prenom' className='fw-bold'>Prénom</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_prenom'
-                  id='shipping_prenom'
-                  className='mb-3'
-                  value={shipping_prenom}
-                  onChange={(e) => setshipping_prenom(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_nom' className='fw-bold'>Nom</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_nom'
-                  id='shipping_nom'
-                  className='mb-3'
-                  value={shipping_nom}
-                  onChange={(e) => setshipping_nom(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_addresse1' className='fw-bold'>Adresse 1</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_addresse1'
-                  id='shipping_addresse1'
-                  className='mb-3'
-                  value={shipping_adresse1}
-                  onChange={(e) => setshipping_addresse1(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_addresse2' className='fw-bold'>Adresse 2</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_addresse2'
-                  id='shipping_addresse2'
-                  className='mb-3'
-                  value={shipping_adresse2}
-                  onChange={(e) => setshipping_addresse2(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_ville' className='fw-bold'>Ville</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_ville'
-                  id='shipping_ville'
-                  className='mb-3'
-                  value={shipping_ville}
-                  onChange={(e) => setshipping_ville(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_codePostal' className='fw-bold'>Code Postal</label>
-                <br />
-                <input
-                  type='number'
-                  name='shipping_codePostal'
-                  id='shipping_codePostal'
-                  className='mb-3'
-                  value={shipping_codePostal}
-                  onChange={(e) => setshipping_codePostal(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_pays' className='fw-bold'>Pays</label>
-                <br />
-                <input
-                  type='text'
-                  name='shipping_pays'
-                  id='shipping_pays'
-                  className='mb-3'
-                  value={shipping_pays}
-                  onChange={(e) => setshipping_pays(e.target.value)}
-                />
-                <br />
-                <label htmlFor='shipping_telephone' className='fw-bold'>Numéro de téléphone</label>
-                <br />
-                <input
-                  type='tel'
-                  name='shipping_telephone'
-                  id='shipping_telephone'
-                  className='mb-3'
-                  value={shipping_telephone}
-                  maxLength={10}
-                  onChange={(e) => setshipping_telephone(e.target.value)}
-                />
-                <br />
-              </form>
+                <div class="form-group">
+                  <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>
-        {/* ... Autres boutons, divs, etc. ... */}
-        <div className='d-flex justify-content-center'>
-          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_profil}>Enregistrer les modifications profil</button>
-          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_card}>Enregistrer les modifications card</button>
-          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_facturation}>Enregistrer les modifications facturation</button>
-          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_livraison}>Enregistrer les modifications livraison</button>
-        </div>
+      </div>
     </div>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
+  </body>
+
+
+    
   );
 };
 
