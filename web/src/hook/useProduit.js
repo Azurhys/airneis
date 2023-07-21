@@ -14,7 +14,7 @@ export function useProduit() {
       setProduits(resultat);
     });
   }, []);
-
+  
   //mettre en avant
   const mettreEnAvantProduit = (produit) => {
     const produitsEnAvant = produits.filter((p) => p.enAvant === 1);
