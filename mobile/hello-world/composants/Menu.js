@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, TouchableOpacity, StatusBar, Text, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
-
+import { AuthContext } from '../context/Authcontext';
 
 export default function Menu() {
   const navigation = useNavigation();
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [menuVisible, setMenuVisible] = useState(false);
-
+  const { isAuthenticated, logout } = useContext(AuthContext);
 
   useEffect(() => {
     setStatusBarHeight(StatusBar.currentHeight);
@@ -59,35 +59,38 @@ export default function Menu() {
           </View>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <TouchableOpacity onPress={() => {navigation.navigate('APropos'); toggleMenu();}}>
-                <Text style={styles.modalText}>A propos d'ÀIRNEIS</Text>
-              </TouchableOpacity>
+              
+                {isAuthenticated ?
+                  <>
+                  <TouchableOpacity onPress={() => {navigation.navigate('Mescommandes'); toggleMenu();}}>
+                    <Text style={styles.modalText}>Mes Commandes</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {logout(); toggleMenu();}}>
+                    <Text style={styles.modalText}>Se déconnecter</Text>
+                  </TouchableOpacity>
+                  </>
+                  :
+                  <>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Connexion'); toggleMenu();}}>
+                      <Text style={styles.modalText}>Connexion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Inscription'); toggleMenu();}}>
+                      <Text style={styles.modalText}>Inscription</Text>
+                    </TouchableOpacity>
+                  </>
+                }
+
               <TouchableOpacity onPress={() => {navigation.navigate('CGU'); toggleMenu();}}>
                 <Text style={styles.modalText}>CGU</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Connexion'); toggleMenu();}}>
-                <Text style={styles.modalText}>Connexion</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Contact'); toggleMenu();}}>
-                <Text style={styles.modalText}>Contact</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Inscription'); toggleMenu();}}>
-                <Text style={styles.modalText}>Inscription</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => {navigation.navigate('MentionsLegales'); toggleMenu();}}>
                 <Text style={styles.modalText}>Mentions Legales</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Mescommandes'); toggleMenu();}}>
-                <Text style={styles.modalText}>Mes Commandes</Text>
+              <TouchableOpacity onPress={() => {navigation.navigate('Contact'); toggleMenu();}}>
+                <Text style={styles.modalText}>Contact</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Parametres'); toggleMenu();}}>
-                <Text style={styles.modalText}>Parametres</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Categories'); toggleMenu();}}>
-                <Text style={styles.modalText}>Categories</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('Livraison'); toggleMenu();}}>
-                <Text style={styles.modalText}>Livraison</Text>
+              <TouchableOpacity onPress={() => {navigation.navigate('APropos'); toggleMenu();}}>
+                <Text style={styles.modalText}>A propos d'ÀIRNEIS</Text>
               </TouchableOpacity>
             </View>
           </View>
