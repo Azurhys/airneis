@@ -79,10 +79,11 @@ const Livraison = () => {
         fetchAdresses();
       }, []);
       
-    const handleAdresseSelect = (id) => {
-        const selectedAdresse = adresses.find(adresse => adresse.id === id);
+      const handleAdresseSelect = (value) => {
+        const selectedAdresse = adresses.find((adresse, index) => adresse.id ? adresse.id === value : index === value);
         setSelectedAdresse(selectedAdresse);
-    }
+        };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -116,7 +117,7 @@ const Livraison = () => {
             navigation.navigate("Paiement");
             return;
         }
-    
+        
         try {
             // Envoyer les données à l'API avec axios
             const response = await axios.post(`${VITE_API}adresses.json`, data);
@@ -144,8 +145,8 @@ const Livraison = () => {
                         selectedValue={selectedAdresse?.id}
                         onValueChange={(itemValue) => handleAdresseSelect(itemValue)}
                     >
-                        {adresses.map(adresse => (
-                            <Picker.Item label={adresse.adresse1 + ", " + adresse.ville} value={adresse.id} key={adresse.id} />
+                        {adresses && adresses.length > 0 && adresses.map((adresse, index) => (
+                            <Picker.Item key={index} label={adresse.adresse1 + ", " + adresse.ville} value={index} />
                         ))}
                     </Picker>
                 

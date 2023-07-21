@@ -42,8 +42,9 @@ const Paiement = () => {
 
     const [billingDetails, setBillingDetails] = useState(initialBillingAddress);
 
-    const handleBillingDetailsChange = (name, value) => {
-        setBillingDetails({ ...billingDetails, [name]: value });
+    const handleBillingDetailsChange = (index) => {
+        const selectedBillingAddress = billingAddresses[index];
+        setBillingDetails(selectedBillingAddress);
     };
       
     useEffect(() => {
@@ -179,111 +180,132 @@ const Paiement = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <Menu />
-            
-            <Picker
-                selectedValue={selectedPayment?.cardNumber}
-                onValueChange={(itemValue) => handlePaymentSelect(itemValue)}
-            >
-                {paymentOptions.map(payment => (
-                    <Picker.Item label={payment.cardName + ", " + payment.cardNumber} value={payment} key={payment.cardNumber} />
-                ))}
-            </Picker>
-            
-            <TextInput 
-                placeholder="Nom sur la carte"
-                value={cardName}
-                onChangeText={(value) => setCardName(value)}
-            />
-            
-            <TextInput 
-                placeholder="Numéro de carte"
-                value={cardNumber}
-                onChangeText={(value) => setCardNumber(value)}
-            />
-            
-            <TextInput 
-                placeholder="Date d'expiration"
-                value={expiryDate}
-                onChangeText={(value) => setExpiryDate(value)}
-            />
-
-            <TextInput 
-                placeholder="CVV"
-                value={cvv}
-                onChangeText={(value) => setCvv(value)}
-            />
-
-            <Checkbox
-                status={useDeliveryAddress ? 'checked' : 'unchecked'}
-                onPress={() => setUseDeliveryAddress(!useDeliveryAddress)}
-            />
-
-            <Text>Utilisez l'adresse de livraison comme adresse de facturation</Text>
-
-            <Picker
-                selectedValue={billingDetails}
-                onValueChange={(itemValue) => handleBillingDetailsChange(itemValue)}
-            >
-                {billingAddresses.map((address, index) => (
-                    <Picker.Item label={address.prenom + " " + address.nom + " - " + address.adresse1 + ", " + address.ville} value={address} key={index} />
-                ))}
-            </Picker>
-
-            {!useDeliveryAddress && (
-                <>
+            <View style={styles.cartItemContainer}>
+                <View style={styles.spacer} />
+                <Picker
+                    selectedValue={selectedPayment?.cardNumber}
+                    onValueChange={(itemValue) => handlePaymentSelect(itemValue)}
+                >
+                    {paymentOptions.map(payment => (
+                        <Picker.Item label={payment.cardName + ", " + payment.cardNumber} value={payment} key={payment.cardNumber} />
+                    ))}
+                </Picker>
+                <View style={styles.spacer} />
                 <TextInput 
-                    placeholder="Prénom"
-                    value={billingDetails.prenom}
-                    onChangeText={(value) => handleBillingDetailsChange('prenom', value)}
+                    placeholder="Nom sur la carte"
+                    value={cardName}
+                    onChangeText={(value) => setCardName(value)}
+                    style={styles.input}
                 />
+                <View style={styles.spacer} />
+                
+                <TextInput 
+                    placeholder="Numéro de carte"
+                    value={cardNumber}
+                    onChangeText={(value) => setCardNumber(value)}
+                    style={styles.input}
+                />
+                <View style={styles.spacer} />
+                
+                <TextInput 
+                    placeholder="Date d'expiration"
+                    value={expiryDate}
+                    onChangeText={(value) => setExpiryDate(value)}
+                    style={styles.input}
+                />
+                <View style={styles.spacer} />
 
                 <TextInput 
-                    placeholder="Nom"
-                    value={billingDetails.nom}
-                    onChangeText={(value) => handleBillingDetailsChange('nom', value)}
+                    placeholder="CVV"
+                    value={cvv}
+                    onChangeText={(value) => setCvv(value)}
+                    style={styles.input}
+                />
+                    <View style={styles.spacer} />
+                <Checkbox
+                    status={useDeliveryAddress ? 'checked' : 'unchecked'}
+                    onPress={() => setUseDeliveryAddress(!useDeliveryAddress)}
                 />
 
-                <TextInput 
-                    placeholder="Adresse 1"
-                    value={billingDetails.adresse1}
-                    onChangeText={(value) => handleBillingDetailsChange('adresse1', value)}
-                />
+                <Text>Utiliser l'adresse de livraison comme adresse de facturation</Text>
+                
+                
 
-                <TextInput 
-                    placeholder="Adresse 2"
-                    value={billingDetails.adresse2}
-                    onChangeText={(value) => handleBillingDetailsChange('adresse2', value)}
-                />
+                {!useDeliveryAddress && (
+                    <>
+                    <Picker
+                        selectedValue={billingDetails}
+                        onValueChange={(itemValue) => handleBillingDetailsChange(itemValue)}
+                    >
+                        {billingAddresses.map((address, index) => (
+                            <Picker.Item label={address.prenom + " " + address.nom + " - " + address.adresse1 + ", " + address.ville} value={index} key={index} />
+                        ))}
+                    </Picker>
+                    <TextInput 
+                        placeholder="Prénom"
+                        value={billingDetails.prenom}
+                        onChangeText={(value) => handleBillingDetailsChange('prenom', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Nom"
+                        value={billingDetails.nom}
+                        onChangeText={(value) => handleBillingDetailsChange('nom', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Adresse 1"
+                        value={billingDetails.adresse1}
+                        onChangeText={(value) => handleBillingDetailsChange('adresse1', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Adresse 2"
+                        value={billingDetails.adresse2}
+                        onChangeText={(value) => handleBillingDetailsChange('adresse2', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Ville"
+                        value={billingDetails.ville}
+                        onChangeText={(value) => handleBillingDetailsChange('ville', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Code Postal"
+                        value={billingDetails.codePostal}
+                        onChangeText={(value) => handleBillingDetailsChange('codePostal', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Pays"
+                        value={billingDetails.pays}
+                        onChangeText={(value) => handleBillingDetailsChange('pays', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    <TextInput 
+                        placeholder="Numéro de téléphone"
+                        value={billingDetails.telephone}
+                        onChangeText={(value) => handleBillingDetailsChange('telephone', value)}
+                        style={styles.input}
+                    />
+                        <View style={styles.spacer} />
+                    </>
+                )}
 
-                <TextInput 
-                    placeholder="Ville"
-                    value={billingDetails.ville}
-                    onChangeText={(value) => handleBillingDetailsChange('ville', value)}
+                <Button
+                    title="Finaliser votre commande"
+                    onPress={handleSubmit}
+                    color="#BDA18A"
                 />
-
-                <TextInput 
-                    placeholder="Code Postal"
-                    value={billingDetails.codePostal}
-                    onChangeText={(value) => handleBillingDetailsChange('codePostal', value)}
-                />
-
-                <TextInput 
-                    placeholder="Pays"
-                    value={billingDetails.pays}
-                    onChangeText={(value) => handleBillingDetailsChange('pays', value)}
-                />
-
-                <TextInput 
-                    placeholder="Numéro de téléphone"
-                    value={billingDetails.telephone}
-                    onChangeText={(value) => handleBillingDetailsChange('telephone', value)}
-                />
-                </>
-            )}
-
-            <TouchableOpacity onPress={handleSubmit}>
-                <Text>Procéder à la confirmation</Text>
-            </TouchableOpacity>
+                </View>
         </ScrollView>
     );
 }
