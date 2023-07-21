@@ -48,13 +48,13 @@ const Panier = () => {
         .then((response) => {
           console.log("Commande enregistrée avec succès");
           clearCart();
-          navigation.navigate('Confirmation');
+          navigation.navigate('Livraison');
         })
         .catch((error) => {
           console.error("Erreur lors de l'ajout de la commande : ", error);
         });
 
-      navigation.navigate('Confirmation');
+      navigation.navigate('Livraison');
     } catch (error) {
       console.error("Erreur lors du traitement du paiement : ", error);
     }
