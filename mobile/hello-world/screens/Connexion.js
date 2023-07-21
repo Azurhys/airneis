@@ -1,12 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import Menu from '../composants/Menu';
 import useLoginValidation from '../verif/useLoginValidation';
 import { AuthContext }  from '../context/Authcontext';
 import { CartContext } from '../context/CartContext';
+import { useNavigation } from '@react-navigation/native';
+import styles from '../styles';
 
 export default function Connexion() {
   const { checkoutInProgress, startCheckout, completeCheckout } = useContext(CartContext);
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,6 +30,8 @@ export default function Connexion() {
       setErrorMessage("L'adresse e-mail ou le mot de passe est incorrecte.");
     } else {
       login(firstName, categorie_user_Id, user_Id);
+      console.log(user_Id)
+      navigation.navigate('Accueil')
       //login(formData.email, formData.password);
     }
   };
@@ -40,93 +45,49 @@ export default function Connexion() {
   }, [checkoutInProgress, isAuthenticated]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <Text>Connexion</Text>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={formData.email}
-          onChangeText={(text) => handleInputChange('email', text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Mot de passe"
-          secureTextEntry={true}
-          value={formData.password}
-          onChangeText={(text) => handleInputChange('password', text)}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Se connecter</Text>
-        </TouchableOpacity>
-      </View>
-      {errorMessage && (
-        <View style={styles.errorMessage}>
-          <Text style={styles.errorText}>{errorMessage}</Text>
+      <View style={styles.cartItemContainer}>
+      <Text style={styles.subTitle}>Connexion</Text>
+        <View style={styles.formContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={formData.email}
+            onChangeText={(text) => handleInputChange('email', text)}
+          />
+          <View style={styles.spacer} />
+          <TextInput
+            style={styles.input}
+            placeholder="Mot de passe"
+            secureTextEntry={true}
+            value={formData.password}
+            onChangeText={(text) => handleInputChange('password', text)}
+          />
+          <View style={styles.spacer} />
+            <Button
+                  title="Se Connecter"
+                  onPress={handleSubmit}
+                  color="#BDA18A"
+                />
+          <View style={styles.spacer} />
         </View>
-      )}
+        {errorMessage && (
+          <View style={styles.errorMessage}>
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          </View>
+        )}
 
 
-        <View style={styles.textContainer}>
-          <Text>Pas de compte ?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Inscription')}>
-          <Text style={styles.link}>Inscrivez-vous.</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.cartItemDetails}>
+            <Text>Pas de compte ?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Inscription')}>
+                <Text style={styles.text}>Inscrivez-vous.</Text>
+              </TouchableOpacity>
+          </View>
 
-
-    </SafeAreaView>
+          </View>    
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    marginBottom: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  errorMessage: {
-    textAlign: 'center',
-    color: 'red',
-    marginTop: 20,
-  },
-  textContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  link: {
-    color: 'blue',
-    marginLeft: 5,
-  },
-});

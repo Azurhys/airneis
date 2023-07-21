@@ -18,11 +18,13 @@ const ConfirmationPaiement = () => {
     return (
         <View style={styles.container}>
             <Menu />
-            <Text style={styles.title}>Commande effectuée</Text>
-            <Text style={styles.text}>
-                Votre commande à bien été enregistrée sous le numéro {orderNumberFromStorage}.
-                Vous pouvez suivre son état depuis votre espace client.
-            </Text>
+            <View style={styles.cartItemContainer}>
+                <Text style={styles.subTitle}>Commande effectuée</Text>
+                <Text style={styles.description}>
+                    Votre commande à bien été enregistrée sous le numéro {orderNumberFromStorage}.
+                    Vous pouvez suivre son état depuis votre espace client.
+                </Text>
+            </View>
         </View>
     );
 }

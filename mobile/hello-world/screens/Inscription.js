@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import useEmailValidation from '../verif/useEmailExiste';
 import axios from 'axios';
 import { VITE_API } from "@env";
 import { useNavigation } from '@react-navigation/native';
 import Menu from '../composants/Menu';
-
+import styles from '../styles';
 
 const Inscription = () => {
   const navigation = useNavigation();
@@ -41,13 +41,13 @@ const Inscription = () => {
   
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <View style={styles.content}>
-        <Text style={styles.title}>Inscription</Text>
+      <View style={styles.cartItemContainer}>
+        <Text style={styles.subTitle}>Inscription</Text>
 
-        <View style={styles.inputContainer}>
-          <Text>Nom Complet:</Text>
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Nom Complet:</Text>
           <TextInput
             style={styles.input}
             name="firstName"
@@ -56,8 +56,8 @@ const Inscription = () => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text>Email:</Text>
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Email:</Text>
           <TextInput
             style={styles.input}
             name="email"
@@ -66,8 +66,8 @@ const Inscription = () => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text>Mot de Passe:</Text>
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Mot de Passe:</Text>
           <TextInput
             style={styles.input}
             name="password"
@@ -76,9 +76,12 @@ const Inscription = () => {
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>S'inscrire</Text>
-        </TouchableOpacity>
+        <View style={styles.spacer} />
+              <Button
+                  title="Se Connecter"
+                  onPress={handleSubmit}
+                  color="#BDA18A"
+                />
 
         <Text style={styles.errorMessage}>{errorMessage}</Text>
 
@@ -89,10 +92,10 @@ const Inscription = () => {
 
 
 
-        <View style={styles.textContainer}>
+        <View style={styles.cartItemDetails}>
           <Text>Déjà un compte ?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Connexion')}>
-          <Text style={styles.link}>Connectez-vous.</Text>
+          <Text style={styles.text}>Connectez-vous.</Text>
           </TouchableOpacity>
         </View>
 
@@ -102,59 +105,10 @@ const Inscription = () => {
 
 
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    marginBottom: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  errorMessage: {
-    textAlign: 'center',
-    color: 'red',
-    marginTop: 20,
-  },
-  textContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  link: {
-    color: 'blue',
-    marginLeft: 5,
-  },
-});
+
 
 export default Inscription;

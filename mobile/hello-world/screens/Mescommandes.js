@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useCommandes } from '../hook/useCommandes';
 import { AuthContext } from '../context/Authcontext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -48,30 +48,39 @@ const MesCommandes = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <Text style={{ textAlign: 'center', marginTop: 20, marginBottom: 10, fontSize: 24 }}>Mes Commandes</Text>
-      <View style={{ alignItems: 'center' }}>
+      <Text style={styles.subTitle}>Mes Commandes</Text>
+      <View style={styles.cartItemContainer}>
         {Object.keys(commandesByYear).sort().reverse().map(year => (
-          <View key={year}>
-            <Text style={{ fontSize: 20 }}>{year}</Text>
-            {commandesByYear[year].map(commande => (
-              <TouchableOpacity
-                key={commande.id}
-                style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}
-                onPress={() => navigation.navigate('Macommande', { orderId: commande.orderId })}
-              >
-                <Text style={{ width: '50%', fontSize: 18 }}>{commande.orderDate} - {commande.orderId}</Text>
-                <Text style={{ width: '50%', fontSize: 18 }}>{commande.status}</Text>
-                <Text style={{ width: '50%', color: 'gray', fontSize: 16 }}>{getTotalItems(commande.cartItems.cart)} articles</Text>
-                <Text style={{ width: '50%', fontSize: 18 }}>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(commande.cartItems.total)}</Text>
-                <Text style={{ color: 'blue' }}>Voir détails</Text>
-              </TouchableOpacity>
-            ))}
+          <View key={year}  style={styles.orderMap} >
+            <Text style={styles.year}>{year}</Text>
+              <View style={styles.spacer} />
+              {commandesByYear[year].map(commande => (
+                <View key={commande.id} style={styles.orderContainer}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('Macommande', { orderId: commande.orderId })}
+                  >
+                    <View style={styles.cartItemDetails}>
+                      <Text style={styles.title}>{commande.orderDate} - {commande.orderId}</Text>
+                      <Text style={styles.title}>{commande.status}</Text>
+                    </View>
+                    <View style={styles.cartItemDetails}>
+                      <Text style={styles.nbArticle}>{getTotalItems(commande.cartItems.cart)} articles</Text>
+                      <Text style={styles.title}>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(commande.cartItems.total)}</Text>
+                    </View>
+                    <View style={styles.spacer} />
+                    <View style={styles.spacer} />
+                  </TouchableOpacity>
+                  
+                </View>
+                
+              ))}
+            
           </View>
         ))}
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 

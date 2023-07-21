@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, Button, SafeAreaView } from 'react-native';
+import { View, Text, Image, TextInput, Button, ScrollView } from 'react-native';
 //import { useParams } from 'react-router-dom';
 import { useCommandes } from '../hook/useCommandes';
 import { VITE_API } from "@env";
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import styles from '../styles';
+import Menu from '../composants/Menu';
 
 const MaCommande = () => {
   const route = useRoute();
@@ -106,76 +107,94 @@ const MaCommande = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'center', marginVertical: 5 }}>
-        <Text>Commande #{orderId} - {orderDate} - {commande.status}</Text>
-        {commande.status === 'EN COURS' && (
-          <Button title="Annuler la commande" onPress={handleCancelOrder} />
-        )}
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5 }}>
-        <View style={{ width: '50%' }}>
-          {cartItems.cart.map((product, index) => (
-            <View key={index} style={{ flexDirection: 'row', marginBottom: 5 }}>
-              <View style={{ width: '25%' }}>
-                <Image source={{ uri: product.images }} style={{ width: '100%', aspectRatio: 1 }} />
-              </View>
-              <View style={{ width: '50%' }}>
-                <Text>{product.name}</Text>
-                <Text>{product.description}</Text>
-              </View>
-              <View style={{ width: '25%' }}>
-                <Text>{new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}</Text>
-                {commande.status === 'EN COURS' && (
-                  <TextInput
-                    style={{ width: '90%', marginBottom: 3 }}
-                    keyboardType="numeric"
-                    value={tempQuantities[product.product_id] || product.quantityInCart.toString()}
-                    onChangeText={text => handleQuantityChange(product.product_id, text)}
-                  />
-                )}
-                {commande.status === 'ANNULÉE' || commande.status === 'LIVRÉE' || commande.status === 'EXPÉDIÉE' && (
-                  <Text>{product.quantityInCart} exemplaires</Text>
-                )}
-                <Text>Delete icon</Text>
-                {commande.status === 'EN COURS' && (
-                  <Button title="Faire un retour du produit" onPress={() => handleReturnProduct(product.product_id)} />
-                )}
-              </View>
-            </View>
-          ))}
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <Menu />
+      <View style={styles.cartItemContainer}>
+        <View style={styles.spacer} />
+        <View >
+          <Text style={styles.subTitleOrder}>Commande #{orderId} </Text>
+          <Text style={styles.subTitleOrder}>{orderDate} - {commande.status}</Text>
+          {commande.status === 'EN COURS' && (
+            <Button title="Annuler la commande" onPress={handleCancelOrder} />
+          )}
         </View>
+        <View style={styles.spacer} />
+            {cartItems.cart.map((product, index) => (
+              <View key={index} style={styles.cartCard}>
+                <Image source={{ uri: product.image[0] }} style={styles.cartItemImage} />
+                <View style={styles.cartSubCard}>
+                <View style={styles.cartItemDetails}>
+                  <Text style={styles.subTitleCart}>{product.name}</Text>
+                  <Text style={styles.subTitleCart}>
+                    {new Intl.NumberFormat("fr-FR", { style: 'currency', currency: 'EUR' }).format(product.price)}
+                  </Text>
+                </View>
+                
+                  <View style={styles.cartItemDetails}>
+                  
+                    <Text style={styles.descriptionCart}>
+                      {product.description}
+                    </Text>
+                  <View style={styles.cartSubCard2}>
+                    <View style={styles.spacer}>
+                          {commande.status === 'EN COURS' && (
+                          <TextInput
+                            style={{ width: '90%', marginBottom: 3 }}
+                            keyboardType="numeric"
+                            value={tempQuantities[product.product_id] || product.quantityInCart.toString()}
+                            onChangeText={text => handleQuantityChange(product.product_id, text)}
+                          />
+                        )}
+                        {commande.status === 'ANNULÉE' || commande.status === 'LIVRÉE' || commande.status === 'EXPÉDIÉE' && (
+                          <Text>{product.quantityInCart} exemplaires</Text>
+                        )}
+                    </View>
+                    {commande.status === 'EN COURS' && (
+                    <Button title="🗑️" onPress={() => removeFromCart(product.id)} color="red" />
+                    )}
+                    </View>
+                </View>
+                
+                </View>
+              </View>
+            ))}
+          
 
-        <View style={{ width: '50%' }}>
-          <Text style={{ justifyContent: 'space-between' }}>
-            Total
-            <Text>{total}€</Text>
-          </Text>
-          <Text style={{ justifyContent: 'space-between' }}>
-            TVA
-            <Text>{total * 0.2}€</Text> {/* Calculer la TVA ici */}
-          </Text>
-          <Text style={{ marginTop: 3 }}>Adresse de livraison</Text>
-          <Text>{deliveryAddress.prenom} {deliveryAddress.nom}</Text>
-          <Text>{deliveryAddress.adresse1}</Text>
-          <Text>{deliveryAddress.adresse2}</Text>
-          <Text>{deliveryAddress.codePostal} {deliveryAddress.ville}</Text>
-          <Text>{deliveryAddress.pays}</Text>
-          <Text>{deliveryAddress.telephone}</Text>
-          <Text style={{ marginTop: 3 }}>Adresse de facturation</Text>
-          {/* Ajouter l'adresse de facturation ici */}
-          <Text>{billingAddress.prenom} {deliveryAddress.nom}</Text>
-          <Text>{billingAddress.adresse1}</Text>
-          <Text>{billingAddress.adresse2}</Text>
-          <Text>{billingAddress.codePostal} {deliveryAddress.ville}</Text>
-          <Text>{billingAddress.pays}</Text>
-          <Text>{billingAddress.telephone}</Text>
-          <Text style={{ marginTop: 3 }}>Méthode de paiement</Text>
-          <Text>Carte de crédit</Text>
-          <Text>{'**** **** **** ' + paymentMethod.cardNumber.slice(-4)}</Text>
+          
+            <View style={styles.cartItemDetails}>
+              <Text style={styles.subTitleOrder}>
+                Total
+               </Text>
+              <Text style={styles.subTitleOrder}>{total}€</Text>
+            </View>
+            <View style={styles.cartItemDetails}>
+              <Text style={styles.status}>TVA</Text>
+              <Text style={styles.status} >{total * 0.2}€</Text> 
+            </View>
+            <Text style={styles.subTitleOrder}>Adresse de livraison</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.prenom} {deliveryAddress.nom}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.adresse1}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.adresse2}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.codePostal} {deliveryAddress.ville}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.pays}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.telephone}</Text>
+            <View style={styles.spacer} />
+            <Text style={styles.subTitleOrder}>Adresse de facturation</Text>
+            {/* Ajouter l'adresse de facturation ici */}
+            <Text style={styles.orderDetails}>{billingAddress.prenom} {deliveryAddress.nom}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.adresse1}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.adresse2}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.codePostal} {deliveryAddress.ville}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.pays}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.telephone}</Text>
+            <View style={styles.spacer} />
+            <Text style={styles.subTitleOrder}>Méthode de paiement</Text>
+            <Text style={styles.orderDetails}>Carte de crédit</Text>
+            <Text style={styles.orderDetails}>{'**** **** **** ' + paymentMethod.cardNumber.slice(-4)}</Text>
+          
         </View>
-      </View>
-    </SafeAreaView>
+      
+    </ScrollView>
   );
 };
 

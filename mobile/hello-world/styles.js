@@ -1,4 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
+
+const { width: viewportWidth } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +21,9 @@ const styles = StyleSheet.create({
     height: 80,
     paddingLeft: 10,  
     paddingRight: 10,
+  },
+  btn:{
+    backgroundColor: 'red',
   },
   brand: {
     fontSize: 30,
@@ -49,6 +55,10 @@ const styles = StyleSheet.create({
     color:'white',
   },
   title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  year: {
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -58,25 +68,75 @@ const styles = StyleSheet.create({
   status: {
       fontSize: 18,
       color: 'grey',
+      marginBottom: '5%',
   },
-  description: {
+  descriptionCart: {
       fontSize: 16,
+      marginBottom: '10%',
+      width:'75%',
+  },
+  orderDetails: {
+    fontSize: 16,
+    width:'75%',
+},
+  description: {
+    fontSize: 16,
+    marginBottom: '10%',
   },
   subTitle: {
       fontSize: 22,
       fontWeight: 'bold',
+      textAlign: 'center',
+      marginTop: '5%',
+      marginBottom: '5%',
   },
+  subTitleOrder: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    
+},
   scrollViewContent: {
     alignSelf: "stretch",
+  },
+  scrollViewCart: {
+    alignSelf: "stretch",
+    height: '50%',
+  },
+  subTitleProduit: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: '5%',
+},
+subTitleCart: {
+  fontSize: 22,
+  fontWeight: 'bold',
+  textAlign: 'center',
+},
+  subTitleRecherche: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: '5%',
   },
   productContainer: {
     flexDirection: 'row',
     marginBottom: 10,
   },
   image: {
-    width: 100,
-    height: 100,
-    marginRight: 10,
+    width: '100%',
+    height: viewportWidth*0.5,
+  },
+  imageProduit: {
+    width: '100%',
+    height: viewportWidth*0.5,
+    alignSelf: 'center',
+  },
+  imageReco: {
+    width: '100%',
+    height: viewportWidth*0.5,
+    alignSelf: 'center',
+    marginBottom: '10%',
   },
   productName: {
     fontSize: 18,
@@ -109,11 +169,102 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+    // marginRight: 10,
+  },
   cartItemImage: {
-    width: 80,
-    height: 80,
+    width: '30%',
+    height: '80%',
     marginRight: 10,
   },
+  cartItemContainer:{
+    width:'100%',
+    padding:'5%',
+    paddingTop: 0,
+  },
+  orderContainer:{
+    width:'100%',
+    paddingTop: 0,
+  },
+  cartItemDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    
+  },
+  
+  inputContainer: {
+    marginTop:'5%',
+    marginBottom:'10%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: '1%',
+  },
+  inputLogin: {
+    marginTop:'5%',
+    marginBottom:'10%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: '1%',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    paddingLeft: '1%',
+    paddingRight: '1%',
+  },
+  modalContainer: {
+    padding: '5%',
+  },
+  searchContainer:{
+    height: '10%',
+    marginBottom: '3%',
+  },
+  cartCard:{
+    flexDirection:'row',
+    width: '100%',
+    flex: 1,
+  },
+  orderMap:{
+    flexDirection:'column',
+    width: '100%',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  cartSubCard:{
+    flexDirection:'column',
+    width:'70%',
+  },
+  layoutCart:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+  },
+  spacer:{
+    marginBottom:'5%',
+  },
+  cartSubCard2:{
+    flexDirection:'column',
+    width:'20%',
+    justifyContent:'space-between',
+  },
+  loginContainer:{
+    marginTop:'5%',
+    
+    flexDirection: 'column',
+    justifyContent:'flex-start',
+  },
+  nbArticle: {
+    fontSize: 18,
+    color: 'grey',
+    
+},
+
 });
 
 export default styles;
