@@ -57,7 +57,7 @@ const Paiement = () => {
             fetchPaymentOptions();
             fetchBillingAddresses();
         })();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, paymentOptions, billingAddresses]);
 
     const fetchPaymentOptions = async () => {
         try {
@@ -168,7 +168,6 @@ const Paiement = () => {
                 await AsyncStorage.removeItem('cart');
                 await AsyncStorage.removeItem('deliveryAddress');
                 await AsyncStorage.removeItem('paymentDetails');
-                clearCart();
             }
         } catch (error) {
             console.error(error);

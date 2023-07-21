@@ -27,6 +27,23 @@ const Livraison = () => {
     const [telephone, setTelephone] = useState('');
     const [loadingDelay, setLoadingDelay] = useState(true);
     const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        const fetchAdresses = async () => {
+          try {
+            const response = await axios.get(`${VITE_API}adresses.json`);
+            const adressesData = response.data;
+            const userAdresses = Object.values(adressesData).filter((adresse) => adresse.user_Id === userIdFromStorage);
+            setAdresses(userAdresses);
+           // setSelectedAdresse(userAdresses[0]); // set first address as selected
+            setLoading(false);
+          } catch (error) {
+            console.error(error);
+            setLoading(false);
+          }
+        };
+        fetchAdresses();
+      }, [adresses]);
 
     useEffect(() => {
         (async () => {
@@ -55,35 +72,20 @@ const Livraison = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoadingDelay(false);
-        }, 1000); 
+        }, 5000); 
     
         return () => {
             clearTimeout(timer);
         };
     }, []);
 
-    useEffect(() => {
-        const fetchAdresses = async () => {
-          try {
-            const response = await axios.get(`${VITE_API}adresses.json`);
-            const adressesData = response.data;
-            const userAdresses = Object.values(adressesData).filter((adresse) => adresse.user_Id === userIdFromStorage);
-            setAdresses(userAdresses);
-            setSelectedAdresse(userAdresses[0]); // set first address as selected
-            setLoading(false);
-          } catch (error) {
-            console.error(error);
-            setLoading(false);
-          }
-        };
-        fetchAdresses();
-      }, []);
+    
       
-      const handleAdresseSelect = (value) => {
+    const handleAdresseSelect = (value) => {
         const selectedAdresse = adresses.find((adresse, index) => adresse.id ? adresse.id === value : index === value);
         setSelectedAdresse(selectedAdresse);
-        };
-    
+    };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -132,9 +134,9 @@ const Livraison = () => {
             console.error(error);
         }
     };
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    } else {
+    // if (!adresses.length) {
+    //     return <ActivityIndicator size="large" color="#0000ff" />;
+    // } 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <Menu />
@@ -216,6 +218,6 @@ const Livraison = () => {
         </ScrollView>
       );
     }
-}
+
  
 export default Livraison;
