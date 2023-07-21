@@ -12,13 +12,16 @@ const bucket = admin.storage().bucket();
 
 async function getImageUrls() {
   try {
-    const [files] = await bucket.getFiles({ prefix: 'images/Tables/' }); // Remplacez le préfixe par le dossier dans lequel se trouvent vos images
+    const [files] = await bucket.getFiles({ prefix: 'images/Buffets/' }); // Remplacez le préfixe par le dossier dans lequel se trouvent vos images
     const urls = {};
+
+    // Calculer le timestamp Unix pour le 1er septembre 2023 à 00:00:00 GMT
+    const expirationDate = new Date('2023-09-01T00:00:00Z').getTime();
 
     for (const file of files) {
       const [url] = await file.getSignedUrl({
         action: 'read',
-        expires: Date.now() + 15 * 60 * 1000, // Expiration de l'URL dans 15 minutes
+        expires: expirationDate,
       });
 
       const path = file.name.split('/').slice(1).join('/'); // Récupérer le chemin à partir du nom du fichier (en enlevant le préfixe)
@@ -35,11 +38,11 @@ async function getImageUrls() {
 getImageUrls().then((urls) => {
   const text = Object.entries(urls).map(([path, url]) => `${path} : ${url}`).join('\n');
   
-  fs.writeFile('Url Tables.txt', text, (err) => {
+  fs.writeFile('Url Buffets.txt', text, (err) => {
     if (err) {
       console.error('Erreur lors de l\'écriture dans le fichier :', err);
     } else {
-      console.log('Le fichier urls.txt a été créé avec succès.');
+      console.log('Le fichier Url Tables.txt a été créé avec succès.');
     }
   });
 });
