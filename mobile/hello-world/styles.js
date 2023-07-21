@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color:'white',
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   price: {
@@ -187,6 +187,14 @@ subTitleCart: {
     alignItems: 'center',
     paddingLeft: '1%',
   },
+  inputLogin: {
+    marginTop:'5%',
+    marginBottom:'10%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: '1%',
+  },
   btnContainer: {
     flexDirection: 'row',
     paddingLeft: '1%',
@@ -220,6 +228,13 @@ subTitleCart: {
     width:'20%',
     justifyContent:'space-between',
   },
+  loginContainer:{
+    marginTop:'5%',
+    
+    flexDirection: 'column',
+    justifyContent:'flex-start',
+  },
+
 });
 
 export default styles;
