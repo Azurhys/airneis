@@ -1,6 +1,8 @@
 import React from "react";
 import'./ConfirmationPaiement.css';
 import { AuthContext } from "../../context/Authcontext";
+import { useNavigate } from "react-router";
+import { useContext, useEffect } from "react";
 
 const ConfirmationPaiment = () => {
   const orderNumberFromStorage = localStorage.getItem('orderNumber');

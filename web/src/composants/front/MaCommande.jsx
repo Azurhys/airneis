@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import './order_details.css';
 import { AuthContext } from '../../context/Authcontext';
+import { useNavigate } from "react-router";
+import { useContext, useEffect } from "react";
 
 const MaCommande = () => {
   const { orderId } = useParams();
@@ -188,7 +190,7 @@ const MaCommande = () => {
                             <div className="d-flex mb-2">
                               <div className="flex-shrink-0">
                                 <img
-                                  src={product.image}
+                                  src={product.image[0]}
                                   alt=""
                                   width="80px"
                                   className="img-fluid product-image"
