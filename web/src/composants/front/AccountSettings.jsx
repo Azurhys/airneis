@@ -5,31 +5,14 @@ import './AccountSettings.css';
 import { AuthContext } from '../../context/Authcontext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { usePaymentOptions, useBillingAddresses, useAddresses } from "../../hook/useAccountSettings";
 
 const AccountSettings = () => {
   const navigate = useNavigate();
   const userIdFromStorage = localStorage.getItem('userID');
-
-  const initialBillingAddress = {
-    prenom: '',
-    nom: '',
-    adresse1: '',
-    adresse2: '',
-    ville: '',
-    codePostal: '',
-    pays: '',
-    telephone: ''
-  };
-
-  const initialPayment = {
-    cardName:'',
-    cardNumber:'',
-    cvv:'',
-    expiryDate:''
-  };
+  const { isAuthenticated} = useContext(AuthContext);
 
   const { handleSubmit } = useConfigsetting();
-  const { isAuthenticated} = useContext(AuthContext);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -59,69 +42,51 @@ const AccountSettings = () => {
   const [shipping_pays, setshipping_pays] = useState('');
   const [shipping_telephone, setshipping_telephone] = useState('');
 
-  const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billingAddress, setBillingAddresses] = useState([]);
-  const [adresses, setAdresses] = useState([]);
+  const { paymentOptions, fetchPaymentOptions } = usePaymentOptions(userIdFromStorage);
+  const { billingAddresses, fetchBillingAddresses } = useBillingAddresses(userIdFromStorage);
+  const { addresses, fetchAddresses } = useAddresses(userIdFromStorage);
+
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/connexion", { state: { from: "/settings" } });
     }
-    // Appeler l'API pour obtenir les adresses
+
     fetchPaymentOptions();
     fetchBillingAddresses();
-    fetchAdresses();
+    fetchAddresses();
   }, [isAuthenticated, navigate]);
 
-  const fetchPaymentOptions = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}facturation.json`);
-      const paymentCards = Object.values(response.data).filter(card => card.user_Id === userIdFromStorage);
-      setPaymentOptions(paymentCards);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchBillingAddresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}billingAddress.json`);
-      const addresses = Object.values(response.data).filter(address => address.user_Id === userIdFromStorage);
-      setBillingAddresses(addresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchAdresses = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API}adresses.json`);
-      const adressesData = response.data;
-      const userAdresses = Object.values(adressesData).filter((adresse) => adresse.user_Id === userIdFromStorage);
-      setAdresses(userAdresses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit_profil = (e) => {
     e.preventDefault();
     handleSubmit(
       fullName,
       email,
-      password,
+      password
+    );
+
+    setFullName('');
+    setEmail('');
+    setPassword('');
+    setConfPassword('');
+  };
+
+  const handleFormSubmit_card = (e) => {
+    handleSubmit(
       cardName,
       cardNumber,
       expiryDate,
-      cvv,
-      shipping_adresse1,
-      shipping_adresse2,
-      shipping_codePostal,
-      shipping_nom,
-      shipping_pays,
-      shipping_prenom,
-      shipping_telephone,
-      shipping_ville,
+      cvv
+    );
+
+    setCardName('');
+    setCardNumber('');
+    setExpiryDate('');
+    setCvv('');
+  }
+
+  const handleFormSubmit_facturation = (e) => {
+    handleSubmit(
       billing_adresse1,
       billing_adresse2,
       billing_codePostal,
@@ -132,16 +97,6 @@ const AccountSettings = () => {
       billing_ville
     );
 
-    setFullName('');
-    setEmail('');
-    setPassword('');
-    setConfPassword('');
-
-    setCardName('');
-    setCardNumber('');
-    setExpiryDate('');
-    setCvv('');
-
     setbilling_prenom('');
     setbilling_nom('');
     setbilling_addresse1('');
@@ -150,6 +105,19 @@ const AccountSettings = () => {
     setbilling_codePostal('');
     setbilling_pays('');
     setbilling_telephone('');
+  }
+
+  const handleFormSubmit_livraison = (e) => {
+    handleSubmit(
+      shipping_adresse1,
+      shipping_adresse2,
+      shipping_codePostal,
+      shipping_nom,
+      shipping_pays,
+      shipping_prenom,
+      shipping_telephone,
+      shipping_ville
+    );
 
     setshipping_prenom('');
     setshipping_nom('');
@@ -159,7 +127,7 @@ const AccountSettings = () => {
     setshipping_codePostal('');
     setshipping_pays('');
     setshipping_telephone('');
-  };
+  }
 
   const handlePaymentSelect = (payment) => {
     setCardName(payment.cardName);
@@ -169,7 +137,7 @@ const AccountSettings = () => {
   };
 
   const handleAdresseSelect = (id) => {
-    const selectedAdresse = adresses.find(adresse => adresse.id === id);
+    const selectedAdresse = addresses.find(adresse => adresse.id === id);
     setshipping_prenom(selectedAdresse.prenom);
     setshipping_nom(selectedAdresse.nom);
     setshipping_addresse1(selectedAdresse.adresse1);
@@ -181,7 +149,7 @@ const AccountSettings = () => {
   };
 
   const handleBillingSelect = (id) => {
-    const selectedBillingAddress = billingAddress.find(address => address.id === id);
+    const selectedBillingAddress = billingAddresses.find(address => address.id === id);
     setbilling_prenom(selectedBillingAddress.prenom);
     setbilling_nom(selectedBillingAddress.nom);
     setbilling_addresse1(selectedBillingAddress.adresse1);
@@ -195,7 +163,7 @@ const AccountSettings = () => {
   return (
     <div className='m-5'>
       <h2>Paramètres du compte</h2>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit_profil}> 
         {/* ... Autres champs de formulaire ... */}
         <div className='my-3'>
           <label>Nom complet :</label>
@@ -237,8 +205,10 @@ const AccountSettings = () => {
             onChange={(e) => setConfPassword(e.target.value)}
           />
         </div>
-        
-        <div className='mb-3 mx-5 d-flex'>
+      </form>
+
+      <div className='mb-3 mx-5 d-flex'>
+        <form onSubmit={handleFormSubmit_card}> 
           <div className='w-50'>
             <Dropdown>
               <Dropdown.Toggle variant="info" id="dropdown-basic1">
@@ -256,9 +226,8 @@ const AccountSettings = () => {
               </Dropdown.Menu>
             </Dropdown>
             {/* ... Autres champs pour les détails de paiement ... */}
-
             <form>
-              <label className='fw-bold'>Nom sur la carte</label>
+              <label className='fw-bold'>Nom de la carte</label>
               <br />
               <input
                 type='text'
@@ -295,16 +264,18 @@ const AccountSettings = () => {
                 value={cvv}
                 onChange={(e) => setCvv(e.target.value)}
               />
-            </form>
-
+            </form>   
           </div>
+        </form> 
+
+        <form onSubmit={handleFormSubmit_facturation}> 
           <div className='w-50'>
             <Dropdown>
               <Dropdown.Toggle variant='info' id='dropdown-basic2'>
                 Choisissez une adresse de facturation
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {billingAddress.map(address => (
+                {billingAddresses.map(address => (
                   <Dropdown.Item
                     key={address.id}
                     onClick={() => handleBillingSelect(address.id)}
@@ -407,13 +378,16 @@ const AccountSettings = () => {
                 <br />
               </form>
           </div>
+        </form>
+
+        <form onSubmit={handleFormSubmit_livraison}> 
           <div className='w-50'>
             <Dropdown>
               <Dropdown.Toggle variant='info' id='dropdown-basic3'>
                 Choisissez une adresse de livraison
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {adresses.map(adresse => (
+                {addresses.map(adresse => (
                   <Dropdown.Item
                     key={adresse.id}
                     onClick={() => handleAdresseSelect(adresse.id)}
@@ -515,14 +489,16 @@ const AccountSettings = () => {
                 />
                 <br />
               </form>
-
-          </div>
+            </div>
+          </form>
         </div>
         {/* ... Autres boutons, divs, etc. ... */}
         <div className='d-flex justify-content-center'>
-          <button className='btn btn-brown' type='submit'>Enregistrer les modifications</button>
+          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_profil}>Enregistrer les modifications profil</button>
+          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_card}>Enregistrer les modifications card</button>
+          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_facturation}>Enregistrer les modifications facturation</button>
+          <button className='btn btn-brown' type='button' onClick={handleFormSubmit_livraison}>Enregistrer les modifications livraison</button>
         </div>
-      </form>
     </div>
   );
 };
