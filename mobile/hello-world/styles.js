@@ -75,6 +75,10 @@ const styles = StyleSheet.create({
       marginBottom: '10%',
       width:'75%',
   },
+  orderDetails: {
+    fontSize: 16,
+    width:'75%',
+},
   description: {
     fontSize: 16,
     marginBottom: '10%',

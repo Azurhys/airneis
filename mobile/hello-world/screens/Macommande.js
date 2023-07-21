@@ -162,33 +162,35 @@ const MaCommande = () => {
 
           
             <View style={styles.cartItemDetails}>
-              <Text style={styles.subTitleCart}>
+              <Text style={styles.subTitleOrder}>
                 Total
                </Text>
-              <Text style={styles.subTitleCart}>{total}€</Text>
+              <Text style={styles.subTitleOrder}>{total}€</Text>
             </View>
             <View style={styles.cartItemDetails}>
               <Text style={styles.status}>TVA</Text>
               <Text style={styles.status} >{total * 0.2}€</Text> 
             </View>
-            <Text style={styles.subTitleCart}>Adresse de livraison</Text>
-            <Text>{deliveryAddress.prenom} {deliveryAddress.nom}</Text>
-            <Text>{deliveryAddress.adresse1}</Text>
-            <Text>{deliveryAddress.adresse2}</Text>
-            <Text>{deliveryAddress.codePostal} {deliveryAddress.ville}</Text>
-            <Text>{deliveryAddress.pays}</Text>
-            <Text>{deliveryAddress.telephone}</Text>
-            <Text style={styles.subTitleCart}>Adresse de facturation</Text>
+            <Text style={styles.subTitleOrder}>Adresse de livraison</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.prenom} {deliveryAddress.nom}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.adresse1}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.adresse2}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.codePostal} {deliveryAddress.ville}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.pays}</Text>
+            <Text style={styles.orderDetails}>{deliveryAddress.telephone}</Text>
+            <View style={styles.spacer} />
+            <Text style={styles.subTitleOrder}>Adresse de facturation</Text>
             {/* Ajouter l'adresse de facturation ici */}
-            <Text>{billingAddress.prenom} {deliveryAddress.nom}</Text>
-            <Text>{billingAddress.adresse1}</Text>
-            <Text>{billingAddress.adresse2}</Text>
-            <Text>{billingAddress.codePostal} {deliveryAddress.ville}</Text>
-            <Text>{billingAddress.pays}</Text>
-            <Text>{billingAddress.telephone}</Text>
-            <Text style={styles.subTitleCart}>Méthode de paiement</Text>
-            <Text>Carte de crédit</Text>
-            <Text>{'**** **** **** ' + paymentMethod.cardNumber.slice(-4)}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.prenom} {deliveryAddress.nom}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.adresse1}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.adresse2}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.codePostal} {deliveryAddress.ville}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.pays}</Text>
+            <Text style={styles.orderDetails}>{billingAddress.telephone}</Text>
+            <View style={styles.spacer} />
+            <Text style={styles.subTitleOrder}>Méthode de paiement</Text>
+            <Text style={styles.orderDetails}>Carte de crédit</Text>
+            <Text style={styles.orderDetails}>{'**** **** **** ' + paymentMethod.cardNumber.slice(-4)}</Text>
           
         </View>
       
