@@ -145,7 +145,7 @@ const MaCommande = () => {
         <div className="container">
           <div className="d-flex justify-content-between align-items-center py-3">
             <h2 className="h5 mb-0">
-              <a href="#" className="text-muted"></a> Order #{orderId}
+              <a href="#" className="text-muted"></a> Commande #{orderId}
             </h2>
           </div>
 
@@ -182,8 +182,9 @@ const MaCommande = () => {
                                 <img
                                   src={product.image}
                                   alt=""
-                                  width="35"
-                                  className="img-fluid"
+                                  width="80px"
+                                  className="img-fluid product-image"
+                                  
                                 />
                               </div>
                               <div className="flex-lg-grow-1 ms-3">

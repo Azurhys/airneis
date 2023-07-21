@@ -27,3 +27,8 @@ a {
     color: #5465ff;
     text-decoration: none;
 }
+
+.product-image {
+    width: 70px;
+    height: 70px;
+}
