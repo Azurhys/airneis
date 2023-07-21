@@ -18,15 +18,15 @@ const Contact = () => {
   };
 
   const handleFocus = () => {
-    setAlerte({});
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <Menu />
-      <View style={styles.container}>
-        <Text style={styles.title}>Nous contacter</Text>
-        <Text style={styles.text}>Pour nous contacter, veuillez compléter le formulaire suivant :</Text>
+      <View style={styles.cartItemContainer}>
+        <Text style={styles.subTitle}>Nous contacter</Text>
+        <Text style={styles.title}>Pour nous contacter, veuillez compléter le formulaire suivant :</Text>
+        <View style={styles.spacer} />
         <View style={styles.row}>
           <TextInput
             style={styles.input}
@@ -34,25 +34,26 @@ const Contact = () => {
             ref={emailRef}
             onFocus={handleFocus}
           />
+          <View style={styles.spacer} />
           <TextInput
             style={styles.input}
             placeholder="Sujet"
             ref={sujetRef}
             onFocus={handleFocus}
           />
+          <View style={styles.spacer} />
           <TextInput
-            style={styles.textarea}
+            style={styles.input}
             multiline
             numberOfLines={5}
             placeholder="Votre message"
             ref={messageRef}
             onFocus={handleFocus}
           />
-          <View style={styles.buttonContainer}>
-            <Button title="Submit" onPress={handleFormSubmit} />
-          </View>
+          <View style={styles.spacer} />
+          <Button title="Envoyer" onPress={handleFormSubmit} color="#BDA18A"/>
+          
         </View>
-        <Alert alerte={alerte} />
       </View>
     </ScrollView>
   );

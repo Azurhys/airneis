@@ -175,7 +175,7 @@ subTitleCart: {
     borderColor: 'gray',
     borderRadius: 5,
     padding: 10,
-    marginRight: 10,
+    // marginRight: 10,
   },
   cartItemImage: {
     width: '30%',
